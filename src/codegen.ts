@@ -6,7 +6,7 @@ import {
   type PrimitiveType,
   type ResolvedType,
   type StructType,
-} from './main';
+} from './parser';
 
 const nameToIdentifier = (name: string): string =>
   name

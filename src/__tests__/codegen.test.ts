@@ -5,7 +5,7 @@ import * as path from 'node:path';
 import * as url from 'node:url';
 import events from './fixtures/events.json' with { type: 'json' };
 import { generate } from '../codegen';
-import type { ResolvedType } from '../main';
+import type { ResolvedType } from '../parser';
 
 const __dirname = path.dirname(url.fileURLToPath(import.meta.url));
 

@@ -62,7 +62,7 @@ const spRuntimeDispatchError = z.union([
   z.object({ __kind: z.literal('RootNotAllowed') }),
 ]);
 
-const result = z.union([
+const dispatchResult = z.union([
   z.object({ __kind: z.literal('Ok') }),
   z.object({ __kind: z.literal('Err'), value: spRuntimeDispatchError }),
 ]);
@@ -70,5 +70,5 @@ const result = z.union([
 export const bitcoinThresholdSignerThresholdDispatchComplete = z.object({
   requestId: z.number(),
   ceremonyId: numberOrHex,
-  result,
+  result: dispatchResult,
 });

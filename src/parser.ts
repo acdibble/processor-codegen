@@ -56,13 +56,15 @@ export type StructType = {
 
 export type ArrayType = { type: 'array'; value: ResolvedType; length?: number };
 
+export type OptionType = { type: 'option'; value: ResolvedType };
+
 export type ResolvedType =
   | PrimitiveType
   | EnumType
   | StructType
   | ArrayType
   | { type: 'tuple'; values: ResolvedType[] }
-  | { type: 'option'; value: ResolvedType }
+  | OptionType
   | { type: 'null' }
   | { type: 'range'; value: ResolvedType };
 

@@ -4,7 +4,7 @@ import assert from 'node:assert';
 import * as path from 'node:path';
 import * as url from 'node:url';
 import events from './fixtures/events.json' with { type: 'json' };
-import { generate } from '../codegen';
+import CodeGenerator from '../codegen';
 import type { ResolvedType } from '../parser';
 
 const __dirname = path.dirname(url.fileURLToPath(import.meta.url));
@@ -19,13 +19,20 @@ const pick = (
 const getFixture = async (name: string) =>
   await fs.readFile(path.join(__dirname, 'fixtures', `${name}.ts`), 'utf-8');
 
-const assertGenerates = async <const T extends string>(name: T) =>
-  assert.strictEqual(await generate(pick(name)), await getFixture(name));
+const assertGenerates = async <const T extends string>(name: T) => {
+  const fixture = await getFixture(name).catch(() => null);
+  const generated = await new CodeGenerator().generate(pick(name));
+  if (fixture === null) {
+    console.log(generated);
+  }
+  assert.strictEqual(generated, fixture);
+};
 
-describe(generate.name, () => {
+describe(CodeGenerator.name, () => {
   const fixtures = [
     'AccountRoles.AccountRoleRegistered',
     'BitcoinThresholdSigner.ThresholdDispatchComplete',
+    'Swapping.SwapDepositAddressReady',
   ];
 
   for (const fixture of fixtures) {

@@ -5,7 +5,7 @@ import { TypeRegistry, Metadata, TypeDefInfo } from '@polkadot/types';
 import { TypeDef } from '@polkadot/types/types';
 
 const fetchMetadata = async () => {
-  let bytes = await fs.readFile('metadata.json').catch(() => null);
+  let bytes = await fs.readFile('metadata.scale').catch(() => null);
 
   if (!bytes) {
     const res = await axios.post('https://backspin-rpc.staging/', {
@@ -17,7 +17,7 @@ const fetchMetadata = async () => {
 
     bytes = Buffer.from(res.data.result.slice(2), 'hex');
 
-    await fs.writeFile('metadata.json', bytes);
+    await fs.writeFile('metadata.scale', bytes);
   }
 
   const registry = new TypeRegistry();
@@ -35,19 +35,34 @@ const hasSub = <T extends TypeDef>(type: T): type is T & { sub: TypeDef } =>
   !Array.isArray(type.sub) && type.sub !== undefined;
 
 const isSi = <T extends TypeDef>(
-  type: T
+  type: T,
 ): type is T & { info: TypeDefInfo.Si; type: `Lookup${number}` } =>
   type.info === TypeDefInfo.Si && /^Lookup[0-9]+$/.test(type.type);
 
-type ResolvedType =
-  | string
-  | {
-      type: 'enum';
-      name: string;
-      values: { name: string; value: ResolvedType }[];
-    }
-  | { type: 'struct'; name: string; fields: Record<string, ResolvedType> }
-  | { type: 'array'; value: ResolvedType; length?: number }
+export type PrimitiveType = { type: 'primitive'; name: string };
+
+export const isPrimitiveType = (type: ResolvedType): type is PrimitiveType =>
+  type.type === 'primitive';
+
+export type EnumType = {
+  type: 'enum';
+  name: string;
+  values: { name: string; value: ResolvedType }[];
+};
+
+export type StructType = {
+  type: 'struct';
+  name: string;
+  fields: Record<string, ResolvedType>;
+};
+
+export type ArrayType = { type: 'array'; value: ResolvedType; length?: number };
+
+export type ResolvedType =
+  | PrimitiveType
+  | EnumType
+  | StructType
+  | ArrayType
   | { type: 'tuple'; values: ResolvedType[] }
   | { type: 'option'; value: ResolvedType }
   | { type: 'null' }
@@ -59,9 +74,7 @@ const resolveType = (type: TypeDef): ResolvedType => {
       case TypeDefInfo.Enum: {
         assert(hasSubs(type));
 
-        console.log(type);
-
-        const result: ResolvedType = {
+        const result: EnumType = {
           type: 'enum',
           name: type.namespace!,
           values: [],
@@ -79,7 +92,7 @@ const resolveType = (type: TypeDef): ResolvedType => {
       case TypeDefInfo.Struct: {
         assert(hasSubs(type));
 
-        const result: ResolvedType = {
+        const result: StructType = {
           type: 'struct',
           name: type.namespace!,
           fields: {},
@@ -100,7 +113,7 @@ const resolveType = (type: TypeDef): ResolvedType => {
       case TypeDefInfo.Null:
         return { type: 'null' };
       case TypeDefInfo.Plain:
-        return type.type;
+        return { type: 'primitive', name: type.type };
       case TypeDefInfo.BTreeSet:
       case TypeDefInfo.Vec:
       case TypeDefInfo.VecFixed:
@@ -121,7 +134,7 @@ const resolveType = (type: TypeDef): ResolvedType => {
         assert(hasSubs(type));
         return {
           type: 'enum',
-          name: 'Result',
+          name: type.typeName!,
           values: [
             { name: 'Ok', value: resolveType(type.sub[0]) },
             { name: 'Err', value: resolveType(type.sub[1]) },
@@ -143,8 +156,11 @@ const resolveType = (type: TypeDef): ResolvedType => {
 };
 
 const hasName = <T extends { name?: string }>(
-  obj: T
+  obj: T,
 ): obj is T & { name: string } => obj.name !== undefined;
+
+const isNotNullish = <T>(value: T): value is NonNullable<T> =>
+  value !== null && value !== undefined;
 
 const eventMap = Object.fromEntries(
   metadata.asV14.pallets
@@ -152,32 +168,49 @@ const eventMap = Object.fromEntries(
     .map((pallet) => {
       const palletMetadata = pallet.events.unwrap();
       const events = metadata.registry.lookup.getTypeDef(palletMetadata.type);
+      const palletName = pallet.name.toString();
 
-      if (!hasSubs(events)) return [pallet.name.toString(), null];
+      if (hasSubs(events)) return [palletName, events] as const;
 
-      return [
-        pallet.name.toString(),
-        Object.fromEntries(
-          events.sub.filter(hasName).map((event) => {
-            if (!hasSubs(event)) return [event.name, null];
-
-            return [
-              event.name,
-              Object.fromEntries(
-                event.sub.map((sub, index) => {
-                  const type = resolveType(sub);
-                  return [sub.name, type];
-                })
-              ),
-            ];
-          })
-        ),
-      ];
+      return null;
     })
+    .filter(isNotNullish)
+    .map(
+      ([palletName, events]) =>
+        [
+          palletName,
+          Object.fromEntries(
+            events.sub
+              .filter(hasName)
+              .filter(hasSubs)
+              .map((event) => {
+                return [
+                  event.name,
+                  Object.fromEntries(
+                    event.sub.filter(hasName).map((sub) => {
+                      const type = resolveType(sub);
+                      return [sub.name, type] as const;
+                    }),
+                  ),
+                ] as const;
+              }),
+          ),
+        ] as const,
+    ),
 );
 
 await fs.mkdir('generated', { recursive: true });
 await fs.writeFile(
   './generated/events.json',
-  JSON.stringify(eventMap, null, 2)
+  JSON.stringify(eventMap, null, 2),
+  'utf8',
+);
+
+const prelude = `import { z } from 'zod';
+`;
+
+await fs.writeFile(
+  './generated/output.ts',
+  `console.log('hello world!');\n`,
+  'utf8',
 );

@@ -35,7 +35,7 @@ const hasSub = <T extends TypeDef>(type: T): type is T & { sub: TypeDef } =>
 const isSi = <T extends TypeDef>(
   type: T,
 ): type is T & { info: TypeDefInfo.Si; type: `Lookup${number}` } =>
-  type.info === TypeDefInfo.Si && /^Lookup[0-9]+$/.test(type.type);
+  type.info === TypeDefInfo.Si && /^Lookup\d+$/.test(type.type);
 
 export type PrimitiveType = { type: 'primitive'; name: string };
 

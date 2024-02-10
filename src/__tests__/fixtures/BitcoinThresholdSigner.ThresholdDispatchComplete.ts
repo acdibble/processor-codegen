@@ -2,11 +2,11 @@ import { z } from 'zod';
 
 const hexString = z
   .string()
-  .refine((v) => /^[0-9a-fA-F]*$/.test(v), { message: 'Invalid hex string' });
+  .refine((v) => /^0x[\da-f]*$/i.test(v), { message: 'Invalid hex string' });
 
 const numericString = z
   .string()
-  .refine((v) => /^[0-9]+$/.test(v), { message: 'Invalid numeric string' });
+  .refine((v) => /^\d+$/.test(v), { message: 'Invalid numeric string' });
 
 const numberOrHex = z
   .union([z.number(), hexString, numericString])

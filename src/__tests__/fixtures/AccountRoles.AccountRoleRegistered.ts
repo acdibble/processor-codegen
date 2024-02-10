@@ -3,7 +3,7 @@ import { encodeAddress } from '@polkadot/util-crypto';
 
 const hexString = z
   .string()
-  .refine((v) => /^[0-9a-fA-F]*$/.test(v), { message: 'Invalid hex string' });
+  .refine((v) => /^0x[\da-f]*$/i.test(v), { message: 'Invalid hex string' });
 
 const accountId = z
   .union([

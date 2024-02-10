@@ -147,14 +147,14 @@ export default class CodeGenerator {
 
     if (registry.hexString) {
       utilities.push(
-        "const hexString = z.string().refine((v) => /^[0-9a-fA-F]*$/.test(v), { message: 'Invalid hex string' });",
+        "const hexString = z.string().refine((v) => /^0x[\\da-f]*$/i.test(v), { message: 'Invalid hex string' });",
       );
       utilities.push('');
     }
 
     if (registry.numericString) {
       utilities.push(
-        "const numericString = z.string().refine((v) => /^[0-9]+$/.test(v), { message: 'Invalid numeric string' });",
+        "const numericString = z.string().refine((v) => /^\\d+$/.test(v), { message: 'Invalid numeric string' });",
       );
       utilities.push('');
     }
@@ -212,8 +212,6 @@ export default class CodeGenerator {
         singleQuote: true,
       },
     );
-
-    console.log(result);
 
     return result;
   }

@@ -10,6 +10,7 @@ import {
   TupleType,
   RangeType,
 } from './parser';
+import { capitalize } from './utils';
 
 type PalletName = string;
 type EventName = string;
@@ -17,18 +18,58 @@ type FieldName = string;
 
 const nameToIdentifier = (name: string): string =>
   name
-    .replace(/::(.)/g, (_, c) => c.toUpperCase())
-    .replace(/_(.)/g, (_, c) => c.toUpperCase())
+    .replace(/(?:::|_)(.)/g, (_, c) => c.toUpperCase())
     .replace(/^./, (c) => c.toLowerCase());
+
+abstract class CodegenResult {
+  shouldExport: boolean;
+  prelude?: string;
+
+  constructor(
+    private readonly code: string,
+    {
+      shouldExport,
+      prelude,
+    }: { shouldExport?: boolean; prelude?: string } = {},
+  ) {
+    this.shouldExport = shouldExport ?? false;
+    this.prelude = prelude;
+  }
+
+  toString() {
+    return this.code;
+  }
+}
+
+class Identifier extends CodegenResult {}
+
+class Code extends CodegenResult {}
+
+const hexString = new Code(
+  "z.string().refine((v) => /^0x[\\da-f]*$/i.test(v), { message: 'Invalid hex string' })",
+);
+const numericString = new Code(
+  "z.string().refine((v) => /^\\d+$/.test(v), { message: 'Invalid numeric string' })",
+);
+const numberOrHex = new Code(
+  'z.union([z.number(), hexString, numericString]).transform((n) => BigInt(n))',
+);
+const accountId = new Code(
+  'z.union([hexString, z.string().regex(/^[0-9a-f]+$/).transform((v) => `0x${v}`)]).transform((value) => encodeAddress(value, 2112))',
+  {
+    prelude: "import { encodeAddress } from '@polkadot/util-crypto';",
+  },
+);
+const simpleEnum = new Code(
+  '<U extends string, T extends readonly [U, ...U[]]>(values: T) => z.object({ __kind: z.enum(values) }).transform(({ __kind }) => __kind!)',
+);
+const utf8String = new Code(
+  "hexString.transform((v) => Buffer.from(v.slice(2), 'hex').toString('utf8'))",
+);
 
 export default class CodeGenerator {
   private registry = {
-    hexString: false,
-    accountId: false,
-    simpleEnum: false,
-    numericString: false,
-    numberOrHex: false,
-    types: new Map<string, string>(),
+    types: new Map<string, CodegenResult>(),
   };
 
   private ignoredEvents = new Set<string>();
@@ -37,7 +78,7 @@ export default class CodeGenerator {
     this.ignoredEvents = new Set(ignoredEvents);
   }
 
-  private generatePrimitive(def: PrimitiveType): string {
+  private generatePrimitive(def: PrimitiveType): CodegenResult {
     switch (def.name) {
       case 'i8':
       case 'u8':
@@ -47,48 +88,43 @@ export default class CodeGenerator {
       case 'u32':
       case 'Percent':
       case 'Permill':
-        return 'z.number()';
+        return new Code('z.number()');
       case 'u64':
       case 'u128':
       case 'U256':
-        this.registry.numericString = true;
-        this.registry.hexString = true;
-        this.registry.numberOrHex = true;
-        return 'numberOrHex';
+        this.registry.types.set('numericString', numericString);
+        this.registry.types.set('hexString', hexString);
+        this.registry.types.set('numberOrHex', numberOrHex);
+        return new Identifier('numberOrHex');
       case 'AccountId32':
-        this.registry.accountId = true;
-        this.registry.hexString = true;
-        return 'accountId';
+        this.registry.types.set('numberOrHex', numberOrHex);
+        this.registry.types.set('accountId', accountId);
+        return new Identifier('accountId');
       case 'H160':
       case 'H256':
-        this.registry.hexString = true;
-        return 'hexString';
+        this.registry.types.set('hexString', hexString);
+        return new Identifier('hexString');
       case 'Call':
         // we would need to parse the calls as well
-        return 'z.unknown()';
+        return new Code('z.unknown()');
       case 'Bytes':
-        this.registry.hexString = true;
-        this.registry.types.set(
-          'utf8String',
-          "hexString.transform((v) => Buffer.from(v.slice(2), 'hex').toString('utf8'))",
-        );
-        return 'utf8String';
+        this.registry.types.set('utf8String', utf8String);
+        return new Identifier('utf8String');
       case 'bool':
-        return 'z.boolean()';
+        return new Code('z.boolean()');
     }
 
     throw new Error(`Unsupported primitive: ${def.name}`);
   }
 
-  private generateEnum(def: EnumType): string {
+  private generateEnum(def: EnumType): Identifier {
     const isSimple = def.values.every((v) => v.value.type === 'null');
     const values = def.values.filter((n) => !n.name.startsWith('__Unused'));
 
     let generated: string;
 
     if (isSimple) {
-      this.registry.simpleEnum = true;
-
+      this.registry.types.set('simpleEnum', simpleEnum);
       generated = `simpleEnum([${values.map((v) => `'${v.name}'`).join(', ')}])`;
     } else {
       generated = `z.union([${values
@@ -97,66 +133,82 @@ export default class CodeGenerator {
             return `z.object({ __kind: z.literal('${v.name}') })`;
           }
 
-          return `z.object({ __kind: z.literal('${v.name}'), value: ${this.generateResolvedType(v.value)} })`;
+          const value = this.generateResolvedType(v.value);
+
+          return `z.object({ __kind: z.literal('${v.name}'), value: ${value} })`;
         })
         .join(', ')}])`;
     }
 
     const identifier = nameToIdentifier(def.name);
 
-    this.registry.types.set(identifier, generated);
+    this.registry.types.set(identifier, new Code(generated));
 
-    return identifier;
+    return new Identifier(identifier);
   }
 
-  private generateStructFields(fields: Record<string, ResolvedType>): string {
-    return `z.object({ ${Object.entries(fields)
-      .filter(([_, value]) => value.type !== 'null')
-      .map(([key, value]) => {
-        const resolvedType = this.generateResolvedType(value);
-        return key === resolvedType ? key : `${key}: ${resolvedType}`;
-      })
-      .join(', ')} })`;
+  private generateStructFields(fields: Record<string, ResolvedType>): Code {
+    return new Code(
+      `z.object({ ${Object.entries(fields)
+        .filter(([_, value]) => value.type !== 'null')
+        .map(([key, value]) => {
+          const resolvedType = this.generateResolvedType(value);
+
+          if (resolvedType instanceof Identifier) {
+            const identifier = resolvedType.toString();
+
+            if (identifier === key) return key;
+
+            return `${key}: ${identifier}`;
+          }
+
+          return `${key}: ${resolvedType}`;
+        })
+        .join(', ')} })`,
+    );
   }
 
-  private generateStruct(def: StructType): string {
+  private generateStruct(def: StructType): Code {
     const generated = this.generateStructFields(def.fields);
 
-    const identifier = nameToIdentifier(def.name);
-
-    this.registry.types.set(identifier, generated);
-
-    return identifier;
+    return generated;
   }
 
-  private generateArray(def: ArrayType): string {
+  private generateArray(def: ArrayType): CodegenResult {
     if (def.length) {
       if (isPrimitiveType(def.value) && def.value.name === 'u8') {
-        this.registry.hexString = true;
-        return 'hexString';
+        this.registry.types.set('hexString', hexString);
+        return new Identifier('hexString');
       }
 
-      return `z.tuple([${Array(def.length).fill(this.generateResolvedType(def.value)).join(', ')}])`;
+      return new Code(
+        `z.tuple([${Array(def.length).fill(this.generateResolvedType(def.value)).join(', ')}])`,
+      );
     }
 
-    return `z.array(${this.generateResolvedType(def.value)})`;
+    return new Code(`z.array(${this.generateResolvedType(def.value)})`);
   }
 
-  private generateTuple(def: TupleType): string {
-    return `z.tuple([${def.values.map((t) => this.generateResolvedType(t)).join(', ')}])`;
+  private generateTuple(def: TupleType): Code {
+    return new Code(
+      `z.tuple([${def.values
+        .map((t) => this.generateResolvedType(t))
+        .join(', ')}])`,
+    );
   }
 
-  private generateOption(def: OptionType): string {
-    return `${this.generateResolvedType(def.value)}.nullish()`;
+  private generateOption(def: OptionType): Code {
+    return new Code(`${this.generateResolvedType(def.value)}.nullish()`);
   }
 
-  private generateRange(def: RangeType): string {
+  private generateRange(def: RangeType): Code {
     const resolvedType = this.generateResolvedType(def.value);
-
-    return `z.object({ start: ${resolvedType}, end: ${resolvedType} })`;
+    return new Code(
+      `z.object({ start: ${resolvedType}, end: ${resolvedType} })`,
+    );
   }
 
-  private generateResolvedType(def: ResolvedType): string {
+  private generateResolvedType(def: ResolvedType): CodegenResult {
     if (def.type === 'primitive') return this.generatePrimitive(def);
     if (def.type === 'enum') return this.generateEnum(def);
     if (def.type === 'struct') return this.generateStruct(def);
@@ -164,16 +216,13 @@ export default class CodeGenerator {
     if (def.type === 'tuple') return this.generateTuple(def);
     if (def.type === 'range') return this.generateRange(def);
     if (def.type === 'option') return this.generateOption(def);
-    // console.error(def);
     throw new Error(`Unsupported type: ${def.type}`);
   }
 
   async generate(
     def: Record<PalletName, Record<EventName, Record<FieldName, ResolvedType>>>,
   ): Promise<string> {
-    const prelude = ["import { z } from 'zod'"];
-
-    const eventMaps: [string, string][] = [];
+    const prelude = ["import { z } from 'zod';"];
 
     for (const [palletName, events] of Object.entries(def)) {
       for (const [eventName, event] of Object.entries(events)) {
@@ -182,10 +231,12 @@ export default class CodeGenerator {
         if (this.ignoredEvents.has(name)) continue;
 
         try {
-          eventMaps.push([
-            `${palletName}::${eventName}`,
-            this.generateStructFields(event),
-          ]);
+          const generatedEvent = this.generateStructFields(event);
+          generatedEvent.shouldExport = true;
+          this.registry.types.set(
+            nameToIdentifier(`${palletName}::Event::${eventName}`),
+            generatedEvent,
+          );
         } catch (e) {
           console.error(`failed to parse: ${name}`);
           console.error(JSON.stringify(event, null, 2));
@@ -195,64 +246,24 @@ export default class CodeGenerator {
       }
     }
 
-    const utilities: string[] = [];
-
-    const { registry } = this;
-
-    if (registry.hexString) {
-      utilities.push(
-        "const hexString = z.string().refine((v) => /^0x[\\da-f]*$/i.test(v), { message: 'Invalid hex string' });",
-      );
-      utilities.push('');
-    }
-
-    if (registry.numericString) {
-      utilities.push(
-        "const numericString = z.string().refine((v) => /^\\d+$/.test(v), { message: 'Invalid numeric string' });",
-      );
-      utilities.push('');
-    }
-
-    if (registry.numberOrHex) {
-      utilities.push(
-        'const numberOrHex = z.union([z.number(), hexString, numericString]).transform((n) => BigInt(n));',
-      );
-      utilities.push('');
-    }
-
-    if (registry.accountId) {
-      prelude.push("import { encodeAddress } from '@polkadot/util-crypto'");
-
-      utilities.push(
-        'const accountId = z.union([hexString, z.string().regex(/^[0-9a-f]+$/).transform((v) => `0x${v}`)]).transform((value) => encodeAddress(value, 2112));',
-      );
-      utilities.push('');
-    }
-
-    if (registry.simpleEnum) {
-      utilities.push(
-        'const simpleEnum = <U extends string, T extends readonly [U, ...U[]]>(values: T) => z.object({ __kind: z.enum(values) }).transform(({ __kind }) => __kind!);',
-      );
-      utilities.push('');
-    }
-
     const generated: string[] = [];
 
-    for (const [name, type] of this.registry.types.entries()) {
-      const identifier = nameToIdentifier(name);
-      generated.push(`const ${identifier} = ${type};`);
-      generated.push('');
-    }
-
-    for (const [eventName, eventCode] of eventMaps) {
+    for (const [identifier, type] of this.registry.types.entries()) {
+      if (type.prelude) prelude.push(type.prelude);
       generated.push(
-        `export const ${nameToIdentifier(eventName)} = ${eventCode};`,
+        `${type.shouldExport ? 'export ' : ''}const ${identifier} = ${type};`,
       );
+      if (type.shouldExport) {
+        generated.push('');
+        generated.push(
+          `export type ${capitalize(identifier)} = z.output<typeof ${identifier}>;`,
+        );
+      }
       generated.push('');
     }
 
     const result = await prettier.format(
-      [...prelude, '', ...utilities, '', ...generated].join('\n'),
+      [...prelude, '', ...generated].join('\n'),
       {
         parser: 'typescript',
         singleQuote: true,

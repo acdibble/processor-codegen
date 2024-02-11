@@ -50,7 +50,6 @@ export type EnumType = {
 
 export type StructType = {
   type: 'struct';
-  name: string;
   fields: Record<string, ResolvedType>;
 };
 
@@ -72,6 +71,24 @@ export type ResolvedType =
   | { type: 'null' }
   | RangeType;
 
+function genericNamespace(namespace: string, palletName: string): string;
+function genericNamespace(
+  namespace: string | undefined,
+  palletName: string,
+): string | undefined;
+function genericNamespace(namespace: string | undefined, palletName: string) {
+  if (!namespace) return namespace;
+
+  if (namespace.startsWith('pallet_cf_ingress_egress')) {
+    const chain = /^(.+)IngressEgress$/.exec(palletName)![1];
+    return namespace.replace(
+      'pallet_cf_ingress_egress',
+      `pallet_cf_${chain.toLowerCase()}_ingress_egress`,
+    );
+  }
+  return namespace;
+}
+
 const resolveType = (
   metadata: Metadata,
   type: TypeDef,
@@ -84,7 +101,7 @@ const resolveType = (
 
         const result: EnumType = {
           type: 'enum',
-          name: type.namespace!,
+          name: genericNamespace(type.namespace!, palletName),
           values: [],
         };
 
@@ -102,7 +119,6 @@ const resolveType = (
 
         const result: StructType = {
           type: 'struct',
-          name: type.namespace ?? `${palletName}::${type.name}`,
           fields: {},
         };
 
@@ -166,7 +182,6 @@ const resolveType = (
         };
       case TypeDefInfo.Range:
         assert(hasSub(type));
-        console.log(type);
         return {
           type: 'range',
           value: resolveType(metadata, type.sub, palletName),

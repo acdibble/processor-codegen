@@ -11,6 +11,4 @@ const generator = new CodeGenerator({ ignoredEvents: ['System.Remarked'] });
 
 const result = await generator.generate(parsed);
 
-console.log('===== GENERATED CODE =====');
-console.log(result);
-console.log('===== GENERATED CODE =====');
+await fs.writeFile('./generated/out.ts', result, 'utf8');

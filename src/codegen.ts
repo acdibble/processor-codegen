@@ -68,15 +68,15 @@ export default class CodeGenerator {
     types: new Map<string, CodegenResult>(),
   };
 
-  private ignoredEvents = new Set<string>();
-  private trackedEvents = new Set<string>();
+  private ignoredEvents?: Set<string>;
+  private trackedEvents?: Set<string>;
 
   constructor({
-    ignoredEvents = [],
-    trackedEvents = [],
+    ignoredEvents,
+    trackedEvents,
   }: { ignoredEvents?: string[]; trackedEvents?: string[] } = {}) {
-    this.ignoredEvents = new Set(ignoredEvents);
-    this.trackedEvents = new Set(trackedEvents);
+    if (ignoredEvents) this.ignoredEvents = new Set(ignoredEvents);
+    if (trackedEvents) this.trackedEvents = new Set(trackedEvents);
   }
 
   private generatePrimitive(def: PrimitiveType): CodegenResult {
@@ -211,7 +211,8 @@ export default class CodeGenerator {
     if (def.type === 'tuple') return this.generateTuple(def);
     if (def.type === 'range') return this.generateRange(def);
     if (def.type === 'option') return this.generateOption(def);
-    throw new Error(`Unsupported type: ${def.type}`);
+    if (def.type === 'null') return new Code('z.null()');
+    throw new Error(`Unsupported type: ${(def as any).type}`);
   }
 
   async generate(
@@ -223,8 +224,8 @@ export default class CodeGenerator {
       for (const [eventName, event] of Object.entries(events)) {
         const name = `${palletName}.${eventName}`;
 
-        if (this.ignoredEvents.has(name)) continue;
-        if (!this.trackedEvents.delete(name)) continue;
+        if (this.ignoredEvents?.has(name)) continue;
+        if (this.trackedEvents && !this.trackedEvents.delete(name)) continue;
 
         try {
           const generatedEvent = this.generateResolvedType(event);
@@ -243,7 +244,7 @@ export default class CodeGenerator {
       }
     }
 
-    if (this.trackedEvents.size !== 0) {
+    if (this.trackedEvents && this.trackedEvents.size !== 0) {
       console.warn('Not all events were generated:');
       console.warn([...this.trackedEvents].join('\n'));
     }

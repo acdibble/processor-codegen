@@ -74,6 +74,6 @@ export const bitcoinThresholdSignerEventThresholdDispatchComplete = z.object({
   result: dispatchResult,
 });
 
-export type BitcoinThresholdSignerEventThresholdDispatchComplete = z.output<
+export type BitcoinThresholdSignerEventThresholdDispatchCompleteArgs = z.output<
   typeof bitcoinThresholdSignerEventThresholdDispatchComplete
 >;

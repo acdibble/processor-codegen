@@ -48,6 +48,6 @@ export const swappingEventSwapDepositAddressReady = z.object({
   boostFee: z.number(),
 });
 
-export type SwappingEventSwapDepositAddressReady = z.output<
+export type SwappingEventSwapDepositAddressReadyArgs = z.output<
   typeof swappingEventSwapDepositAddressReady
 >;

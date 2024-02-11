@@ -28,6 +28,10 @@ async function assertGenerates(
 async function assertGenerates(name: string[], fixtureName = name[0]) {
   const fixture = await getFixture(fixtureName).catch(() => null);
   const generated = await new CodeGenerator().generate(pick(name));
+  // await fs.writeFile(
+  //   path.join(__dirname, 'fixtures', `${fixtureName}.ts`),
+  //   generated,
+  // );
   if (fixture === null) {
     console.log(generated);
   }

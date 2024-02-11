@@ -31,7 +31,7 @@ export const accountRolesEventAccountRoleRegistered = z.object({
   role: cfPrimitivesAccountRole,
 });
 
-export type AccountRolesEventAccountRoleRegistered = z.output<
+export type AccountRolesEventAccountRoleRegisteredArgs = z.output<
   typeof accountRolesEventAccountRoleRegistered
 >;
 
@@ -101,7 +101,7 @@ export const bitcoinThresholdSignerEventThresholdDispatchComplete = z.object({
   result: dispatchResult,
 });
 
-export type BitcoinThresholdSignerEventThresholdDispatchComplete = z.output<
+export type BitcoinThresholdSignerEventThresholdDispatchCompleteArgs = z.output<
   typeof bitcoinThresholdSignerEventThresholdDispatchComplete
 >;
 
@@ -137,6 +137,6 @@ export const swappingEventSwapDepositAddressReady = z.object({
   boostFee: z.number(),
 });
 
-export type SwappingEventSwapDepositAddressReady = z.output<
+export type SwappingEventSwapDepositAddressReadyArgs = z.output<
   typeof swappingEventSwapDepositAddressReady
 >;

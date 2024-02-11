@@ -31,6 +31,6 @@ export const accountRolesEventAccountRoleRegistered = z.object({
   role: cfPrimitivesAccountRole,
 });
 
-export type AccountRolesEventAccountRoleRegistered = z.output<
+export type AccountRolesEventAccountRoleRegisteredArgs = z.output<
   typeof accountRolesEventAccountRoleRegistered
 >;

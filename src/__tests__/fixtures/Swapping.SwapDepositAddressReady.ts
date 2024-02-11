@@ -4,14 +4,10 @@ const hexString = z
   .string()
   .refine((v) => /^0x[\da-f]*$/i.test(v), { message: 'Invalid hex string' });
 
-const utf8String = hexString.transform((v) =>
-  Buffer.from(v.slice(2), 'hex').toString('utf8'),
-);
-
 const cfChainsAddressEncodedAddress = z.union([
   z.object({ __kind: z.literal('Eth'), value: hexString }),
   z.object({ __kind: z.literal('Dot'), value: hexString }),
-  z.object({ __kind: z.literal('Btc'), value: utf8String }),
+  z.object({ __kind: z.literal('Btc'), value: hexString }),
 ]);
 
 const simpleEnum = <U extends string, T extends readonly [U, ...U[]]>(
@@ -43,9 +39,9 @@ export const swappingEventSwapDepositAddressReady = z.object({
   brokerCommissionRate: z.number(),
   channelMetadata: z
     .object({
-      message: utf8String,
+      message: hexString,
       gasBudget: numberOrHex,
-      cfParameters: utf8String,
+      cfParameters: hexString,
     })
     .nullish(),
   sourceChainExpiryBlock: numberOrHex,

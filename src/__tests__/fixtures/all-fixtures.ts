@@ -1,17 +1,9 @@
 import { z } from 'zod';
 import { encodeAddress } from '@polkadot/util-crypto';
 
-const numericString = z
-  .string()
-  .refine((v) => /^\d+$/.test(v), { message: 'Invalid numeric string' });
-
 const hexString = z
   .string()
   .refine((v) => /^0x[\da-f]*$/i.test(v), { message: 'Invalid hex string' });
-
-const numberOrHex = z
-  .union([z.number(), hexString, numericString])
-  .transform((n) => BigInt(n));
 
 const accountId = z
   .union([
@@ -42,6 +34,14 @@ export const accountRolesEventAccountRoleRegistered = z.object({
 export type AccountRolesEventAccountRoleRegistered = z.output<
   typeof accountRolesEventAccountRoleRegistered
 >;
+
+const numericString = z
+  .string()
+  .refine((v) => /^\d+$/.test(v), { message: 'Invalid numeric string' });
+
+const numberOrHex = z
+  .union([z.number(), hexString, numericString])
+  .transform((n) => BigInt(n));
 
 const spRuntimeTokenError = simpleEnum([
   'FundsUnavailable',
@@ -105,14 +105,10 @@ export type BitcoinThresholdSignerEventThresholdDispatchComplete = z.output<
   typeof bitcoinThresholdSignerEventThresholdDispatchComplete
 >;
 
-const utf8String = hexString.transform((v) =>
-  Buffer.from(v.slice(2), 'hex').toString('utf8'),
-);
-
 const cfChainsAddressEncodedAddress = z.union([
   z.object({ __kind: z.literal('Eth'), value: hexString }),
   z.object({ __kind: z.literal('Dot'), value: hexString }),
-  z.object({ __kind: z.literal('Btc'), value: utf8String }),
+  z.object({ __kind: z.literal('Btc'), value: hexString }),
 ]);
 
 const cfPrimitivesChainsAssetsAnyAsset = simpleEnum([
@@ -132,9 +128,9 @@ export const swappingEventSwapDepositAddressReady = z.object({
   brokerCommissionRate: z.number(),
   channelMetadata: z
     .object({
-      message: utf8String,
+      message: hexString,
       gasBudget: numberOrHex,
-      cfParameters: utf8String,
+      cfParameters: hexString,
     })
     .nullish(),
   sourceChainExpiryBlock: numberOrHex,

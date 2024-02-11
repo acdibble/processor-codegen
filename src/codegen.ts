@@ -63,9 +63,6 @@ const accountId = new Code(
 const simpleEnum = new Code(
   '<U extends string, T extends readonly [U, ...U[]]>(values: T) => z.object({ __kind: z.enum(values) }).transform(({ __kind }) => __kind!)',
 );
-const utf8String = new Code(
-  "hexString.transform((v) => Buffer.from(v.slice(2), 'hex').toString('utf8'))",
-);
 
 export default class CodeGenerator {
   private registry = {
@@ -97,9 +94,7 @@ export default class CodeGenerator {
         this.registry.types.set('numberOrHex', numberOrHex);
         return new Identifier('numberOrHex');
       case 'AccountId32':
-        this.registry.types.set('numericString', numericString);
         this.registry.types.set('hexString', hexString);
-        this.registry.types.set('numberOrHex', numberOrHex);
         this.registry.types.set('accountId', accountId);
         return new Identifier('accountId');
       case 'H160':
@@ -110,8 +105,8 @@ export default class CodeGenerator {
         // we would need to parse the calls as well
         return new Code('z.unknown()');
       case 'Bytes':
-        this.registry.types.set('utf8String', utf8String);
-        return new Identifier('utf8String');
+        this.registry.types.set('hexString', hexString);
+        return new Identifier('hexString');
       case 'bool':
         return new Code('z.boolean()');
     }

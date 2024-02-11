@@ -1,17 +1,9 @@
 import { z } from 'zod';
 import { encodeAddress } from '@polkadot/util-crypto';
 
-const numericString = z
-  .string()
-  .refine((v) => /^\d+$/.test(v), { message: 'Invalid numeric string' });
-
 const hexString = z
   .string()
   .refine((v) => /^0x[\da-f]*$/i.test(v), { message: 'Invalid hex string' });
-
-const numberOrHex = z
-  .union([z.number(), hexString, numericString])
-  .transform((n) => BigInt(n));
 
 const accountId = z
   .union([

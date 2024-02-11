@@ -1,13 +1,13 @@
 import { z } from 'zod';
 import { encodeAddress } from '@polkadot/util-crypto';
 
-const hexString = z
-  .string()
-  .refine((v) => /^0x[\da-f]*$/i.test(v), { message: 'Invalid hex string' });
-
 const numericString = z
   .string()
   .refine((v) => /^\d+$/.test(v), { message: 'Invalid numeric string' });
+
+const hexString = z
+  .string()
+  .refine((v) => /^0x[\da-f]*$/i.test(v), { message: 'Invalid hex string' });
 
 const numberOrHex = z
   .union([z.number(), hexString, numericString])
@@ -34,7 +34,14 @@ const cfPrimitivesAccountRole = simpleEnum([
   'Broker',
 ]);
 
-const spRuntimeModuleError = z.object({ index: z.number(), error: hexString });
+export const accountRolesEventAccountRoleRegistered = z.object({
+  accountId,
+  role: cfPrimitivesAccountRole,
+});
+
+export type AccountRolesEventAccountRoleRegistered = z.output<
+  typeof accountRolesEventAccountRoleRegistered
+>;
 
 const spRuntimeTokenError = simpleEnum([
   'FundsUnavailable',
@@ -61,7 +68,10 @@ const spRuntimeDispatchError = z.union([
   z.object({ __kind: z.literal('Other') }),
   z.object({ __kind: z.literal('CannotLookup') }),
   z.object({ __kind: z.literal('BadOrigin') }),
-  z.object({ __kind: z.literal('Module'), value: spRuntimeModuleError }),
+  z.object({
+    __kind: z.literal('Module'),
+    value: z.object({ index: z.number(), error: hexString }),
+  }),
   z.object({ __kind: z.literal('ConsumerRemaining') }),
   z.object({ __kind: z.literal('NoProviders') }),
   z.object({ __kind: z.literal('TooManyConsumers') }),
@@ -85,6 +95,16 @@ const dispatchResult = z.union([
   z.object({ __kind: z.literal('Err'), value: spRuntimeDispatchError }),
 ]);
 
+export const bitcoinThresholdSignerEventThresholdDispatchComplete = z.object({
+  requestId: z.number(),
+  ceremonyId: numberOrHex,
+  result: dispatchResult,
+});
+
+export type BitcoinThresholdSignerEventThresholdDispatchComplete = z.output<
+  typeof bitcoinThresholdSignerEventThresholdDispatchComplete
+>;
+
 const utf8String = hexString.transform((v) =>
   Buffer.from(v.slice(2), 'hex').toString('utf8'),
 );
@@ -103,31 +123,24 @@ const cfPrimitivesChainsAssetsAnyAsset = simpleEnum([
   'Btc',
 ]);
 
-const cfChainsCcmChannelMetadata = z.object({
-  message: utf8String,
-  gasBudget: numberOrHex,
-  cfParameters: utf8String,
-});
-
-export const accountRolesAccountRoleRegistered = z.object({
-  accountId,
-  role: cfPrimitivesAccountRole,
-});
-
-export const bitcoinThresholdSignerThresholdDispatchComplete = z.object({
-  requestId: z.number(),
-  ceremonyId: numberOrHex,
-  result: dispatchResult,
-});
-
-export const swappingSwapDepositAddressReady = z.object({
+export const swappingEventSwapDepositAddressReady = z.object({
   depositAddress: cfChainsAddressEncodedAddress,
   destinationAddress: cfChainsAddressEncodedAddress,
   sourceAsset: cfPrimitivesChainsAssetsAnyAsset,
   destinationAsset: cfPrimitivesChainsAssetsAnyAsset,
   channelId: numberOrHex,
   brokerCommissionRate: z.number(),
-  channelMetadata: cfChainsCcmChannelMetadata.nullish(),
+  channelMetadata: z
+    .object({
+      message: utf8String,
+      gasBudget: numberOrHex,
+      cfParameters: utf8String,
+    })
+    .nullish(),
   sourceChainExpiryBlock: numberOrHex,
   boostFee: z.number(),
 });
+
+export type SwappingEventSwapDepositAddressReady = z.output<
+  typeof swappingEventSwapDepositAddressReady
+>;

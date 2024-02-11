@@ -97,6 +97,8 @@ export default class CodeGenerator {
         this.registry.types.set('numberOrHex', numberOrHex);
         return new Identifier('numberOrHex');
       case 'AccountId32':
+        this.registry.types.set('numericString', numericString);
+        this.registry.types.set('hexString', hexString);
         this.registry.types.set('numberOrHex', numberOrHex);
         this.registry.types.set('accountId', accountId);
         return new Identifier('accountId');

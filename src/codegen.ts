@@ -7,6 +7,8 @@ import {
   type ResolvedType,
   type StructType,
   OptionType,
+  TupleType,
+  RangeType,
 } from './parser';
 
 type PalletName = string;
@@ -20,7 +22,7 @@ const nameToIdentifier = (name: string): string =>
     .replace(/^./, (c) => c.toLowerCase());
 
 export default class CodeGenerator {
-  registry = {
+  private registry = {
     hexString: false,
     accountId: false,
     simpleEnum: false,
@@ -29,14 +31,26 @@ export default class CodeGenerator {
     types: new Map<string, string>(),
   };
 
-  generatePrimitive(def: PrimitiveType): string {
+  private ignoredEvents = new Set<string>();
+
+  constructor({ ignoredEvents = [] }: { ignoredEvents?: string[] } = {}) {
+    this.ignoredEvents = new Set(ignoredEvents);
+  }
+
+  private generatePrimitive(def: PrimitiveType): string {
     switch (def.name) {
+      case 'i8':
       case 'u8':
+      case 'i16':
       case 'u16':
+      case 'i32':
       case 'u32':
+      case 'Percent':
+      case 'Permill':
         return 'z.number()';
       case 'u64':
       case 'u128':
+      case 'U256':
         this.registry.numericString = true;
         this.registry.hexString = true;
         this.registry.numberOrHex = true;
@@ -45,6 +59,13 @@ export default class CodeGenerator {
         this.registry.accountId = true;
         this.registry.hexString = true;
         return 'accountId';
+      case 'H160':
+      case 'H256':
+        this.registry.hexString = true;
+        return 'hexString';
+      case 'Call':
+        // we would need to parse the calls as well
+        return 'z.unknown()';
       case 'Bytes':
         this.registry.hexString = true;
         this.registry.types.set(
@@ -52,12 +73,14 @@ export default class CodeGenerator {
           "hexString.transform((v) => Buffer.from(v.slice(2), 'hex').toString('utf8'))",
         );
         return 'utf8String';
+      case 'bool':
+        return 'z.boolean()';
     }
 
     throw new Error(`Unsupported primitive: ${def.name}`);
   }
 
-  generateEnum(def: EnumType): string {
+  private generateEnum(def: EnumType): string {
     const isSimple = def.values.every((v) => v.value.type === 'null');
     const values = def.values.filter((n) => !n.name.startsWith('__Unused'));
 
@@ -86,19 +109,27 @@ export default class CodeGenerator {
     return identifier;
   }
 
-  generateStruct = (def: StructType): string => {
-    const generated = `z.object({ ${Object.entries(def.fields)
-      .map(([key, value]) => `${key}: ${this.generateResolvedType(value)}`)
+  private generateStructFields(fields: Record<string, ResolvedType>): string {
+    return `z.object({ ${Object.entries(fields)
+      .filter(([_, value]) => value.type !== 'null')
+      .map(([key, value]) => {
+        const resolvedType = this.generateResolvedType(value);
+        return key === resolvedType ? key : `${key}: ${resolvedType}`;
+      })
       .join(', ')} })`;
+  }
+
+  private generateStruct(def: StructType): string {
+    const generated = this.generateStructFields(def.fields);
 
     const identifier = nameToIdentifier(def.name);
 
     this.registry.types.set(identifier, generated);
 
     return identifier;
-  };
+  }
 
-  generateArray(def: ArrayType): string {
+  private generateArray(def: ArrayType): string {
     if (def.length) {
       if (isPrimitiveType(def.value) && def.value.name === 'u8') {
         this.registry.hexString = true;
@@ -111,15 +142,27 @@ export default class CodeGenerator {
     return `z.array(${this.generateResolvedType(def.value)})`;
   }
 
-  generateOption(def: OptionType): string {
+  private generateTuple(def: TupleType): string {
+    return `z.tuple([${def.values.map((t) => this.generateResolvedType(t)).join(', ')}])`;
+  }
+
+  private generateOption(def: OptionType): string {
     return `${this.generateResolvedType(def.value)}.nullish()`;
   }
 
-  generateResolvedType(def: ResolvedType): string {
+  private generateRange(def: RangeType): string {
+    const resolvedType = this.generateResolvedType(def.value);
+
+    return `z.object({ start: ${resolvedType}, end: ${resolvedType} })`;
+  }
+
+  private generateResolvedType(def: ResolvedType): string {
     if (def.type === 'primitive') return this.generatePrimitive(def);
     if (def.type === 'enum') return this.generateEnum(def);
     if (def.type === 'struct') return this.generateStruct(def);
     if (def.type === 'array') return this.generateArray(def);
+    if (def.type === 'tuple') return this.generateTuple(def);
+    if (def.type === 'range') return this.generateRange(def);
     if (def.type === 'option') return this.generateOption(def);
     // console.error(def);
     throw new Error(`Unsupported type: ${def.type}`);
@@ -130,15 +173,25 @@ export default class CodeGenerator {
   ): Promise<string> {
     const prelude = ["import { z } from 'zod'"];
 
-    const eventMaps: [string, Record<string, string>][] = [];
+    const eventMaps: [string, string][] = [];
 
     for (const [palletName, events] of Object.entries(def)) {
       for (const [eventName, event] of Object.entries(events)) {
-        const eventMap = {};
-        for (const [fieldName, field] of Object.entries(event)) {
-          eventMap[fieldName] = this.generateResolvedType(field);
+        const name = `${palletName}.${eventName}`;
+
+        if (this.ignoredEvents.has(name)) continue;
+
+        try {
+          eventMaps.push([
+            `${palletName}::${eventName}`,
+            this.generateStructFields(event),
+          ]);
+        } catch (e) {
+          console.error(`failed to parse: ${name}`);
+          console.error(JSON.stringify(event, null, 2));
+          console.error(e);
+          throw e;
         }
-        eventMaps.push([`${palletName}::${eventName}`, eventMap]);
       }
     }
 
@@ -191,18 +244,10 @@ export default class CodeGenerator {
       generated.push('');
     }
 
-    for (const [eventName, eventMap] of eventMaps) {
+    for (const [eventName, eventCode] of eventMaps) {
       generated.push(
-        `export const ${nameToIdentifier(eventName)} = z.object({`,
+        `export const ${nameToIdentifier(eventName)} = ${eventCode};`,
       );
-      for (const [fieldName, fieldType] of Object.entries(eventMap)) {
-        if (fieldName === fieldType) {
-          generated.push(`${fieldName},`);
-        } else {
-          generated.push(`${fieldName}: ${fieldType},`);
-        }
-      }
-      generated.push('});');
       generated.push('');
     }
 

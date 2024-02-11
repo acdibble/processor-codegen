@@ -10,23 +10,31 @@ import type { ResolvedType } from '../parser';
 const __dirname = path.dirname(url.fileURLToPath(import.meta.url));
 
 const pick = (
-  path: string,
-): Record<string, Record<string, Record<string, ResolvedType>>> => {
-  const [pallet, event] = path.split('.');
-  return { [pallet]: { [event]: events[pallet][event] } };
-};
+  paths: string[],
+): Record<string, Record<string, Record<string, ResolvedType>>> =>
+  paths.reduce((acc, path) => {
+    const [pallet, event] = path.split('.');
+    acc[pallet] ??= {};
+    acc[pallet][event] = events[pallet][event];
+    return acc;
+  }, {});
 
 const getFixture = async (name: string) =>
   await fs.readFile(path.join(__dirname, 'fixtures', `${name}.ts`), 'utf-8');
 
-const assertGenerates = async <const T extends string>(name: T) => {
-  const fixture = await getFixture(name).catch(() => null);
+async function assertGenerates(name: [string]): Promise<void>;
+async function assertGenerates(
+  name: string[],
+  fixtureName: string,
+): Promise<void>;
+async function assertGenerates(name: string[], fixtureName = name[0]) {
+  const fixture = await getFixture(fixtureName).catch(() => null);
   const generated = await new CodeGenerator().generate(pick(name));
   if (fixture === null) {
     console.log(generated);
   }
   assert.strictEqual(generated, fixture);
-};
+}
 
 describe(CodeGenerator.name, () => {
   const fixtures = [
@@ -37,7 +45,11 @@ describe(CodeGenerator.name, () => {
 
   for (const fixture of fixtures) {
     it(`generates ${fixture} correctly`, async () => {
-      await assertGenerates(fixture);
+      await assertGenerates([fixture]);
     });
   }
+
+  it('generates all fixtures correctly', async () => {
+    await assertGenerates(fixtures, 'all-fixtures');
+  });
 });

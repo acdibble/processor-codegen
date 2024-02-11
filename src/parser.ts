@@ -56,19 +56,27 @@ export type StructType = {
 
 export type ArrayType = { type: 'array'; value: ResolvedType; length?: number };
 
+export type TupleType = { type: 'tuple'; values: ResolvedType[] };
+
 export type OptionType = { type: 'option'; value: ResolvedType };
+
+export type RangeType = { type: 'range'; value: ResolvedType };
 
 export type ResolvedType =
   | PrimitiveType
   | EnumType
   | StructType
   | ArrayType
-  | { type: 'tuple'; values: ResolvedType[] }
+  | TupleType
   | OptionType
   | { type: 'null' }
-  | { type: 'range'; value: ResolvedType };
+  | RangeType;
 
-const resolveType = (metadata: Metadata, type: TypeDef): ResolvedType => {
+const resolveType = (
+  metadata: Metadata,
+  type: TypeDef,
+  palletName: string,
+): ResolvedType => {
   try {
     switch (type.info) {
       case TypeDefInfo.Enum: {
@@ -83,7 +91,7 @@ const resolveType = (metadata: Metadata, type: TypeDef): ResolvedType => {
         for (const sub of type.sub) {
           result.values[sub.index!] = {
             name: sub.name!,
-            value: resolveType(metadata, sub),
+            value: resolveType(metadata, sub, palletName),
           };
         }
 
@@ -94,12 +102,12 @@ const resolveType = (metadata: Metadata, type: TypeDef): ResolvedType => {
 
         const result: StructType = {
           type: 'struct',
-          name: type.namespace!,
+          name: type.namespace ?? `${palletName}::${type.name}`,
           fields: {},
         };
 
         for (const sub of type.sub) {
-          result.fields[sub.name!] = resolveType(metadata, sub);
+          result.fields[sub.name!] = resolveType(metadata, sub, palletName);
         }
 
         return result;
@@ -109,10 +117,11 @@ const resolveType = (metadata: Metadata, type: TypeDef): ResolvedType => {
         return resolveType(
           metadata,
           metadata.registry.lookup.getTypeDef(type.type),
+          palletName,
         );
       case TypeDefInfo.Compact:
         assert(hasSub(type));
-        return resolveType(metadata, type.sub);
+        return resolveType(metadata, type.sub, palletName);
       case TypeDefInfo.Null:
         return { type: 'null' };
       case TypeDefInfo.Plain:
@@ -123,7 +132,7 @@ const resolveType = (metadata: Metadata, type: TypeDef): ResolvedType => {
         assert(hasSub(type));
         return {
           type: 'array',
-          value: resolveType(metadata, type.sub),
+          value: resolveType(metadata, type.sub, palletName),
           length: type.length,
         };
       case TypeDefInfo.Tuple:
@@ -131,24 +140,37 @@ const resolveType = (metadata: Metadata, type: TypeDef): ResolvedType => {
 
         return {
           type: 'tuple',
-          values: type.sub.map((t) => resolveType(metadata, t)),
+          values: type.sub.map((t) => resolveType(metadata, t, palletName)),
         };
       case TypeDefInfo.Option:
         assert(hasSub(type));
-        return { type: 'option', value: resolveType(metadata, type.sub) };
+        return {
+          type: 'option',
+          value: resolveType(metadata, type.sub, palletName),
+        };
       case TypeDefInfo.Result:
         assert(hasSubs(type));
         return {
           type: 'enum',
           name: type.typeName!,
           values: [
-            { name: 'Ok', value: resolveType(metadata, type.sub[0]) },
-            { name: 'Err', value: resolveType(metadata, type.sub[1]) },
+            {
+              name: 'Ok',
+              value: resolveType(metadata, type.sub[0], palletName),
+            },
+            {
+              name: 'Err',
+              value: resolveType(metadata, type.sub[1], palletName),
+            },
           ],
         };
       case TypeDefInfo.Range:
         assert(hasSub(type));
-        return { type: 'range', value: resolveType(metadata, type.sub) };
+        console.log(type);
+        return {
+          type: 'range',
+          value: resolveType(metadata, type.sub, palletName),
+        };
     }
   } catch (error) {
     console.error('failed to parse type:');
@@ -201,7 +223,10 @@ export const parseMetadata = async () => {
                           .filter(hasName)
                           .map(
                             (sub) =>
-                              [sub.name, resolveType(metadata, sub)] as const,
+                              [
+                                sub.name,
+                                resolveType(metadata, sub, palletName),
+                              ] as const,
                           ),
                       ),
                     ] as const,

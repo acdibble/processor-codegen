@@ -26,19 +26,22 @@
                 {
                   "name": "Normal",
                   "value": {
-                    "type": "null"
+                    "type": "primitive",
+                    "name": "null"
                   }
                 },
                 {
                   "name": "Operational",
                   "value": {
-                    "type": "null"
+                    "type": "primitive",
+                    "name": "null"
                   }
                 },
                 {
                   "name": "Mandatory",
                   "value": {
-                    "type": "null"
+                    "type": "primitive",
+                    "name": "null"
                   }
                 }
               ]
@@ -50,13 +53,15 @@
                 {
                   "name": "Yes",
                   "value": {
-                    "type": "null"
+                    "type": "primitive",
+                    "name": "null"
                   }
                 },
                 {
                   "name": "No",
                   "value": {
-                    "type": "null"
+                    "type": "primitive",
+                    "name": "null"
                   }
                 }
               ]
@@ -75,19 +80,22 @@
             {
               "name": "Other",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "CannotLookup",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "BadOrigin",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
@@ -113,19 +121,22 @@
             {
               "name": "ConsumerRemaining",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "NoProviders",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "TooManyConsumers",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
@@ -137,61 +148,71 @@
                   {
                     "name": "FundsUnavailable",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   },
                   {
                     "name": "OnlyProvider",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   },
                   {
                     "name": "BelowMinimum",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   },
                   {
                     "name": "CannotCreate",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   },
                   {
                     "name": "UnknownAsset",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   },
                   {
                     "name": "Frozen",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   },
                   {
                     "name": "Unsupported",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   },
                   {
                     "name": "CannotCreateHold",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   },
                   {
                     "name": "NotExpendable",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   },
                   {
                     "name": "Blocked",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   }
                 ]
@@ -206,19 +227,22 @@
                   {
                     "name": "Underflow",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   },
                   {
                     "name": "Overflow",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   },
                   {
                     "name": "DivisionByZero",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   }
                 ]
@@ -233,13 +257,15 @@
                   {
                     "name": "LimitReached",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   },
                   {
                     "name": "NoLayer",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   }
                 ]
@@ -248,25 +274,29 @@
             {
               "name": "Exhausted",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Corruption",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Unavailable",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "RootNotAllowed",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             }
           ]
@@ -294,19 +324,22 @@
                 {
                   "name": "Normal",
                   "value": {
-                    "type": "null"
+                    "type": "primitive",
+                    "name": "null"
                   }
                 },
                 {
                   "name": "Operational",
                   "value": {
-                    "type": "null"
+                    "type": "primitive",
+                    "name": "null"
                   }
                 },
                 {
                   "name": "Mandatory",
                   "value": {
-                    "type": "null"
+                    "type": "primitive",
+                    "name": "null"
                   }
                 }
               ]
@@ -318,13 +351,15 @@
                 {
                   "name": "Yes",
                   "value": {
-                    "type": "null"
+                    "type": "primitive",
+                    "name": "null"
                   }
                 },
                 {
                   "name": "No",
                   "value": {
-                    "type": "null"
+                    "type": "primitive",
+                    "name": "null"
                   }
                 }
               ]
@@ -334,7 +369,8 @@
       }
     },
     "CodeUpdated": {
-      "type": "null"
+      "type": "primitive",
+      "name": "null"
     },
     "NewAccount": {
       "type": "struct",
@@ -379,19 +415,22 @@
             {
               "name": "Eth",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Flip",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Usdc",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             }
           ]
@@ -412,19 +451,22 @@
             {
               "name": "Eth",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Flip",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Usdc",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             }
           ]
@@ -467,13 +509,15 @@
             {
               "name": "CodeRed",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "CodeGreen",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
@@ -588,13 +632,15 @@
                       {
                         "name": "CodeGreen",
                         "value": {
-                          "type": "null"
+                          "type": "primitive",
+                          "name": "null"
                         }
                       },
                       {
                         "name": "CodeRed",
                         "value": {
-                          "type": "null"
+                          "type": "primitive",
+                          "name": "null"
                         }
                       },
                       {
@@ -720,7 +766,8 @@
             {
               "name": "External",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
@@ -760,7 +807,8 @@
             {
               "name": "Emissions",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             }
           ]
@@ -1016,25 +1064,29 @@
             {
               "name": "None",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Validator",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "LiquidityProvider",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Broker",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             }
           ]
@@ -1080,19 +1132,22 @@
             {
               "name": "Other",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "CannotLookup",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "BadOrigin",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
@@ -1118,19 +1173,22 @@
             {
               "name": "ConsumerRemaining",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "NoProviders",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "TooManyConsumers",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
@@ -1142,61 +1200,71 @@
                   {
                     "name": "FundsUnavailable",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   },
                   {
                     "name": "OnlyProvider",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   },
                   {
                     "name": "BelowMinimum",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   },
                   {
                     "name": "CannotCreate",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   },
                   {
                     "name": "UnknownAsset",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   },
                   {
                     "name": "Frozen",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   },
                   {
                     "name": "Unsupported",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   },
                   {
                     "name": "CannotCreateHold",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   },
                   {
                     "name": "NotExpendable",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   },
                   {
                     "name": "Blocked",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   }
                 ]
@@ -1211,19 +1279,22 @@
                   {
                     "name": "Underflow",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   },
                   {
                     "name": "Overflow",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   },
                   {
                     "name": "DivisionByZero",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   }
                 ]
@@ -1238,13 +1309,15 @@
                   {
                     "name": "LimitReached",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   },
                   {
                     "name": "NoLayer",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   }
                 ]
@@ -1253,25 +1326,29 @@
             {
               "name": "Exhausted",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Corruption",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Unavailable",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "RootNotAllowed",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             }
           ]
@@ -1281,7 +1358,8 @@
   },
   "Validator": {
     "RotationAborted": {
-      "type": "null"
+      "type": "primitive",
+      "name": "null"
     },
     "NewEpoch": {
       "type": "primitive",
@@ -1297,7 +1375,8 @@
             {
               "name": "Idle",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
@@ -1775,10 +1854,12 @@
       }
     },
     "Paused": {
-      "type": "null"
+      "type": "primitive",
+      "name": "null"
     },
     "Resumed": {
-      "type": "null"
+      "type": "primitive",
+      "name": "null"
     }
   },
   "Governance": {
@@ -1805,19 +1886,22 @@
         {
           "name": "Other",
           "value": {
-            "type": "null"
+            "type": "primitive",
+            "name": "null"
           }
         },
         {
           "name": "CannotLookup",
           "value": {
-            "type": "null"
+            "type": "primitive",
+            "name": "null"
           }
         },
         {
           "name": "BadOrigin",
           "value": {
-            "type": "null"
+            "type": "primitive",
+            "name": "null"
           }
         },
         {
@@ -1843,19 +1927,22 @@
         {
           "name": "ConsumerRemaining",
           "value": {
-            "type": "null"
+            "type": "primitive",
+            "name": "null"
           }
         },
         {
           "name": "NoProviders",
           "value": {
-            "type": "null"
+            "type": "primitive",
+            "name": "null"
           }
         },
         {
           "name": "TooManyConsumers",
           "value": {
-            "type": "null"
+            "type": "primitive",
+            "name": "null"
           }
         },
         {
@@ -1867,61 +1954,71 @@
               {
                 "name": "FundsUnavailable",
                 "value": {
-                  "type": "null"
+                  "type": "primitive",
+                  "name": "null"
                 }
               },
               {
                 "name": "OnlyProvider",
                 "value": {
-                  "type": "null"
+                  "type": "primitive",
+                  "name": "null"
                 }
               },
               {
                 "name": "BelowMinimum",
                 "value": {
-                  "type": "null"
+                  "type": "primitive",
+                  "name": "null"
                 }
               },
               {
                 "name": "CannotCreate",
                 "value": {
-                  "type": "null"
+                  "type": "primitive",
+                  "name": "null"
                 }
               },
               {
                 "name": "UnknownAsset",
                 "value": {
-                  "type": "null"
+                  "type": "primitive",
+                  "name": "null"
                 }
               },
               {
                 "name": "Frozen",
                 "value": {
-                  "type": "null"
+                  "type": "primitive",
+                  "name": "null"
                 }
               },
               {
                 "name": "Unsupported",
                 "value": {
-                  "type": "null"
+                  "type": "primitive",
+                  "name": "null"
                 }
               },
               {
                 "name": "CannotCreateHold",
                 "value": {
-                  "type": "null"
+                  "type": "primitive",
+                  "name": "null"
                 }
               },
               {
                 "name": "NotExpendable",
                 "value": {
-                  "type": "null"
+                  "type": "primitive",
+                  "name": "null"
                 }
               },
               {
                 "name": "Blocked",
                 "value": {
-                  "type": "null"
+                  "type": "primitive",
+                  "name": "null"
                 }
               }
             ]
@@ -1936,19 +2033,22 @@
               {
                 "name": "Underflow",
                 "value": {
-                  "type": "null"
+                  "type": "primitive",
+                  "name": "null"
                 }
               },
               {
                 "name": "Overflow",
                 "value": {
-                  "type": "null"
+                  "type": "primitive",
+                  "name": "null"
                 }
               },
               {
                 "name": "DivisionByZero",
                 "value": {
-                  "type": "null"
+                  "type": "primitive",
+                  "name": "null"
                 }
               }
             ]
@@ -1963,13 +2063,15 @@
               {
                 "name": "LimitReached",
                 "value": {
-                  "type": "null"
+                  "type": "primitive",
+                  "name": "null"
                 }
               },
               {
                 "name": "NoLayer",
                 "value": {
-                  "type": "null"
+                  "type": "primitive",
+                  "name": "null"
                 }
               }
             ]
@@ -1978,25 +2080,29 @@
         {
           "name": "Exhausted",
           "value": {
-            "type": "null"
+            "type": "primitive",
+            "name": "null"
           }
         },
         {
           "name": "Corruption",
           "value": {
-            "type": "null"
+            "type": "primitive",
+            "name": "null"
           }
         },
         {
           "name": "Unavailable",
           "value": {
-            "type": "null"
+            "type": "primitive",
+            "name": "null"
           }
         },
         {
           "name": "RootNotAllowed",
           "value": {
-            "type": "null"
+            "type": "primitive",
+            "name": "null"
           }
         }
       ]
@@ -2006,7 +2112,8 @@
       "name": "u32"
     },
     "UpgradeConditionsSatisfied": {
-      "type": "null"
+      "type": "primitive",
+      "name": "null"
     },
     "GovKeyCallExecuted": {
       "type": "struct",
@@ -2052,19 +2159,22 @@
             {
               "name": "Other",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "CannotLookup",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "BadOrigin",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
@@ -2090,19 +2200,22 @@
             {
               "name": "ConsumerRemaining",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "NoProviders",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "TooManyConsumers",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
@@ -2114,61 +2227,71 @@
                   {
                     "name": "FundsUnavailable",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   },
                   {
                     "name": "OnlyProvider",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   },
                   {
                     "name": "BelowMinimum",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   },
                   {
                     "name": "CannotCreate",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   },
                   {
                     "name": "UnknownAsset",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   },
                   {
                     "name": "Frozen",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   },
                   {
                     "name": "Unsupported",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   },
                   {
                     "name": "CannotCreateHold",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   },
                   {
                     "name": "NotExpendable",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   },
                   {
                     "name": "Blocked",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   }
                 ]
@@ -2183,19 +2306,22 @@
                   {
                     "name": "Underflow",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   },
                   {
                     "name": "Overflow",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   },
                   {
                     "name": "DivisionByZero",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   }
                 ]
@@ -2210,13 +2336,15 @@
                   {
                     "name": "LimitReached",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   },
                   {
                     "name": "NoLayer",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   }
                 ]
@@ -2225,25 +2353,29 @@
             {
               "name": "Exhausted",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Corruption",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Unavailable",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "RootNotAllowed",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             }
           ]
@@ -2271,25 +2403,29 @@
                       {
                         "name": "__Unused0",
                         "value": {
-                          "type": "null"
+                          "type": "primitive",
+                          "name": "null"
                         }
                       },
                       {
                         "name": "Ethereum",
                         "value": {
-                          "type": "null"
+                          "type": "primitive",
+                          "name": "null"
                         }
                       },
                       {
                         "name": "Polkadot",
                         "value": {
-                          "type": "null"
+                          "type": "primitive",
+                          "name": "null"
                         }
                       },
                       {
                         "name": "Bitcoin",
                         "value": {
-                          "type": "null"
+                          "type": "primitive",
+                          "name": "null"
                         }
                       }
                     ]
@@ -2331,25 +2467,29 @@
                       {
                         "name": "__Unused0",
                         "value": {
-                          "type": "null"
+                          "type": "primitive",
+                          "name": "null"
                         }
                       },
                       {
                         "name": "Ethereum",
                         "value": {
-                          "type": "null"
+                          "type": "primitive",
+                          "name": "null"
                         }
                       },
                       {
                         "name": "Polkadot",
                         "value": {
-                          "type": "null"
+                          "type": "primitive",
+                          "name": "null"
                         }
                       },
                       {
                         "name": "Bitcoin",
                         "value": {
-                          "type": "null"
+                          "type": "primitive",
+                          "name": "null"
                         }
                       }
                     ]
@@ -2391,25 +2531,29 @@
                       {
                         "name": "__Unused0",
                         "value": {
-                          "type": "null"
+                          "type": "primitive",
+                          "name": "null"
                         }
                       },
                       {
                         "name": "Ethereum",
                         "value": {
-                          "type": "null"
+                          "type": "primitive",
+                          "name": "null"
                         }
                       },
                       {
                         "name": "Polkadot",
                         "value": {
-                          "type": "null"
+                          "type": "primitive",
+                          "name": "null"
                         }
                       },
                       {
                         "name": "Bitcoin",
                         "value": {
-                          "type": "null"
+                          "type": "primitive",
+                          "name": "null"
                         }
                       }
                     ]
@@ -2451,25 +2595,29 @@
                       {
                         "name": "__Unused0",
                         "value": {
-                          "type": "null"
+                          "type": "primitive",
+                          "name": "null"
                         }
                       },
                       {
                         "name": "Ethereum",
                         "value": {
-                          "type": "null"
+                          "type": "primitive",
+                          "name": "null"
                         }
                       },
                       {
                         "name": "Polkadot",
                         "value": {
-                          "type": "null"
+                          "type": "primitive",
+                          "name": "null"
                         }
                       },
                       {
                         "name": "Bitcoin",
                         "value": {
-                          "type": "null"
+                          "type": "primitive",
+                          "name": "null"
                         }
                       }
                     ]
@@ -2502,25 +2650,29 @@
             {
               "name": "__Unused0",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Ethereum",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Polkadot",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Bitcoin",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             }
           ]
@@ -2541,25 +2693,29 @@
             {
               "name": "__Unused0",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Ethereum",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Polkadot",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Bitcoin",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             }
           ]
@@ -2586,43 +2742,50 @@
             {
               "name": "ParticipateSigningFailed",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "ParticipateKeygenFailed",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "FailedToBroadcastTransaction",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "MissedAuthorshipSlot",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "MissedHeartbeat",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "GrandpaEquivocation",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "ParticipateKeyHandoverFailed",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             }
           ]
@@ -2665,43 +2828,50 @@
             {
               "name": "ParticipateSigningFailed",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "ParticipateKeygenFailed",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "FailedToBroadcastTransaction",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "MissedAuthorshipSlot",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "MissedHeartbeat",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "GrandpaEquivocation",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "ParticipateKeyHandoverFailed",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             }
           ]
@@ -2890,13 +3060,15 @@
                 {
                   "name": "Odd",
                   "value": {
-                    "type": "null"
+                    "type": "primitive",
+                    "name": "null"
                   }
                 },
                 {
                   "name": "Even",
                   "value": {
-                    "type": "null"
+                    "type": "primitive",
+                    "name": "null"
                   }
                 }
               ]
@@ -2935,13 +3107,15 @@
                 {
                   "name": "Odd",
                   "value": {
-                    "type": "null"
+                    "type": "primitive",
+                    "name": "null"
                   }
                 },
                 {
                   "name": "Even",
                   "value": {
-                    "type": "null"
+                    "type": "primitive",
+                    "name": "null"
                   }
                 }
               ]
@@ -2955,7 +3129,8 @@
       }
     },
     "VaultRotationCompleted": {
-      "type": "null"
+      "type": "primitive",
+      "name": "null"
     },
     "VaultRotatedExternally": {
       "type": "struct",
@@ -2975,13 +3150,15 @@
             {
               "name": "Odd",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Even",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             }
           ]
@@ -3018,7 +3195,8 @@
       }
     },
     "NoKeyHandover": {
-      "type": "null"
+      "type": "primitive",
+      "name": "null"
     },
     "KeygenVerificationSuccess": {
       "type": "struct",
@@ -3041,13 +3219,15 @@
                 {
                   "name": "Odd",
                   "value": {
-                    "type": "null"
+                    "type": "primitive",
+                    "name": "null"
                   }
                 },
                 {
                   "name": "Even",
                   "value": {
-                    "type": "null"
+                    "type": "primitive",
+                    "name": "null"
                   }
                 }
               ]
@@ -3077,13 +3257,15 @@
                 {
                   "name": "Odd",
                   "value": {
-                    "type": "null"
+                    "type": "primitive",
+                    "name": "null"
                   }
                 },
                 {
                   "name": "Even",
                   "value": {
-                    "type": "null"
+                    "type": "primitive",
+                    "name": "null"
                   }
                 }
               ]
@@ -3157,13 +3339,15 @@
                 {
                   "name": "Odd",
                   "value": {
-                    "type": "null"
+                    "type": "primitive",
+                    "name": "null"
                   }
                 },
                 {
                   "name": "Even",
                   "value": {
-                    "type": "null"
+                    "type": "primitive",
+                    "name": "null"
                   }
                 }
               ]
@@ -3182,7 +3366,8 @@
       }
     },
     "VaultRotationAborted": {
-      "type": "null"
+      "type": "primitive",
+      "name": "null"
     }
   },
   "PolkadotVault": {
@@ -3254,7 +3439,8 @@
       }
     },
     "VaultRotationCompleted": {
-      "type": "null"
+      "type": "primitive",
+      "name": "null"
     },
     "VaultRotatedExternally": {
       "type": "array",
@@ -3294,7 +3480,8 @@
       }
     },
     "NoKeyHandover": {
-      "type": "null"
+      "type": "primitive",
+      "name": "null"
     },
     "KeygenVerificationSuccess": {
       "type": "struct",
@@ -3389,7 +3576,8 @@
       }
     },
     "VaultRotationAborted": {
-      "type": "null"
+      "type": "primitive",
+      "name": "null"
     }
   },
   "BitcoinVault": {
@@ -3493,7 +3681,8 @@
       }
     },
     "VaultRotationCompleted": {
-      "type": "null"
+      "type": "primitive",
+      "name": "null"
     },
     "VaultRotatedExternally": {
       "type": "struct",
@@ -3549,7 +3738,8 @@
       }
     },
     "NoKeyHandover": {
-      "type": "null"
+      "type": "primitive",
+      "name": "null"
     },
     "KeygenVerificationSuccess": {
       "type": "struct",
@@ -3692,7 +3882,8 @@
       }
     },
     "VaultRotationAborted": {
-      "type": "null"
+      "type": "primitive",
+      "name": "null"
     }
   },
   "EthereumThresholdSigner": {
@@ -3729,13 +3920,15 @@
                 {
                   "name": "Odd",
                   "value": {
-                    "type": "null"
+                    "type": "primitive",
+                    "name": "null"
                   }
                 },
                 {
                   "name": "Even",
                   "value": {
-                    "type": "null"
+                    "type": "primitive",
+                    "name": "null"
                   }
                 }
               ]
@@ -3806,7 +3999,8 @@
             {
               "name": "Ok",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
@@ -3818,19 +4012,22 @@
                   {
                     "name": "Other",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   },
                   {
                     "name": "CannotLookup",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   },
                   {
                     "name": "BadOrigin",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   },
                   {
@@ -3856,19 +4053,22 @@
                   {
                     "name": "ConsumerRemaining",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   },
                   {
                     "name": "NoProviders",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   },
                   {
                     "name": "TooManyConsumers",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   },
                   {
@@ -3880,61 +4080,71 @@
                         {
                           "name": "FundsUnavailable",
                           "value": {
-                            "type": "null"
+                            "type": "primitive",
+                            "name": "null"
                           }
                         },
                         {
                           "name": "OnlyProvider",
                           "value": {
-                            "type": "null"
+                            "type": "primitive",
+                            "name": "null"
                           }
                         },
                         {
                           "name": "BelowMinimum",
                           "value": {
-                            "type": "null"
+                            "type": "primitive",
+                            "name": "null"
                           }
                         },
                         {
                           "name": "CannotCreate",
                           "value": {
-                            "type": "null"
+                            "type": "primitive",
+                            "name": "null"
                           }
                         },
                         {
                           "name": "UnknownAsset",
                           "value": {
-                            "type": "null"
+                            "type": "primitive",
+                            "name": "null"
                           }
                         },
                         {
                           "name": "Frozen",
                           "value": {
-                            "type": "null"
+                            "type": "primitive",
+                            "name": "null"
                           }
                         },
                         {
                           "name": "Unsupported",
                           "value": {
-                            "type": "null"
+                            "type": "primitive",
+                            "name": "null"
                           }
                         },
                         {
                           "name": "CannotCreateHold",
                           "value": {
-                            "type": "null"
+                            "type": "primitive",
+                            "name": "null"
                           }
                         },
                         {
                           "name": "NotExpendable",
                           "value": {
-                            "type": "null"
+                            "type": "primitive",
+                            "name": "null"
                           }
                         },
                         {
                           "name": "Blocked",
                           "value": {
-                            "type": "null"
+                            "type": "primitive",
+                            "name": "null"
                           }
                         }
                       ]
@@ -3949,19 +4159,22 @@
                         {
                           "name": "Underflow",
                           "value": {
-                            "type": "null"
+                            "type": "primitive",
+                            "name": "null"
                           }
                         },
                         {
                           "name": "Overflow",
                           "value": {
-                            "type": "null"
+                            "type": "primitive",
+                            "name": "null"
                           }
                         },
                         {
                           "name": "DivisionByZero",
                           "value": {
-                            "type": "null"
+                            "type": "primitive",
+                            "name": "null"
                           }
                         }
                       ]
@@ -3976,13 +4189,15 @@
                         {
                           "name": "LimitReached",
                           "value": {
-                            "type": "null"
+                            "type": "primitive",
+                            "name": "null"
                           }
                         },
                         {
                           "name": "NoLayer",
                           "value": {
-                            "type": "null"
+                            "type": "primitive",
+                            "name": "null"
                           }
                         }
                       ]
@@ -3991,25 +4206,29 @@
                   {
                     "name": "Exhausted",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   },
                   {
                     "name": "Corruption",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   },
                   {
                     "name": "Unavailable",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   },
                   {
                     "name": "RootNotAllowed",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   }
                 ]
@@ -4173,7 +4392,8 @@
             {
               "name": "Ok",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
@@ -4185,19 +4405,22 @@
                   {
                     "name": "Other",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   },
                   {
                     "name": "CannotLookup",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   },
                   {
                     "name": "BadOrigin",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   },
                   {
@@ -4223,19 +4446,22 @@
                   {
                     "name": "ConsumerRemaining",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   },
                   {
                     "name": "NoProviders",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   },
                   {
                     "name": "TooManyConsumers",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   },
                   {
@@ -4247,61 +4473,71 @@
                         {
                           "name": "FundsUnavailable",
                           "value": {
-                            "type": "null"
+                            "type": "primitive",
+                            "name": "null"
                           }
                         },
                         {
                           "name": "OnlyProvider",
                           "value": {
-                            "type": "null"
+                            "type": "primitive",
+                            "name": "null"
                           }
                         },
                         {
                           "name": "BelowMinimum",
                           "value": {
-                            "type": "null"
+                            "type": "primitive",
+                            "name": "null"
                           }
                         },
                         {
                           "name": "CannotCreate",
                           "value": {
-                            "type": "null"
+                            "type": "primitive",
+                            "name": "null"
                           }
                         },
                         {
                           "name": "UnknownAsset",
                           "value": {
-                            "type": "null"
+                            "type": "primitive",
+                            "name": "null"
                           }
                         },
                         {
                           "name": "Frozen",
                           "value": {
-                            "type": "null"
+                            "type": "primitive",
+                            "name": "null"
                           }
                         },
                         {
                           "name": "Unsupported",
                           "value": {
-                            "type": "null"
+                            "type": "primitive",
+                            "name": "null"
                           }
                         },
                         {
                           "name": "CannotCreateHold",
                           "value": {
-                            "type": "null"
+                            "type": "primitive",
+                            "name": "null"
                           }
                         },
                         {
                           "name": "NotExpendable",
                           "value": {
-                            "type": "null"
+                            "type": "primitive",
+                            "name": "null"
                           }
                         },
                         {
                           "name": "Blocked",
                           "value": {
-                            "type": "null"
+                            "type": "primitive",
+                            "name": "null"
                           }
                         }
                       ]
@@ -4316,19 +4552,22 @@
                         {
                           "name": "Underflow",
                           "value": {
-                            "type": "null"
+                            "type": "primitive",
+                            "name": "null"
                           }
                         },
                         {
                           "name": "Overflow",
                           "value": {
-                            "type": "null"
+                            "type": "primitive",
+                            "name": "null"
                           }
                         },
                         {
                           "name": "DivisionByZero",
                           "value": {
-                            "type": "null"
+                            "type": "primitive",
+                            "name": "null"
                           }
                         }
                       ]
@@ -4343,13 +4582,15 @@
                         {
                           "name": "LimitReached",
                           "value": {
-                            "type": "null"
+                            "type": "primitive",
+                            "name": "null"
                           }
                         },
                         {
                           "name": "NoLayer",
                           "value": {
-                            "type": "null"
+                            "type": "primitive",
+                            "name": "null"
                           }
                         }
                       ]
@@ -4358,25 +4599,29 @@
                   {
                     "name": "Exhausted",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   },
                   {
                     "name": "Corruption",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   },
                   {
                     "name": "Unavailable",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   },
                   {
                     "name": "RootNotAllowed",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   }
                 ]
@@ -4511,13 +4756,15 @@
                   {
                     "name": "Previous",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   },
                   {
                     "name": "Current",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   }
                 ]
@@ -4586,7 +4833,8 @@
             {
               "name": "Ok",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
@@ -4598,19 +4846,22 @@
                   {
                     "name": "Other",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   },
                   {
                     "name": "CannotLookup",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   },
                   {
                     "name": "BadOrigin",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   },
                   {
@@ -4636,19 +4887,22 @@
                   {
                     "name": "ConsumerRemaining",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   },
                   {
                     "name": "NoProviders",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   },
                   {
                     "name": "TooManyConsumers",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   },
                   {
@@ -4660,61 +4914,71 @@
                         {
                           "name": "FundsUnavailable",
                           "value": {
-                            "type": "null"
+                            "type": "primitive",
+                            "name": "null"
                           }
                         },
                         {
                           "name": "OnlyProvider",
                           "value": {
-                            "type": "null"
+                            "type": "primitive",
+                            "name": "null"
                           }
                         },
                         {
                           "name": "BelowMinimum",
                           "value": {
-                            "type": "null"
+                            "type": "primitive",
+                            "name": "null"
                           }
                         },
                         {
                           "name": "CannotCreate",
                           "value": {
-                            "type": "null"
+                            "type": "primitive",
+                            "name": "null"
                           }
                         },
                         {
                           "name": "UnknownAsset",
                           "value": {
-                            "type": "null"
+                            "type": "primitive",
+                            "name": "null"
                           }
                         },
                         {
                           "name": "Frozen",
                           "value": {
-                            "type": "null"
+                            "type": "primitive",
+                            "name": "null"
                           }
                         },
                         {
                           "name": "Unsupported",
                           "value": {
-                            "type": "null"
+                            "type": "primitive",
+                            "name": "null"
                           }
                         },
                         {
                           "name": "CannotCreateHold",
                           "value": {
-                            "type": "null"
+                            "type": "primitive",
+                            "name": "null"
                           }
                         },
                         {
                           "name": "NotExpendable",
                           "value": {
-                            "type": "null"
+                            "type": "primitive",
+                            "name": "null"
                           }
                         },
                         {
                           "name": "Blocked",
                           "value": {
-                            "type": "null"
+                            "type": "primitive",
+                            "name": "null"
                           }
                         }
                       ]
@@ -4729,19 +4993,22 @@
                         {
                           "name": "Underflow",
                           "value": {
-                            "type": "null"
+                            "type": "primitive",
+                            "name": "null"
                           }
                         },
                         {
                           "name": "Overflow",
                           "value": {
-                            "type": "null"
+                            "type": "primitive",
+                            "name": "null"
                           }
                         },
                         {
                           "name": "DivisionByZero",
                           "value": {
-                            "type": "null"
+                            "type": "primitive",
+                            "name": "null"
                           }
                         }
                       ]
@@ -4756,13 +5023,15 @@
                         {
                           "name": "LimitReached",
                           "value": {
-                            "type": "null"
+                            "type": "primitive",
+                            "name": "null"
                           }
                         },
                         {
                           "name": "NoLayer",
                           "value": {
-                            "type": "null"
+                            "type": "primitive",
+                            "name": "null"
                           }
                         }
                       ]
@@ -4771,25 +5040,29 @@
                   {
                     "name": "Exhausted",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   },
                   {
                     "name": "Corruption",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   },
                   {
                     "name": "Unavailable",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   },
                   {
                     "name": "RootNotAllowed",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   }
                 ]
@@ -5049,7 +5322,8 @@
             {
               "name": "Ok",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
@@ -5061,19 +5335,22 @@
                   {
                     "name": "Other",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   },
                   {
                     "name": "CannotLookup",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   },
                   {
                     "name": "BadOrigin",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   },
                   {
@@ -5099,19 +5376,22 @@
                   {
                     "name": "ConsumerRemaining",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   },
                   {
                     "name": "NoProviders",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   },
                   {
                     "name": "TooManyConsumers",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   },
                   {
@@ -5123,61 +5403,71 @@
                         {
                           "name": "FundsUnavailable",
                           "value": {
-                            "type": "null"
+                            "type": "primitive",
+                            "name": "null"
                           }
                         },
                         {
                           "name": "OnlyProvider",
                           "value": {
-                            "type": "null"
+                            "type": "primitive",
+                            "name": "null"
                           }
                         },
                         {
                           "name": "BelowMinimum",
                           "value": {
-                            "type": "null"
+                            "type": "primitive",
+                            "name": "null"
                           }
                         },
                         {
                           "name": "CannotCreate",
                           "value": {
-                            "type": "null"
+                            "type": "primitive",
+                            "name": "null"
                           }
                         },
                         {
                           "name": "UnknownAsset",
                           "value": {
-                            "type": "null"
+                            "type": "primitive",
+                            "name": "null"
                           }
                         },
                         {
                           "name": "Frozen",
                           "value": {
-                            "type": "null"
+                            "type": "primitive",
+                            "name": "null"
                           }
                         },
                         {
                           "name": "Unsupported",
                           "value": {
-                            "type": "null"
+                            "type": "primitive",
+                            "name": "null"
                           }
                         },
                         {
                           "name": "CannotCreateHold",
                           "value": {
-                            "type": "null"
+                            "type": "primitive",
+                            "name": "null"
                           }
                         },
                         {
                           "name": "NotExpendable",
                           "value": {
-                            "type": "null"
+                            "type": "primitive",
+                            "name": "null"
                           }
                         },
                         {
                           "name": "Blocked",
                           "value": {
-                            "type": "null"
+                            "type": "primitive",
+                            "name": "null"
                           }
                         }
                       ]
@@ -5192,19 +5482,22 @@
                         {
                           "name": "Underflow",
                           "value": {
-                            "type": "null"
+                            "type": "primitive",
+                            "name": "null"
                           }
                         },
                         {
                           "name": "Overflow",
                           "value": {
-                            "type": "null"
+                            "type": "primitive",
+                            "name": "null"
                           }
                         },
                         {
                           "name": "DivisionByZero",
                           "value": {
-                            "type": "null"
+                            "type": "primitive",
+                            "name": "null"
                           }
                         }
                       ]
@@ -5219,13 +5512,15 @@
                         {
                           "name": "LimitReached",
                           "value": {
-                            "type": "null"
+                            "type": "primitive",
+                            "name": "null"
                           }
                         },
                         {
                           "name": "NoLayer",
                           "value": {
-                            "type": "null"
+                            "type": "primitive",
+                            "name": "null"
                           }
                         }
                       ]
@@ -5234,25 +5529,29 @@
                   {
                     "name": "Exhausted",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   },
                   {
                     "name": "Corruption",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   },
                   {
                     "name": "Unavailable",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   },
                   {
                     "name": "RootNotAllowed",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   }
                 ]
@@ -5388,7 +5687,8 @@
             {
               "name": "Ok",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
@@ -5400,19 +5700,22 @@
                   {
                     "name": "Other",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   },
                   {
                     "name": "CannotLookup",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   },
                   {
                     "name": "BadOrigin",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   },
                   {
@@ -5438,19 +5741,22 @@
                   {
                     "name": "ConsumerRemaining",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   },
                   {
                     "name": "NoProviders",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   },
                   {
                     "name": "TooManyConsumers",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   },
                   {
@@ -5462,61 +5768,71 @@
                         {
                           "name": "FundsUnavailable",
                           "value": {
-                            "type": "null"
+                            "type": "primitive",
+                            "name": "null"
                           }
                         },
                         {
                           "name": "OnlyProvider",
                           "value": {
-                            "type": "null"
+                            "type": "primitive",
+                            "name": "null"
                           }
                         },
                         {
                           "name": "BelowMinimum",
                           "value": {
-                            "type": "null"
+                            "type": "primitive",
+                            "name": "null"
                           }
                         },
                         {
                           "name": "CannotCreate",
                           "value": {
-                            "type": "null"
+                            "type": "primitive",
+                            "name": "null"
                           }
                         },
                         {
                           "name": "UnknownAsset",
                           "value": {
-                            "type": "null"
+                            "type": "primitive",
+                            "name": "null"
                           }
                         },
                         {
                           "name": "Frozen",
                           "value": {
-                            "type": "null"
+                            "type": "primitive",
+                            "name": "null"
                           }
                         },
                         {
                           "name": "Unsupported",
                           "value": {
-                            "type": "null"
+                            "type": "primitive",
+                            "name": "null"
                           }
                         },
                         {
                           "name": "CannotCreateHold",
                           "value": {
-                            "type": "null"
+                            "type": "primitive",
+                            "name": "null"
                           }
                         },
                         {
                           "name": "NotExpendable",
                           "value": {
-                            "type": "null"
+                            "type": "primitive",
+                            "name": "null"
                           }
                         },
                         {
                           "name": "Blocked",
                           "value": {
-                            "type": "null"
+                            "type": "primitive",
+                            "name": "null"
                           }
                         }
                       ]
@@ -5531,19 +5847,22 @@
                         {
                           "name": "Underflow",
                           "value": {
-                            "type": "null"
+                            "type": "primitive",
+                            "name": "null"
                           }
                         },
                         {
                           "name": "Overflow",
                           "value": {
-                            "type": "null"
+                            "type": "primitive",
+                            "name": "null"
                           }
                         },
                         {
                           "name": "DivisionByZero",
                           "value": {
-                            "type": "null"
+                            "type": "primitive",
+                            "name": "null"
                           }
                         }
                       ]
@@ -5558,13 +5877,15 @@
                         {
                           "name": "LimitReached",
                           "value": {
-                            "type": "null"
+                            "type": "primitive",
+                            "name": "null"
                           }
                         },
                         {
                           "name": "NoLayer",
                           "value": {
-                            "type": "null"
+                            "type": "primitive",
+                            "name": "null"
                           }
                         }
                       ]
@@ -5573,25 +5894,29 @@
                   {
                     "name": "Exhausted",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   },
                   {
                     "name": "Corruption",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   },
                   {
                     "name": "Unavailable",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   },
                   {
                     "name": "RootNotAllowed",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   }
                 ]
@@ -5727,7 +6052,8 @@
             {
               "name": "Ok",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
@@ -5739,19 +6065,22 @@
                   {
                     "name": "Other",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   },
                   {
                     "name": "CannotLookup",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   },
                   {
                     "name": "BadOrigin",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   },
                   {
@@ -5777,19 +6106,22 @@
                   {
                     "name": "ConsumerRemaining",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   },
                   {
                     "name": "NoProviders",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   },
                   {
                     "name": "TooManyConsumers",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   },
                   {
@@ -5801,61 +6133,71 @@
                         {
                           "name": "FundsUnavailable",
                           "value": {
-                            "type": "null"
+                            "type": "primitive",
+                            "name": "null"
                           }
                         },
                         {
                           "name": "OnlyProvider",
                           "value": {
-                            "type": "null"
+                            "type": "primitive",
+                            "name": "null"
                           }
                         },
                         {
                           "name": "BelowMinimum",
                           "value": {
-                            "type": "null"
+                            "type": "primitive",
+                            "name": "null"
                           }
                         },
                         {
                           "name": "CannotCreate",
                           "value": {
-                            "type": "null"
+                            "type": "primitive",
+                            "name": "null"
                           }
                         },
                         {
                           "name": "UnknownAsset",
                           "value": {
-                            "type": "null"
+                            "type": "primitive",
+                            "name": "null"
                           }
                         },
                         {
                           "name": "Frozen",
                           "value": {
-                            "type": "null"
+                            "type": "primitive",
+                            "name": "null"
                           }
                         },
                         {
                           "name": "Unsupported",
                           "value": {
-                            "type": "null"
+                            "type": "primitive",
+                            "name": "null"
                           }
                         },
                         {
                           "name": "CannotCreateHold",
                           "value": {
-                            "type": "null"
+                            "type": "primitive",
+                            "name": "null"
                           }
                         },
                         {
                           "name": "NotExpendable",
                           "value": {
-                            "type": "null"
+                            "type": "primitive",
+                            "name": "null"
                           }
                         },
                         {
                           "name": "Blocked",
                           "value": {
-                            "type": "null"
+                            "type": "primitive",
+                            "name": "null"
                           }
                         }
                       ]
@@ -5870,19 +6212,22 @@
                         {
                           "name": "Underflow",
                           "value": {
-                            "type": "null"
+                            "type": "primitive",
+                            "name": "null"
                           }
                         },
                         {
                           "name": "Overflow",
                           "value": {
-                            "type": "null"
+                            "type": "primitive",
+                            "name": "null"
                           }
                         },
                         {
                           "name": "DivisionByZero",
                           "value": {
-                            "type": "null"
+                            "type": "primitive",
+                            "name": "null"
                           }
                         }
                       ]
@@ -5897,13 +6242,15 @@
                         {
                           "name": "LimitReached",
                           "value": {
-                            "type": "null"
+                            "type": "primitive",
+                            "name": "null"
                           }
                         },
                         {
                           "name": "NoLayer",
                           "value": {
-                            "type": "null"
+                            "type": "primitive",
+                            "name": "null"
                           }
                         }
                       ]
@@ -5912,25 +6259,29 @@
                   {
                     "name": "Exhausted",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   },
                   {
                     "name": "Corruption",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   },
                   {
                     "name": "Unavailable",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   },
                   {
                     "name": "RootNotAllowed",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   }
                 ]
@@ -6026,37 +6377,43 @@
             {
               "name": "__Unused0",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Eth",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Flip",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Usdc",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Dot",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Btc",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             }
           ]
@@ -6068,37 +6425,43 @@
             {
               "name": "__Unused0",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Eth",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Flip",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Usdc",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Dot",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Btc",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             }
           ]
@@ -6147,37 +6510,43 @@
             {
               "name": "__Unused0",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Eth",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Flip",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Usdc",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Dot",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Btc",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             }
           ]
@@ -6193,37 +6562,43 @@
             {
               "name": "__Unused0",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Eth",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Flip",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Usdc",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Dot",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Btc",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             }
           ]
@@ -6486,37 +6861,43 @@
             {
               "name": "__Unused0",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Eth",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Flip",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Usdc",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Dot",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Btc",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             }
           ]
@@ -6532,37 +6913,43 @@
             {
               "name": "__Unused0",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Eth",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Flip",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Usdc",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Dot",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Btc",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             }
           ]
@@ -6597,25 +6984,29 @@
                 {
                   "name": "__Unused0",
                   "value": {
-                    "type": "null"
+                    "type": "primitive",
+                    "name": "null"
                   }
                 },
                 {
                   "name": "Ethereum",
                   "value": {
-                    "type": "null"
+                    "type": "primitive",
+                    "name": "null"
                   }
                 },
                 {
                   "name": "Polkadot",
                   "value": {
-                    "type": "null"
+                    "type": "primitive",
+                    "name": "null"
                   }
                 },
                 {
                   "name": "Bitcoin",
                   "value": {
-                    "type": "null"
+                    "type": "primitive",
+                    "name": "null"
                   }
                 }
               ]
@@ -6633,37 +7024,43 @@
             {
               "name": "__Unused0",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Eth",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Flip",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Usdc",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Dot",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Btc",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             }
           ]
@@ -6687,25 +7084,29 @@
                 {
                   "name": "__Unused0",
                   "value": {
-                    "type": "null"
+                    "type": "primitive",
+                    "name": "null"
                   }
                 },
                 {
                   "name": "Ethereum",
                   "value": {
-                    "type": "null"
+                    "type": "primitive",
+                    "name": "null"
                   }
                 },
                 {
                   "name": "Polkadot",
                   "value": {
-                    "type": "null"
+                    "type": "primitive",
+                    "name": "null"
                   }
                 },
                 {
                   "name": "Bitcoin",
                   "value": {
-                    "type": "null"
+                    "type": "primitive",
+                    "name": "null"
                   }
                 }
               ]
@@ -6767,37 +7168,43 @@
             {
               "name": "__Unused0",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Eth",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Flip",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Usdc",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Dot",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Btc",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             }
           ]
@@ -6809,13 +7216,15 @@
             {
               "name": "FromStable",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "ToStable",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             }
           ]
@@ -6843,25 +7252,29 @@
                 {
                   "name": "__Unused0",
                   "value": {
-                    "type": "null"
+                    "type": "primitive",
+                    "name": "null"
                   }
                 },
                 {
                   "name": "Ethereum",
                   "value": {
-                    "type": "null"
+                    "type": "primitive",
+                    "name": "null"
                   }
                 },
                 {
                   "name": "Polkadot",
                   "value": {
-                    "type": "null"
+                    "type": "primitive",
+                    "name": "null"
                   }
                 },
                 {
                   "name": "Bitcoin",
                   "value": {
-                    "type": "null"
+                    "type": "primitive",
+                    "name": "null"
                   }
                 }
               ]
@@ -6997,25 +7410,29 @@
                 {
                   "name": "__Unused0",
                   "value": {
-                    "type": "null"
+                    "type": "primitive",
+                    "name": "null"
                   }
                 },
                 {
                   "name": "Ethereum",
                   "value": {
-                    "type": "null"
+                    "type": "primitive",
+                    "name": "null"
                   }
                 },
                 {
                   "name": "Polkadot",
                   "value": {
-                    "type": "null"
+                    "type": "primitive",
+                    "name": "null"
                   }
                 },
                 {
                   "name": "Bitcoin",
                   "value": {
-                    "type": "null"
+                    "type": "primitive",
+                    "name": "null"
                   }
                 }
               ]
@@ -7158,37 +7575,43 @@
             {
               "name": "__Unused0",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Eth",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Flip",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Usdc",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Dot",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Btc",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             }
           ]
@@ -7209,37 +7632,43 @@
             {
               "name": "__Unused0",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Eth",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Flip",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Usdc",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Dot",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Btc",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             }
           ]
@@ -7368,19 +7797,22 @@
             {
               "name": "UnsupportedForTargetChain",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "InsufficientDepositAmount",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "PrincipalSwapAmountTooLow",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             }
           ]
@@ -7430,25 +7862,29 @@
                 {
                   "name": "__Unused0",
                   "value": {
-                    "type": "null"
+                    "type": "primitive",
+                    "name": "null"
                   }
                 },
                 {
                   "name": "Ethereum",
                   "value": {
-                    "type": "null"
+                    "type": "primitive",
+                    "name": "null"
                   }
                 },
                 {
                   "name": "Polkadot",
                   "value": {
-                    "type": "null"
+                    "type": "primitive",
+                    "name": "null"
                   }
                 },
                 {
                   "name": "Bitcoin",
                   "value": {
-                    "type": "null"
+                    "type": "primitive",
+                    "name": "null"
                   }
                 }
               ]
@@ -7597,37 +8033,43 @@
             {
               "name": "__Unused0",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Eth",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Flip",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Usdc",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Dot",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Btc",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             }
           ]
@@ -7652,37 +8094,43 @@
             {
               "name": "__Unused0",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Eth",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Flip",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Usdc",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Dot",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Btc",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             }
           ]
@@ -7707,37 +8155,43 @@
             {
               "name": "__Unused0",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Eth",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Flip",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Usdc",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Dot",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Btc",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             }
           ]
@@ -7840,25 +8294,29 @@
                 {
                   "name": "__Unused0",
                   "value": {
-                    "type": "null"
+                    "type": "primitive",
+                    "name": "null"
                   }
                 },
                 {
                   "name": "Ethereum",
                   "value": {
-                    "type": "null"
+                    "type": "primitive",
+                    "name": "null"
                   }
                 },
                 {
                   "name": "Polkadot",
                   "value": {
-                    "type": "null"
+                    "type": "primitive",
+                    "name": "null"
                   }
                 },
                 {
                   "name": "Bitcoin",
                   "value": {
-                    "type": "null"
+                    "type": "primitive",
+                    "name": "null"
                   }
                 }
               ]
@@ -7876,37 +8334,43 @@
             {
               "name": "__Unused0",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Eth",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Flip",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Usdc",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Dot",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Btc",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             }
           ]
@@ -7975,25 +8439,29 @@
             {
               "name": "__Unused0",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Ethereum",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Polkadot",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Bitcoin",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             }
           ]
@@ -8120,19 +8588,22 @@
             {
               "name": "Eth",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Flip",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Usdc",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             }
           ]
@@ -8142,7 +8613,8 @@
           "name": "u128"
         },
         "depositDetails": {
-          "type": "null"
+          "type": "primitive",
+          "name": "null"
         }
       }
     },
@@ -8156,19 +8628,22 @@
             {
               "name": "Eth",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Flip",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Usdc",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             }
           ]
@@ -8192,25 +8667,29 @@
                 {
                   "name": "__Unused0",
                   "value": {
-                    "type": "null"
+                    "type": "primitive",
+                    "name": "null"
                   }
                 },
                 {
                   "name": "Ethereum",
                   "value": {
-                    "type": "null"
+                    "type": "primitive",
+                    "name": "null"
                   }
                 },
                 {
                   "name": "Polkadot",
                   "value": {
-                    "type": "null"
+                    "type": "primitive",
+                    "name": "null"
                   }
                 },
                 {
                   "name": "Bitcoin",
                   "value": {
-                    "type": "null"
+                    "type": "primitive",
+                    "name": "null"
                   }
                 }
               ]
@@ -8228,19 +8707,22 @@
             {
               "name": "Eth",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Flip",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Usdc",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             }
           ]
@@ -8272,25 +8754,29 @@
                 {
                   "name": "__Unused0",
                   "value": {
-                    "type": "null"
+                    "type": "primitive",
+                    "name": "null"
                   }
                 },
                 {
                   "name": "Ethereum",
                   "value": {
-                    "type": "null"
+                    "type": "primitive",
+                    "name": "null"
                   }
                 },
                 {
                   "name": "Polkadot",
                   "value": {
-                    "type": "null"
+                    "type": "primitive",
+                    "name": "null"
                   }
                 },
                 {
                   "name": "Bitcoin",
                   "value": {
-                    "type": "null"
+                    "type": "primitive",
+                    "name": "null"
                   }
                 }
               ]
@@ -8316,25 +8802,29 @@
                 {
                   "name": "__Unused0",
                   "value": {
-                    "type": "null"
+                    "type": "primitive",
+                    "name": "null"
                   }
                 },
                 {
                   "name": "Ethereum",
                   "value": {
-                    "type": "null"
+                    "type": "primitive",
+                    "name": "null"
                   }
                 },
                 {
                   "name": "Polkadot",
                   "value": {
-                    "type": "null"
+                    "type": "primitive",
+                    "name": "null"
                   }
                 },
                 {
                   "name": "Bitcoin",
                   "value": {
-                    "type": "null"
+                    "type": "primitive",
+                    "name": "null"
                   }
                 }
               ]
@@ -8352,19 +8842,22 @@
             {
               "name": "Other",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "CannotLookup",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "BadOrigin",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
@@ -8390,19 +8883,22 @@
             {
               "name": "ConsumerRemaining",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "NoProviders",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "TooManyConsumers",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
@@ -8414,61 +8910,71 @@
                   {
                     "name": "FundsUnavailable",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   },
                   {
                     "name": "OnlyProvider",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   },
                   {
                     "name": "BelowMinimum",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   },
                   {
                     "name": "CannotCreate",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   },
                   {
                     "name": "UnknownAsset",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   },
                   {
                     "name": "Frozen",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   },
                   {
                     "name": "Unsupported",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   },
                   {
                     "name": "CannotCreateHold",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   },
                   {
                     "name": "NotExpendable",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   },
                   {
                     "name": "Blocked",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   }
                 ]
@@ -8483,19 +8989,22 @@
                   {
                     "name": "Underflow",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   },
                   {
                     "name": "Overflow",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   },
                   {
                     "name": "DivisionByZero",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   }
                 ]
@@ -8510,13 +9019,15 @@
                   {
                     "name": "LimitReached",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   },
                   {
                     "name": "NoLayer",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   }
                 ]
@@ -8525,25 +9036,29 @@
             {
               "name": "Exhausted",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Corruption",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Unavailable",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "RootNotAllowed",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             }
           ]
@@ -8564,19 +9079,22 @@
             {
               "name": "Eth",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Flip",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Usdc",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             }
           ]
@@ -8602,25 +9120,29 @@
                   {
                     "name": "__Unused0",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   },
                   {
                     "name": "Ethereum",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   },
                   {
                     "name": "Polkadot",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   },
                   {
                     "name": "Bitcoin",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   }
                 ]
@@ -8644,19 +9166,22 @@
             {
               "name": "Eth",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Flip",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Usdc",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             }
           ]
@@ -8681,19 +9206,22 @@
             {
               "name": "Eth",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Flip",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Usdc",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             }
           ]
@@ -8703,7 +9231,8 @@
           "name": "u128"
         },
         "depositDetails": {
-          "type": "null"
+          "type": "primitive",
+          "name": "null"
         }
       }
     },
@@ -8717,19 +9246,22 @@
             {
               "name": "Eth",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Flip",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Usdc",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             }
           ]
@@ -8764,7 +9296,8 @@
             {
               "name": "Dot",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             }
           ]
@@ -8774,7 +9307,8 @@
           "name": "u128"
         },
         "depositDetails": {
-          "type": "null"
+          "type": "primitive",
+          "name": "null"
         }
       }
     },
@@ -8788,7 +9322,8 @@
             {
               "name": "Dot",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             }
           ]
@@ -8812,25 +9347,29 @@
                 {
                   "name": "__Unused0",
                   "value": {
-                    "type": "null"
+                    "type": "primitive",
+                    "name": "null"
                   }
                 },
                 {
                   "name": "Ethereum",
                   "value": {
-                    "type": "null"
+                    "type": "primitive",
+                    "name": "null"
                   }
                 },
                 {
                   "name": "Polkadot",
                   "value": {
-                    "type": "null"
+                    "type": "primitive",
+                    "name": "null"
                   }
                 },
                 {
                   "name": "Bitcoin",
                   "value": {
-                    "type": "null"
+                    "type": "primitive",
+                    "name": "null"
                   }
                 }
               ]
@@ -8848,7 +9387,8 @@
             {
               "name": "Dot",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             }
           ]
@@ -8884,25 +9424,29 @@
                 {
                   "name": "__Unused0",
                   "value": {
-                    "type": "null"
+                    "type": "primitive",
+                    "name": "null"
                   }
                 },
                 {
                   "name": "Ethereum",
                   "value": {
-                    "type": "null"
+                    "type": "primitive",
+                    "name": "null"
                   }
                 },
                 {
                   "name": "Polkadot",
                   "value": {
-                    "type": "null"
+                    "type": "primitive",
+                    "name": "null"
                   }
                 },
                 {
                   "name": "Bitcoin",
                   "value": {
-                    "type": "null"
+                    "type": "primitive",
+                    "name": "null"
                   }
                 }
               ]
@@ -8928,25 +9472,29 @@
                 {
                   "name": "__Unused0",
                   "value": {
-                    "type": "null"
+                    "type": "primitive",
+                    "name": "null"
                   }
                 },
                 {
                   "name": "Ethereum",
                   "value": {
-                    "type": "null"
+                    "type": "primitive",
+                    "name": "null"
                   }
                 },
                 {
                   "name": "Polkadot",
                   "value": {
-                    "type": "null"
+                    "type": "primitive",
+                    "name": "null"
                   }
                 },
                 {
                   "name": "Bitcoin",
                   "value": {
-                    "type": "null"
+                    "type": "primitive",
+                    "name": "null"
                   }
                 }
               ]
@@ -8964,19 +9512,22 @@
             {
               "name": "Other",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "CannotLookup",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "BadOrigin",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
@@ -9002,19 +9553,22 @@
             {
               "name": "ConsumerRemaining",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "NoProviders",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "TooManyConsumers",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
@@ -9026,61 +9580,71 @@
                   {
                     "name": "FundsUnavailable",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   },
                   {
                     "name": "OnlyProvider",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   },
                   {
                     "name": "BelowMinimum",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   },
                   {
                     "name": "CannotCreate",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   },
                   {
                     "name": "UnknownAsset",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   },
                   {
                     "name": "Frozen",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   },
                   {
                     "name": "Unsupported",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   },
                   {
                     "name": "CannotCreateHold",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   },
                   {
                     "name": "NotExpendable",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   },
                   {
                     "name": "Blocked",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   }
                 ]
@@ -9095,19 +9659,22 @@
                   {
                     "name": "Underflow",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   },
                   {
                     "name": "Overflow",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   },
                   {
                     "name": "DivisionByZero",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   }
                 ]
@@ -9122,13 +9689,15 @@
                   {
                     "name": "LimitReached",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   },
                   {
                     "name": "NoLayer",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   }
                 ]
@@ -9137,25 +9706,29 @@
             {
               "name": "Exhausted",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Corruption",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Unavailable",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "RootNotAllowed",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             }
           ]
@@ -9176,7 +9749,8 @@
             {
               "name": "Dot",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             }
           ]
@@ -9202,25 +9776,29 @@
                   {
                     "name": "__Unused0",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   },
                   {
                     "name": "Ethereum",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   },
                   {
                     "name": "Polkadot",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   },
                   {
                     "name": "Bitcoin",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   }
                 ]
@@ -9244,7 +9822,8 @@
             {
               "name": "Dot",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             }
           ]
@@ -9273,7 +9852,8 @@
             {
               "name": "Dot",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             }
           ]
@@ -9283,7 +9863,8 @@
           "name": "u128"
         },
         "depositDetails": {
-          "type": "null"
+          "type": "primitive",
+          "name": "null"
         }
       }
     },
@@ -9297,7 +9878,8 @@
             {
               "name": "Dot",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             }
           ]
@@ -9405,7 +9987,8 @@
             {
               "name": "Btc",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             }
           ]
@@ -9443,7 +10026,8 @@
             {
               "name": "Btc",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             }
           ]
@@ -9467,25 +10051,29 @@
                 {
                   "name": "__Unused0",
                   "value": {
-                    "type": "null"
+                    "type": "primitive",
+                    "name": "null"
                   }
                 },
                 {
                   "name": "Ethereum",
                   "value": {
-                    "type": "null"
+                    "type": "primitive",
+                    "name": "null"
                   }
                 },
                 {
                   "name": "Polkadot",
                   "value": {
-                    "type": "null"
+                    "type": "primitive",
+                    "name": "null"
                   }
                 },
                 {
                   "name": "Bitcoin",
                   "value": {
-                    "type": "null"
+                    "type": "primitive",
+                    "name": "null"
                   }
                 }
               ]
@@ -9503,7 +10091,8 @@
             {
               "name": "Btc",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             }
           ]
@@ -9608,25 +10197,29 @@
                 {
                   "name": "__Unused0",
                   "value": {
-                    "type": "null"
+                    "type": "primitive",
+                    "name": "null"
                   }
                 },
                 {
                   "name": "Ethereum",
                   "value": {
-                    "type": "null"
+                    "type": "primitive",
+                    "name": "null"
                   }
                 },
                 {
                   "name": "Polkadot",
                   "value": {
-                    "type": "null"
+                    "type": "primitive",
+                    "name": "null"
                   }
                 },
                 {
                   "name": "Bitcoin",
                   "value": {
-                    "type": "null"
+                    "type": "primitive",
+                    "name": "null"
                   }
                 }
               ]
@@ -9652,25 +10245,29 @@
                 {
                   "name": "__Unused0",
                   "value": {
-                    "type": "null"
+                    "type": "primitive",
+                    "name": "null"
                   }
                 },
                 {
                   "name": "Ethereum",
                   "value": {
-                    "type": "null"
+                    "type": "primitive",
+                    "name": "null"
                   }
                 },
                 {
                   "name": "Polkadot",
                   "value": {
-                    "type": "null"
+                    "type": "primitive",
+                    "name": "null"
                   }
                 },
                 {
                   "name": "Bitcoin",
                   "value": {
-                    "type": "null"
+                    "type": "primitive",
+                    "name": "null"
                   }
                 }
               ]
@@ -9688,19 +10285,22 @@
             {
               "name": "Other",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "CannotLookup",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "BadOrigin",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
@@ -9726,19 +10326,22 @@
             {
               "name": "ConsumerRemaining",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "NoProviders",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "TooManyConsumers",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
@@ -9750,61 +10353,71 @@
                   {
                     "name": "FundsUnavailable",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   },
                   {
                     "name": "OnlyProvider",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   },
                   {
                     "name": "BelowMinimum",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   },
                   {
                     "name": "CannotCreate",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   },
                   {
                     "name": "UnknownAsset",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   },
                   {
                     "name": "Frozen",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   },
                   {
                     "name": "Unsupported",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   },
                   {
                     "name": "CannotCreateHold",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   },
                   {
                     "name": "NotExpendable",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   },
                   {
                     "name": "Blocked",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   }
                 ]
@@ -9819,19 +10432,22 @@
                   {
                     "name": "Underflow",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   },
                   {
                     "name": "Overflow",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   },
                   {
                     "name": "DivisionByZero",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   }
                 ]
@@ -9846,13 +10462,15 @@
                   {
                     "name": "LimitReached",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   },
                   {
                     "name": "NoLayer",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   }
                 ]
@@ -9861,25 +10479,29 @@
             {
               "name": "Exhausted",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Corruption",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Unavailable",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "RootNotAllowed",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             }
           ]
@@ -9900,7 +10522,8 @@
             {
               "name": "Btc",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             }
           ]
@@ -9926,25 +10549,29 @@
                   {
                     "name": "__Unused0",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   },
                   {
                     "name": "Ethereum",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   },
                   {
                     "name": "Polkadot",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   },
                   {
                     "name": "Bitcoin",
                     "value": {
-                      "type": "null"
+                      "type": "primitive",
+                      "name": "null"
                     }
                   }
                 ]
@@ -9968,7 +10595,8 @@
             {
               "name": "Btc",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             }
           ]
@@ -10066,7 +10694,8 @@
             {
               "name": "Btc",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             }
           ]
@@ -10104,7 +10733,8 @@
             {
               "name": "Btc",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             }
           ]
@@ -10213,37 +10843,43 @@
             {
               "name": "__Unused0",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Eth",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Flip",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Usdc",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Dot",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Btc",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             }
           ]
@@ -10255,37 +10891,43 @@
             {
               "name": "__Unused0",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Eth",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Flip",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Usdc",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Dot",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Btc",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             }
           ]
@@ -10306,37 +10948,43 @@
             {
               "name": "__Unused0",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Eth",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Flip",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Usdc",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Dot",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Btc",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             }
           ]
@@ -10348,37 +10996,43 @@
             {
               "name": "__Unused0",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Eth",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Flip",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Usdc",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Dot",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Btc",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             }
           ]
@@ -10407,37 +11061,43 @@
             {
               "name": "__Unused0",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Eth",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Flip",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Usdc",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Dot",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Btc",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             }
           ]
@@ -10449,37 +11109,43 @@
             {
               "name": "__Unused0",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Eth",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Flip",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Usdc",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Dot",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Btc",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             }
           ]
@@ -10502,13 +11168,15 @@
             {
               "name": "Increase",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Decrease",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             }
           ]
@@ -10563,37 +11231,43 @@
             {
               "name": "__Unused0",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Eth",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Flip",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Usdc",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Dot",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Btc",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             }
           ]
@@ -10605,37 +11279,43 @@
             {
               "name": "__Unused0",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Eth",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Flip",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Usdc",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Dot",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Btc",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             }
           ]
@@ -10655,13 +11335,15 @@
             {
               "name": "Increase",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Decrease",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             }
           ]
@@ -10703,37 +11385,43 @@
             {
               "name": "__Unused0",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Eth",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Flip",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Usdc",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Dot",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Btc",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             }
           ]
@@ -10745,37 +11433,43 @@
             {
               "name": "__Unused0",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Eth",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Flip",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Usdc",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Dot",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             },
             {
               "name": "Btc",
               "value": {
-                "type": "null"
+                "type": "primitive",
+                "name": "null"
               }
             }
           ]

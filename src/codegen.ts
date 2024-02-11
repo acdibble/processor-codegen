@@ -20,6 +20,9 @@ const nameToIdentifier = (name: string): string =>
     .replace(/(?:::|_)(.)/g, (_, c) => c.toUpperCase())
     .replace(/^./, (c) => c.toLowerCase());
 
+const isNull = (type: ResolvedType) =>
+  type.type === 'primitive' && type.name === 'null';
+
 abstract class CodegenResult {
   shouldExport: boolean;
   prelude?: string;
@@ -113,13 +116,15 @@ export default class CodeGenerator {
         return new Identifier('hexString');
       case 'bool':
         return new Code('z.boolean()');
+      case 'null':
+        return new Code('z.null()');
     }
 
     throw new Error(`Unsupported primitive: ${def.name}`);
   }
 
   private generateEnum(def: EnumType): Identifier {
-    const isSimple = def.values.every((v) => v.value.type === 'null');
+    const isSimple = def.values.every((v) => isNull(v.value));
     const values = def.values.filter((n) => !n.name.startsWith('__Unused'));
 
     let generated: string;
@@ -130,7 +135,7 @@ export default class CodeGenerator {
     } else {
       generated = `z.union([${values
         .map((v) => {
-          if (v.value.type === 'null') {
+          if (isNull(v.value)) {
             return `z.object({ __kind: z.literal('${v.name}') })`;
           }
 
@@ -151,7 +156,7 @@ export default class CodeGenerator {
   private generateStruct(def: StructType): Code {
     return new Code(
       `z.object({ ${Object.entries(def.fields)
-        .filter(([_, value]) => value.type !== 'null')
+        .filter(([_, value]) => !isNull(value))
         .map(([key, value]) => {
           const resolvedType = this.generateResolvedType(value);
 
@@ -211,7 +216,6 @@ export default class CodeGenerator {
     if (def.type === 'tuple') return this.generateTuple(def);
     if (def.type === 'range') return this.generateRange(def);
     if (def.type === 'option') return this.generateOption(def);
-    if (def.type === 'null') return new Code('z.null()');
     throw new Error(`Unsupported type: ${(def as any).type}`);
   }
 

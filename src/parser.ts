@@ -97,7 +97,6 @@ export type ResolvedType =
   | ArrayType
   | TupleType
   | OptionType
-  | { type: 'null' }
   | RangeType;
 
 function genericNamespace(namespace: string, palletName: string): string;
@@ -168,7 +167,7 @@ const resolveType = (
         assert(hasSub(type));
         return resolveType(metadata, type.sub, palletName);
       case TypeDefInfo.Null:
-        return { type: 'null' };
+        return { type: 'primitive', name: 'null' };
       case TypeDefInfo.Plain:
         return { type: 'primitive', name: type.type };
       case TypeDefInfo.BTreeSet:

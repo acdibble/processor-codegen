@@ -19,11 +19,11 @@ const generate = async (opts?: MetadataOpts) => {
   await fs.mkdir(path.dirname(outfile), { recursive: true });
   await fs.writeFile(outfile, JSON.stringify(parsedMetadata, null, 2));
 
-  const generator = new CodeGenerator();
+  // const generator = new CodeGenerator();
 
-  const result = await generator.generate(parsedMetadata);
+  // const result = await generator.generate(parsedMetadata);
 
-  await fs.writeFile(`./generated/out-${specVersion}.ts`, result, 'utf8');
+  // await fs.writeFile(`./generated/out-${specVersion}.ts`, result, 'utf8');
 };
 
 const hashes = [

@@ -1,29 +1,58 @@
 import assert from 'assert';
 import axios from 'axios';
 import * as fs from 'fs/promises';
+import * as path from 'path';
+import * as url from 'url';
 import { TypeRegistry, Metadata, TypeDefInfo } from '@polkadot/types';
 import { TypeDef } from '@polkadot/types/types';
 
-const fetchMetadata = async () => {
-  let bytes = await fs.readFile('metadata.scale').catch(() => null);
+const __dirname = path.dirname(url.fileURLToPath(import.meta.url));
+
+export type MetadataOpts = {
+  rpcUrl?: string;
+  hash?: string;
+};
+
+const fetchMetadata = async ({
+  rpcUrl = 'https://backspin-rpc.staging/',
+  hash,
+}: MetadataOpts = {}) => {
+  const runtimeVersionRes = await axios.post(rpcUrl, {
+    id: 1,
+    jsonrpc: '2.0',
+    method: 'state_getRuntimeVersion',
+    params: [hash],
+  });
+
+  const { specVersion } = runtimeVersionRes.data.result;
+
+  const filePath = path.join(
+    __dirname,
+    '..',
+    'metadata',
+    `${specVersion}.scale`,
+  );
+
+  let bytes = await fs.readFile(filePath).catch(() => null);
 
   if (!bytes) {
-    const res = await axios.post('https://backspin-rpc.staging/', {
+    const metadataRes = await axios.post(rpcUrl, {
       id: 1,
       jsonrpc: '2.0',
       method: 'state_getMetadata',
-      params: [],
+      params: [hash],
     });
 
-    bytes = Buffer.from(res.data.result.slice(2), 'hex');
+    bytes = Buffer.from(metadataRes.data.result.slice(2), 'hex');
 
-    await fs.writeFile('metadata.scale', bytes);
+    await fs.mkdir(path.dirname(filePath), { recursive: true });
+    await fs.writeFile(filePath, bytes);
   }
 
   const registry = new TypeRegistry();
   const metadata = new Metadata(registry, bytes);
   registry.setMetadata(metadata);
-  return metadata;
+  return { specVersion, metadata };
 };
 
 const hasSubs = <T extends TypeDef>(type: T): type is T & { sub: TypeDef[] } =>
@@ -205,38 +234,43 @@ const hasName = <T extends { name?: string }>(
 const isNotNullish = <T>(value: T): value is NonNullable<T> =>
   value !== null && value !== undefined;
 
-export const parseMetadata = async () => {
-  const metadata = await fetchMetadata();
+export const parseMetadata = async (opts?: MetadataOpts) => {
+  const { metadata, specVersion } = await fetchMetadata(opts);
 
-  return Object.fromEntries(
-    metadata.asV14.pallets
-      .filter((pallet) => pallet.events.isSome)
-      .map((pallet) => {
-        const palletMetadata = pallet.events.unwrap();
-        const events = metadata.registry.lookup.getTypeDef(palletMetadata.type);
-        const palletName = pallet.name.toString();
+  return {
+    specVersion,
+    parsedMetadata: Object.fromEntries(
+      metadata.asV14.pallets
+        .filter((pallet) => pallet.events.isSome)
+        .map((pallet) => {
+          const palletMetadata = pallet.events.unwrap();
+          const events = metadata.registry.lookup.getTypeDef(
+            palletMetadata.type,
+          );
+          const palletName = pallet.name.toString();
 
-        assert(hasSubs(events));
+          assert(hasSubs(events));
 
-        return [palletName, events] as const;
-      })
-      .filter(isNotNullish)
-      .map(
-        ([palletName, events]) =>
-          [
-            palletName,
-            Object.fromEntries(
-              events.sub
-                .filter(hasName)
-                .map(
-                  (event) =>
-                    [
-                      event.name,
-                      resolveType(metadata, event, palletName),
-                    ] as const,
-                ),
-            ),
-          ] as const,
-      ),
-  );
+          return [palletName, events] as const;
+        })
+        .filter(isNotNullish)
+        .map(
+          ([palletName, events]) =>
+            [
+              palletName,
+              Object.fromEntries(
+                events.sub
+                  .filter(hasName)
+                  .map(
+                    (event) =>
+                      [
+                        event.name,
+                        resolveType(metadata, event, palletName),
+                      ] as const,
+                  ),
+              ),
+            ] as const,
+        ),
+    ),
+  };
 };

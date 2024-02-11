@@ -27,7 +27,6 @@ const cfChainsAddressEncodedAddress = z.union([
 ]);
 
 const cfPrimitivesChainsAssetsAnyAsset = simpleEnum([
-  '__Unused0',
   'Eth',
   'Flip',
   'Usdc',

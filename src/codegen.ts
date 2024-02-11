@@ -59,15 +59,16 @@ export default class CodeGenerator {
 
   generateEnum(def: EnumType): string {
     const isSimple = def.values.every((v) => v.value.type === 'null');
+    const values = def.values.filter((n) => !n.name.startsWith('__Unused'));
 
     let generated: string;
 
     if (isSimple) {
       this.registry.simpleEnum = true;
 
-      generated = `simpleEnum([${def.values.map((v) => `'${v.name}'`).join(', ')}])`;
+      generated = `simpleEnum([${values.map((v) => `'${v.name}'`).join(', ')}])`;
     } else {
-      generated = `z.union([${def.values
+      generated = `z.union([${values
         .map((v) => {
           if (v.value.type === 'null') {
             return `z.object({ __kind: z.literal('${v.name}') })`;

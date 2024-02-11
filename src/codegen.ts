@@ -14,7 +14,6 @@ import { capitalize } from './utils';
 
 type PalletName = string;
 type EventName = string;
-type FieldName = string;
 
 const nameToIdentifier = (name: string): string =>
   name
@@ -70,9 +69,14 @@ export default class CodeGenerator {
   };
 
   private ignoredEvents = new Set<string>();
+  private trackedEvents = new Set<string>();
 
-  constructor({ ignoredEvents = [] }: { ignoredEvents?: string[] } = {}) {
+  constructor({
+    ignoredEvents = [],
+    trackedEvents = [],
+  }: { ignoredEvents?: string[]; trackedEvents?: string[] } = {}) {
     this.ignoredEvents = new Set(ignoredEvents);
+    this.trackedEvents = new Set(trackedEvents);
   }
 
   private generatePrimitive(def: PrimitiveType): CodegenResult {
@@ -144,9 +148,9 @@ export default class CodeGenerator {
     return new Identifier(identifier);
   }
 
-  private generateStructFields(fields: Record<string, ResolvedType>): Code {
+  private generateStruct(def: StructType): Code {
     return new Code(
-      `z.object({ ${Object.entries(fields)
+      `z.object({ ${Object.entries(def.fields)
         .filter(([_, value]) => value.type !== 'null')
         .map(([key, value]) => {
           const resolvedType = this.generateResolvedType(value);
@@ -163,12 +167,6 @@ export default class CodeGenerator {
         })
         .join(', ')} })`,
     );
-  }
-
-  private generateStruct(def: StructType): Code {
-    const generated = this.generateStructFields(def.fields);
-
-    return generated;
   }
 
   private generateArray(def: ArrayType): CodegenResult {
@@ -217,7 +215,7 @@ export default class CodeGenerator {
   }
 
   async generate(
-    def: Record<PalletName, Record<EventName, Record<FieldName, ResolvedType>>>,
+    def: Record<PalletName, Record<EventName, ResolvedType>>,
   ): Promise<string> {
     const prelude = ["import { z } from 'zod';"];
 
@@ -226,9 +224,11 @@ export default class CodeGenerator {
         const name = `${palletName}.${eventName}`;
 
         if (this.ignoredEvents.has(name)) continue;
+        if (!this.trackedEvents.delete(name)) continue;
 
         try {
-          const generatedEvent = this.generateStructFields(event);
+          const generatedEvent = this.generateResolvedType(event);
+
           generatedEvent.shouldExport = true;
           this.registry.types.set(
             nameToIdentifier(`${palletName}::Event::${eventName}`),
@@ -243,6 +243,11 @@ export default class CodeGenerator {
       }
     }
 
+    if (this.trackedEvents.size !== 0) {
+      console.warn('Not all events were generated:');
+      console.warn([...this.trackedEvents].join('\n'));
+    }
+
     const generated: string[] = [];
 
     for (const [identifier, type] of this.registry.types.entries()) {
@@ -253,7 +258,7 @@ export default class CodeGenerator {
       if (type.shouldExport) {
         generated.push('');
         generated.push(
-          `export type ${capitalize(identifier)} = z.output<typeof ${identifier}>;`,
+          `export type ${capitalize(identifier)}Args = z.output<typeof ${identifier}>;`,
         );
       }
       generated.push('');

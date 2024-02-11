@@ -216,9 +216,9 @@ export const parseMetadata = async () => {
         const events = metadata.registry.lookup.getTypeDef(palletMetadata.type);
         const palletName = pallet.name.toString();
 
-        if (hasSubs(events)) return [palletName, events] as const;
+        assert(hasSubs(events));
 
-        return null;
+        return [palletName, events] as const;
       })
       .filter(isNotNullish)
       .map(
@@ -228,22 +228,11 @@ export const parseMetadata = async () => {
             Object.fromEntries(
               events.sub
                 .filter(hasName)
-                .filter(hasSubs)
                 .map(
                   (event) =>
                     [
                       event.name,
-                      Object.fromEntries(
-                        event.sub
-                          .filter(hasName)
-                          .map(
-                            (sub) =>
-                              [
-                                sub.name,
-                                resolveType(metadata, sub, palletName),
-                              ] as const,
-                          ),
-                      ),
+                      resolveType(metadata, event, palletName),
                     ] as const,
                 ),
             ),

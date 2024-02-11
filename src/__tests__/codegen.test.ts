@@ -9,9 +9,7 @@ import type { ResolvedType } from '../parser';
 
 const __dirname = path.dirname(url.fileURLToPath(import.meta.url));
 
-const pick = (
-  paths: string[],
-): Record<string, Record<string, Record<string, ResolvedType>>> =>
+const pick = (paths: string[]): Record<string, Record<string, ResolvedType>> =>
   paths.reduce((acc, path) => {
     const [pallet, event] = path.split('.');
     acc[pallet] ??= {};

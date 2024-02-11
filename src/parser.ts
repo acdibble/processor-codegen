@@ -231,9 +231,6 @@ const hasName = <T extends { name?: string }>(
   obj: T,
 ): obj is T & { name: string } => obj.name !== undefined;
 
-const isNotNullish = <T>(value: T): value is NonNullable<T> =>
-  value !== null && value !== undefined;
-
 export const parseMetadata = async (opts?: MetadataOpts) => {
   const { metadata, specVersion } = await fetchMetadata(opts);
 
@@ -253,7 +250,6 @@ export const parseMetadata = async (opts?: MetadataOpts) => {
 
           return [palletName, events] as const;
         })
-        .filter(isNotNullish)
         .map(
           ([palletName, events]) =>
             [

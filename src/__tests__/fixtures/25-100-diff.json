@@ -1,0 +1,286 @@
+[
+  {
+    "path": ["Environment", "NextCompatibilityVersionSet"],
+    "type": "removed"
+  },
+  {
+    "path": [
+      "Environment",
+      "RuntimeSafeModeUpdated",
+      "fields",
+      "safeMode",
+      "values",
+      "2",
+      "value",
+      "fields",
+      "vaultEthereum"
+    ],
+    "type": "added"
+  },
+  {
+    "path": [
+      "Environment",
+      "RuntimeSafeModeUpdated",
+      "fields",
+      "safeMode",
+      "values",
+      "2",
+      "value",
+      "fields",
+      "vaultBitcoin"
+    ],
+    "type": "added"
+  },
+  {
+    "path": [
+      "Environment",
+      "RuntimeSafeModeUpdated",
+      "fields",
+      "safeMode",
+      "values",
+      "2",
+      "value",
+      "fields",
+      "vaultPolkadot"
+    ],
+    "type": "added"
+  },
+  {
+    "path": [
+      "Environment",
+      "RuntimeSafeModeUpdated",
+      "fields",
+      "safeMode",
+      "values",
+      "2",
+      "value",
+      "fields",
+      "broadcastEthereum"
+    ],
+    "type": "added"
+  },
+  {
+    "path": [
+      "Environment",
+      "RuntimeSafeModeUpdated",
+      "fields",
+      "safeMode",
+      "values",
+      "2",
+      "value",
+      "fields",
+      "broadcastBitcoin"
+    ],
+    "type": "added"
+  },
+  {
+    "path": [
+      "Environment",
+      "RuntimeSafeModeUpdated",
+      "fields",
+      "safeMode",
+      "values",
+      "2",
+      "value",
+      "fields",
+      "broadcastPolkadot"
+    ],
+    "type": "added"
+  },
+  {
+    "path": [
+      "Environment",
+      "RuntimeSafeModeUpdated",
+      "fields",
+      "safeMode",
+      "values",
+      "2",
+      "value",
+      "fields",
+      "vault"
+    ],
+    "type": "removed"
+  },
+  {
+    "path": [
+      "Environment",
+      "RuntimeSafeModeUpdated",
+      "fields",
+      "safeMode",
+      "values",
+      "2",
+      "value",
+      "fields",
+      "broadcast"
+    ],
+    "type": "removed"
+  },
+  {
+    "path": ["Witnesser", "Prewitnessed"],
+    "type": "added"
+  },
+  {
+    "path": ["Governance", "UpgradeConditionsSatisfied"],
+    "type": "removed"
+  },
+  {
+    "path": ["Reputation", "AccrualRateUpdated", "fields", "numberOfBlocks"],
+    "type": "added"
+  },
+  {
+    "path": ["Reputation", "AccrualRateUpdated", "fields", "onlineCredits"],
+    "type": "removed"
+  },
+  {
+    "path": ["EthereumBroadcaster", "TransactionFeeDeficitRecorded"],
+    "type": "added"
+  },
+  {
+    "path": ["EthereumBroadcaster", "TransactionFeeDeficitRefused"],
+    "type": "added"
+  },
+  {
+    "path": [
+      "EthereumBroadcaster",
+      "ThresholdSignatureInvalid",
+      "fields",
+      "retryBroadcastId"
+    ],
+    "type": "added"
+  },
+  {
+    "path": ["PolkadotBroadcaster", "TransactionFeeDeficitRecorded"],
+    "type": "added"
+  },
+  {
+    "path": ["PolkadotBroadcaster", "TransactionFeeDeficitRefused"],
+    "type": "added"
+  },
+  {
+    "path": [
+      "PolkadotBroadcaster",
+      "ThresholdSignatureInvalid",
+      "fields",
+      "retryBroadcastId"
+    ],
+    "type": "added"
+  },
+  {
+    "path": ["BitcoinBroadcaster", "TransactionFeeDeficitRecorded"],
+    "type": "added"
+  },
+  {
+    "path": ["BitcoinBroadcaster", "TransactionFeeDeficitRefused"],
+    "type": "added"
+  },
+  {
+    "path": [
+      "BitcoinBroadcaster",
+      "ThresholdSignatureInvalid",
+      "fields",
+      "retryBroadcastId"
+    ],
+    "type": "added"
+  },
+  {
+    "path": ["Swapping", "SwapDepositAddressExpired"],
+    "type": "removed"
+  },
+  {
+    "path": ["Swapping", "SwapTtlSet"],
+    "type": "removed"
+  },
+  {
+    "path": [
+      "Swapping",
+      "SwapDepositAddressReady",
+      "fields",
+      "sourceChainExpiryBlock"
+    ],
+    "type": "added"
+  },
+  {
+    "path": ["Swapping", "SwapDepositAddressReady", "fields", "expiryBlock"],
+    "type": "removed"
+  },
+  {
+    "path": ["LiquidityProvider", "LiquidityDepositAddressExpired"],
+    "type": "removed"
+  },
+  {
+    "path": ["LiquidityProvider", "LpTtlSet"],
+    "type": "removed"
+  },
+  {
+    "path": [
+      "LiquidityProvider",
+      "LiquidityDepositAddressReady",
+      "fields",
+      "depositChainExpiryBlock"
+    ],
+    "type": "added"
+  },
+  {
+    "path": [
+      "LiquidityProvider",
+      "LiquidityDepositAddressReady",
+      "fields",
+      "expiryBlock"
+    ],
+    "type": "removed"
+  },
+  {
+    "path": ["EthereumIngressEgress", "DepositWitnessRejected"],
+    "type": "added"
+  },
+  {
+    "path": ["PolkadotIngressEgress", "DepositWitnessRejected"],
+    "type": "added"
+  },
+  {
+    "path": ["BitcoinIngressEgress", "DepositWitnessRejected"],
+    "type": "added"
+  },
+  {
+    "path": ["LiquidityPools", "PoolFeeSet"],
+    "type": "added"
+  },
+  {
+    "path": ["LiquidityPools", "RangeOrderUpdated", "fields", "sizeChange"],
+    "type": "added"
+  },
+  {
+    "path": [
+      "LiquidityPools",
+      "RangeOrderUpdated",
+      "fields",
+      "increaseOrDecrease"
+    ],
+    "type": "removed"
+  },
+  {
+    "path": ["LiquidityPools", "RangeOrderUpdated", "fields", "liquidityDelta"],
+    "type": "removed"
+  },
+  {
+    "path": ["LiquidityPools", "RangeOrderUpdated", "fields", "assetsDelta"],
+    "type": "removed"
+  },
+  {
+    "path": ["LiquidityPools", "LimitOrderUpdated", "fields", "amountChange"],
+    "type": "added"
+  },
+  {
+    "path": [
+      "LiquidityPools",
+      "LimitOrderUpdated",
+      "fields",
+      "increaseOrDecrease"
+    ],
+    "type": "removed"
+  },
+  {
+    "path": ["LiquidityPools", "LimitOrderUpdated", "fields", "amountDelta"],
+    "type": "removed"
+  }
+]

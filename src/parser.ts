@@ -24,7 +24,7 @@ const fetchMetadata = async ({
     params: [hash],
   });
 
-  const { specVersion } = runtimeVersionRes.data.result;
+  const specVersion = runtimeVersionRes.data.result.specVersion as number;
 
   const filePath = path.join(
     __dirname,
@@ -229,6 +229,8 @@ const resolveType = (
 const hasName = <T extends { name?: string }>(
   obj: T,
 ): obj is T & { name: string } => obj.name !== undefined;
+
+export type ParsedMetadata = Record<string, Record<string, ResolvedType>>;
 
 export const parseMetadata = async (opts?: MetadataOpts) => {
   const { metadata, specVersion } = await fetchMetadata(opts);

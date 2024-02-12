@@ -27,3 +27,7 @@ export function* diff(
     }
   }
 }
+
+export const unreachable = (x: never, message = 'unreachable'): never => {
+  throw new Error(message);
+};

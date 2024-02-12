@@ -10,7 +10,7 @@ import {
   TupleType,
   RangeType,
 } from './parser';
-import { capitalize } from './utils';
+import { capitalize, unreachable } from './utils';
 
 type PalletName = string;
 type EventName = string;
@@ -216,7 +216,7 @@ export default class CodeGenerator {
     if (def.type === 'tuple') return this.generateTuple(def);
     if (def.type === 'range') return this.generateRange(def);
     if (def.type === 'option') return this.generateOption(def);
-    throw new Error(`Unsupported type: ${(def as any).type}`);
+    return unreachable(def, `Unsupported type: ${(def as any).type}`);
   }
 
   async generate(

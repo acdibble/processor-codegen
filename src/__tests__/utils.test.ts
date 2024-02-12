@@ -30,5 +30,37 @@ describe(diff.name, () => {
     );
 
     assert.deepEqual([...diff(a, b)], diffBetween25And100);
+
+    assert.deepEqual(
+      new Set([...diff(a, b)].map(({ path }) => path.slice(0, 2).join('.'))),
+      new Set([
+        'Environment.NextCompatibilityVersionSet',
+        'Environment.RuntimeSafeModeUpdated',
+        'Witnesser.Prewitnessed',
+        'Governance.UpgradeConditionsSatisfied',
+        'Reputation.AccrualRateUpdated',
+        'EthereumBroadcaster.TransactionFeeDeficitRecorded',
+        'EthereumBroadcaster.TransactionFeeDeficitRefused',
+        'EthereumBroadcaster.ThresholdSignatureInvalid',
+        'PolkadotBroadcaster.TransactionFeeDeficitRecorded',
+        'PolkadotBroadcaster.TransactionFeeDeficitRefused',
+        'PolkadotBroadcaster.ThresholdSignatureInvalid',
+        'BitcoinBroadcaster.TransactionFeeDeficitRecorded',
+        'BitcoinBroadcaster.TransactionFeeDeficitRefused',
+        'BitcoinBroadcaster.ThresholdSignatureInvalid',
+        'Swapping.SwapDepositAddressExpired',
+        'Swapping.SwapTtlSet',
+        'Swapping.SwapDepositAddressReady',
+        'LiquidityProvider.LiquidityDepositAddressExpired',
+        'LiquidityProvider.LpTtlSet',
+        'LiquidityProvider.LiquidityDepositAddressReady',
+        'EthereumIngressEgress.DepositWitnessRejected',
+        'PolkadotIngressEgress.DepositWitnessRejected',
+        'BitcoinIngressEgress.DepositWitnessRejected',
+        'LiquidityPools.PoolFeeSet',
+        'LiquidityPools.RangeOrderUpdated',
+        'LiquidityPools.LimitOrderUpdated',
+      ]),
+    );
   });
 });

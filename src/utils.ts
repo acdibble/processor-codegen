@@ -2,7 +2,11 @@ export const capitalize = <const T extends string>(str: T): Capitalize<T> =>
   (str.charAt(0).toUpperCase() + str.slice(1)) as Capitalize<T>;
 
 // a function to deep diff two metadata objects
-export function* diff(a: any, b: any, path: string[] = []) {
+export function* diff(
+  a: any,
+  b: any,
+  path: string[] = [],
+): Generator<{ path: string[]; type: 'added' | 'removed' | 'changed' }> {
   const addedKeys = Object.keys(b).filter((key) => !a[key]);
   const removedKeys = Object.keys(a).filter((key) => !b[key]);
   const commonKeys = Object.keys(a).filter((key) => b[key]);

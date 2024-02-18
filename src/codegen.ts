@@ -1,16 +1,23 @@
-import * as prettier from 'prettier';
+import * as fs from 'fs/promises';
+import * as path from 'path';
 import {
   isPrimitiveType,
   type ArrayType,
   type EnumType,
+  type OptionType,
   type PrimitiveType,
+  type RangeType,
   type ResolvedType,
   type StructType,
-  OptionType,
-  TupleType,
-  RangeType,
+  type TupleType,
 } from './parser';
-import { capitalize, unreachable } from './utils';
+import {
+  capitalize,
+  formatCode,
+  getDirname,
+  uncapitalize,
+  unreachable,
+} from './utils';
 
 type PalletName = string;
 type EventName = string;
@@ -24,26 +31,57 @@ const isNull = (type: ResolvedType) =>
   type.type === 'primitive' && type.name === 'null';
 
 abstract class CodegenResult {
-  shouldExport: boolean;
-  prelude?: string;
-
   constructor(
     private readonly code: string,
-    {
-      shouldExport,
-      prelude,
-    }: { shouldExport?: boolean; prelude?: string } = {},
-  ) {
-    this.shouldExport = shouldExport ?? false;
-    this.prelude = prelude;
-  }
+    readonly dependencies: CodegenResult[] = [],
+  ) {}
 
   toString() {
     return this.code;
   }
+
+  getDirectDependencies() {
+    const depMap = this.dependencies.reduce(
+      (acc, dep) => {
+        if (dep instanceof Identifier) {
+          acc[dep.pkg] ??= new Set();
+          acc[dep.pkg].add(dep.toString());
+        } else if (dep instanceof Code) {
+          dep.dependencies.forEach((dep) => {
+            if (dep instanceof Identifier) {
+              acc[dep.pkg] ??= new Set();
+              acc[dep.pkg].add(dep.toString());
+            }
+          });
+        }
+
+        return acc;
+      },
+      {} as Record<string, Set<string>>,
+    );
+
+    return Object.entries(depMap).map(([pkg, deps]) => {
+      let pkgPath = pkg === 'common' ? '../common' : pkg;
+
+      return `import { ${[...deps].sort().join(', ')} } from '${pkgPath}';`;
+    });
+  }
 }
 
-class Identifier extends CodegenResult {}
+class Identifier extends CodegenResult {
+  constructor(
+    identifier: string,
+    readonly pkg: string = 'common',
+  ) {
+    super(identifier);
+  }
+
+  getDirectDependencies(): string[] {
+    const pkg = this.pkg === 'common' ? '../common' : this.pkg;
+
+    return [`import { ${this.toString()} } from '${pkg}';`];
+  }
+}
 
 class Code extends CodegenResult {}
 
@@ -58,9 +96,7 @@ const numberOrHex = new Code(
 );
 const accountId = new Code(
   'z.union([hexString, z.string().regex(/^[0-9a-f]+$/).transform((v) => `0x${v}`)]).transform((value) => encodeAddress(value, 2112))',
-  {
-    prelude: "import { encodeAddress } from '@polkadot/util-crypto';",
-  },
+  [new Identifier('encodeAddress', '@polkadot/util-crypto')],
 );
 const simpleEnum = new Code(
   '<U extends string, T extends readonly [U, ...U[]]>(values: T) => z.object({ __kind: z.enum(values) }).transform(({ __kind }) => __kind!)',
@@ -132,6 +168,7 @@ export default class CodeGenerator {
     const values = def.values.filter((n) => !n.name.startsWith('__Unused'));
 
     let generated: string;
+    const dependencies: CodegenResult[] = [];
 
     if (isSimple) {
       this.registry.types.set('simpleEnum', simpleEnum);
@@ -145,12 +182,14 @@ export default class CodeGenerator {
 
           const value = this.generateResolvedType(v.value);
 
+          dependencies.push(value);
+
           return `z.object({ __kind: z.literal('${v.name}'), value: ${value} })`;
         })
         .join(', ')}])`;
     }
 
-    this.registry.types.set(identifier, new Code(generated));
+    this.registry.types.set(identifier, new Code(generated, dependencies));
 
     return new Identifier(identifier);
   }
@@ -162,11 +201,14 @@ export default class CodeGenerator {
       return new Identifier(identifier);
     }
 
+    const dependencies: CodegenResult[] = [];
+
     const code = new Code(
       `z.object({ ${Object.entries(def.fields)
         .filter(([_, value]) => !isNull(value))
         .map(([key, value]) => {
           const resolvedType = this.generateResolvedType(value);
+          dependencies.push(resolvedType);
 
           if (resolvedType instanceof Identifier) {
             const identifier = resolvedType.toString();
@@ -179,6 +221,7 @@ export default class CodeGenerator {
           return `${key}: ${resolvedType}`;
         })
         .join(', ')} })`,
+      dependencies,
     );
 
     if (!identifier) return code;
@@ -195,30 +238,43 @@ export default class CodeGenerator {
         return new Identifier('hexString');
       }
 
-      return new Code(
-        `z.tuple([${Array(def.length).fill(this.generateResolvedType(def.value)).join(', ')}])`,
+      const resolvedType = this.generateResolvedType(def.value);
+
+      const dependencies = Array.from(
+        { length: def.length },
+        () => resolvedType,
       );
+
+      return new Code(`z.tuple([${dependencies.join(', ')}])`, [resolvedType]);
     }
 
-    return new Code(`z.array(${this.generateResolvedType(def.value)})`);
+    const resolvedType = this.generateResolvedType(def.value);
+    const dependencies =
+      resolvedType instanceof Identifier
+        ? [resolvedType]
+        : [...resolvedType.dependencies];
+    return new Code(`z.array(${resolvedType})`, dependencies);
   }
 
   private generateTuple(def: TupleType): Code {
-    return new Code(
-      `z.tuple([${def.values
-        .map((t) => this.generateResolvedType(t))
-        .join(', ')}])`,
-    );
+    const dependencies = def.values.map((t) => {
+      const resolvedType = this.generateResolvedType(t);
+      return resolvedType;
+    });
+
+    return new Code(`z.tuple([${dependencies.join(', ')}])`, dependencies);
   }
 
   private generateOption(def: OptionType): Code {
-    return new Code(`${this.generateResolvedType(def.value)}.nullish()`);
+    const resolvedType = this.generateResolvedType(def.value);
+    return new Code(`${resolvedType}.nullish()`, [resolvedType]);
   }
 
   private generateRange(def: RangeType): Code {
     const resolvedType = this.generateResolvedType(def.value);
     return new Code(
       `z.object({ start: ${resolvedType}, end: ${resolvedType} })`,
+      [resolvedType],
     );
   }
 
@@ -234,24 +290,45 @@ export default class CodeGenerator {
   }
 
   async generate(
+    specVersion: number,
     def: Record<PalletName, Record<EventName, ResolvedType>>,
-  ): Promise<string> {
-    const prelude = ["import { z } from 'zod';"];
+  ): Promise<void> {
+    const __dirname = getDirname(import.meta.url);
+    const generatedDir = path.join(__dirname, '..', 'generated');
+    await fs.mkdir(generatedDir, { recursive: true });
+    const specDir = path.join(generatedDir, String(specVersion));
+    await fs.rm(specDir, { recursive: true }).catch(() => null);
 
     for (const [palletName, events] of Object.entries(def)) {
+      await fs.mkdir(specDir, { recursive: true });
+      const palletDir = path.join(specDir, uncapitalize(palletName));
+      await fs.mkdir(palletDir, { recursive: true });
+
       for (const [eventName, event] of Object.entries(events)) {
         const name = `${palletName}.${eventName}`;
-
         if (this.ignoredEvents?.has(name)) continue;
         if (this.trackedEvents && !this.trackedEvents.delete(name)) continue;
 
         try {
           const generatedEvent = this.generateResolvedType(event);
 
-          generatedEvent.shouldExport = true;
-          this.registry.types.set(
-            nameToIdentifier(`${palletName}::Event::${eventName}`),
-            generatedEvent,
+          const parserName = nameToIdentifier(`${palletName}::${eventName}`);
+
+          const generated = await formatCode(
+            [
+              "import { z } from 'zod';",
+              ...generatedEvent.getDirectDependencies(),
+              '',
+              `export const ${parserName} = ${generatedEvent};`,
+              '',
+              `export type ${capitalize(parserName)}Args = z.output<typeof ${parserName}>;`,
+              '',
+            ].join('\n'),
+          );
+
+          await fs.writeFile(
+            path.join(palletDir, uncapitalize(`${eventName}.ts`)),
+            generated,
           );
         } catch (e) {
           console.error(`failed to parse: ${name}`);
@@ -267,30 +344,21 @@ export default class CodeGenerator {
       console.warn([...this.trackedEvents].join('\n'));
     }
 
+    const prelude: string[] = ["import { z } from 'zod';"];
     const generated: string[] = [];
 
     for (const [identifier, type] of this.registry.types.entries()) {
-      if (type.prelude) prelude.push(type.prelude);
-      generated.push(
-        `${type.shouldExport ? 'export ' : ''}const ${identifier} = ${type};`,
+      prelude.push(
+        ...type
+          .getDirectDependencies()
+          .filter((dep) => !dep.includes('../common')),
       );
-      if (type.shouldExport) {
-        generated.push('');
-        generated.push(
-          `export type ${capitalize(identifier)}Args = z.output<typeof ${identifier}>;`,
-        );
-      }
+      generated.push(`export const ${identifier} = ${type};`);
       generated.push('');
     }
 
-    const result = await prettier.format(
-      [...prelude, '', ...generated].join('\n'),
-      {
-        parser: 'typescript',
-        singleQuote: true,
-      },
-    );
+    const common = await formatCode([...prelude, '', ...generated].join('\n'));
 
-    return result;
+    await fs.writeFile(path.join(specDir, 'common.ts'), common);
   }
 }

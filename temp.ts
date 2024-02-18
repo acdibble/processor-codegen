@@ -1,9 +1,8 @@
 import * as fs from 'node:fs/promises';
 import * as path from 'node:path';
-import * as url from 'node:url';
-import { diff } from './src/utils';
+import { diff, getDirname } from './src/utils';
 
-const __dirname = path.dirname(url.fileURLToPath(import.meta.url));
+const __dirname = getDirname(import.meta.url);
 const generated = path.join(__dirname, 'generated');
 
 const types = (

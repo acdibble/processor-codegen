@@ -1,5 +1,12 @@
+import * as path from 'path';
+import * as prettier from 'prettier';
+import * as url from 'url';
+
 export const capitalize = <const T extends string>(str: T): Capitalize<T> =>
   (str.charAt(0).toUpperCase() + str.slice(1)) as Capitalize<T>;
+
+export const uncapitalize = <const T extends string>(str: T): Uncapitalize<T> =>
+  (str.charAt(0).toLowerCase() + str.slice(1)) as Uncapitalize<T>;
 
 // a function to deep diff two metadata objects
 export function* diff(
@@ -31,3 +38,13 @@ export function* diff(
 export const unreachable = (x: never, message = 'unreachable'): never => {
   throw new Error(message);
 };
+
+export const getDirname = (filename: string) =>
+  path.dirname(url.fileURLToPath(filename));
+
+export const formatCode = (code: string) =>
+  prettier.format(code, {
+    parser: 'typescript',
+    singleQuote: true,
+    trailingComma: 'all',
+  });

@@ -1,10 +1,10 @@
 import * as fs from 'fs/promises';
 import * as path from 'path';
-import * as url from 'url';
 import { MetadataOpts, fetchSpecVersion, parseMetadata } from './parser';
 import CodeGenerator from './codegen';
+import { getDirname } from './utils';
 
-const __dirname = path.dirname(url.fileURLToPath(import.meta.url));
+const __dirname = getDirname(import.meta.url);
 
 const generate = async (opts?: MetadataOpts) => {
   const specVersion = await fetchSpecVersion(opts);
@@ -30,9 +30,7 @@ const generate = async (opts?: MetadataOpts) => {
 
   const generator = new CodeGenerator();
 
-  const result = await generator.generate(parsedMetadata);
-
-  await fs.writeFile(`./generated/out-${specVersion}.ts`, result, 'utf8');
+  await generator.generate(specVersion, parsedMetadata);
 };
 
 const hashes = [

@@ -784,6 +784,25 @@
           ]
         }
       }
+    },
+    "UtxoConsolidationParametersUpdated": {
+      "type": "struct",
+      "fields": {
+        "params": {
+          "type": "struct",
+          "name": "CfChainsBtcConsolidationParameters",
+          "fields": {
+            "consolidationThreshold": {
+              "type": "primitive",
+              "name": "u32"
+            },
+            "consolidationSize": {
+              "type": "primitive",
+              "name": "u32"
+            }
+          }
+        }
+      }
     }
   },
   "Flip": {
@@ -902,6 +921,305 @@
     "SupplyUpdateIntervalUpdated": {
       "type": "primitive",
       "name": "u32"
+    },
+    "BackupRewardsDistributed": {
+      "type": "struct",
+      "fields": {
+        "accountId": {
+          "type": "primitive",
+          "name": "AccountId32"
+        },
+        "amount": {
+          "type": "primitive",
+          "name": "u128"
+        }
+      }
+    },
+    "NetworkFeeBurned": {
+      "type": "struct",
+      "fields": {
+        "amount": {
+          "type": "primitive",
+          "name": "u128"
+        },
+        "egressId": {
+          "type": "tuple",
+          "values": [
+            {
+              "type": "enum",
+              "name": "cf_primitives::chains::ForeignChain",
+              "values": [
+                {
+                  "name": "__Unused0",
+                  "value": {
+                    "type": "primitive",
+                    "name": "null"
+                  }
+                },
+                {
+                  "name": "Ethereum",
+                  "value": {
+                    "type": "primitive",
+                    "name": "null"
+                  }
+                },
+                {
+                  "name": "Polkadot",
+                  "value": {
+                    "type": "primitive",
+                    "name": "null"
+                  }
+                },
+                {
+                  "name": "Bitcoin",
+                  "value": {
+                    "type": "primitive",
+                    "name": "null"
+                  }
+                }
+              ]
+            },
+            {
+              "type": "primitive",
+              "name": "u64"
+            }
+          ]
+        }
+      }
+    },
+    "FlipBurnSkipped": {
+      "type": "struct",
+      "fields": {
+        "reason": {
+          "type": "enum",
+          "name": "sp_runtime::DispatchError",
+          "values": [
+            {
+              "name": "Other",
+              "value": {
+                "type": "primitive",
+                "name": "null"
+              }
+            },
+            {
+              "name": "CannotLookup",
+              "value": {
+                "type": "primitive",
+                "name": "null"
+              }
+            },
+            {
+              "name": "BadOrigin",
+              "value": {
+                "type": "primitive",
+                "name": "null"
+              }
+            },
+            {
+              "name": "Module",
+              "value": {
+                "type": "struct",
+                "name": "SpRuntimeModuleError",
+                "fields": {
+                  "index": {
+                    "type": "primitive",
+                    "name": "u8"
+                  },
+                  "error": {
+                    "type": "array",
+                    "value": {
+                      "type": "primitive",
+                      "name": "u8"
+                    },
+                    "length": 4
+                  }
+                }
+              }
+            },
+            {
+              "name": "ConsumerRemaining",
+              "value": {
+                "type": "primitive",
+                "name": "null"
+              }
+            },
+            {
+              "name": "NoProviders",
+              "value": {
+                "type": "primitive",
+                "name": "null"
+              }
+            },
+            {
+              "name": "TooManyConsumers",
+              "value": {
+                "type": "primitive",
+                "name": "null"
+              }
+            },
+            {
+              "name": "Token",
+              "value": {
+                "type": "enum",
+                "name": "sp_runtime::TokenError",
+                "values": [
+                  {
+                    "name": "FundsUnavailable",
+                    "value": {
+                      "type": "primitive",
+                      "name": "null"
+                    }
+                  },
+                  {
+                    "name": "OnlyProvider",
+                    "value": {
+                      "type": "primitive",
+                      "name": "null"
+                    }
+                  },
+                  {
+                    "name": "BelowMinimum",
+                    "value": {
+                      "type": "primitive",
+                      "name": "null"
+                    }
+                  },
+                  {
+                    "name": "CannotCreate",
+                    "value": {
+                      "type": "primitive",
+                      "name": "null"
+                    }
+                  },
+                  {
+                    "name": "UnknownAsset",
+                    "value": {
+                      "type": "primitive",
+                      "name": "null"
+                    }
+                  },
+                  {
+                    "name": "Frozen",
+                    "value": {
+                      "type": "primitive",
+                      "name": "null"
+                    }
+                  },
+                  {
+                    "name": "Unsupported",
+                    "value": {
+                      "type": "primitive",
+                      "name": "null"
+                    }
+                  },
+                  {
+                    "name": "CannotCreateHold",
+                    "value": {
+                      "type": "primitive",
+                      "name": "null"
+                    }
+                  },
+                  {
+                    "name": "NotExpendable",
+                    "value": {
+                      "type": "primitive",
+                      "name": "null"
+                    }
+                  },
+                  {
+                    "name": "Blocked",
+                    "value": {
+                      "type": "primitive",
+                      "name": "null"
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "name": "Arithmetic",
+              "value": {
+                "type": "enum",
+                "name": "sp_arithmetic::ArithmeticError",
+                "values": [
+                  {
+                    "name": "Underflow",
+                    "value": {
+                      "type": "primitive",
+                      "name": "null"
+                    }
+                  },
+                  {
+                    "name": "Overflow",
+                    "value": {
+                      "type": "primitive",
+                      "name": "null"
+                    }
+                  },
+                  {
+                    "name": "DivisionByZero",
+                    "value": {
+                      "type": "primitive",
+                      "name": "null"
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "name": "Transactional",
+              "value": {
+                "type": "enum",
+                "name": "sp_runtime::TransactionalError",
+                "values": [
+                  {
+                    "name": "LimitReached",
+                    "value": {
+                      "type": "primitive",
+                      "name": "null"
+                    }
+                  },
+                  {
+                    "name": "NoLayer",
+                    "value": {
+                      "type": "primitive",
+                      "name": "null"
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "name": "Exhausted",
+              "value": {
+                "type": "primitive",
+                "name": "null"
+              }
+            },
+            {
+              "name": "Corruption",
+              "value": {
+                "type": "primitive",
+                "name": "null"
+              }
+            },
+            {
+              "name": "Unavailable",
+              "value": {
+                "type": "primitive",
+                "name": "null"
+              }
+            },
+            {
+              "name": "RootNotAllowed",
+              "value": {
+                "type": "primitive",
+                "name": "null"
+              }
+            }
+          ]
+        }
+      }
     }
   },
   "Funding": {
@@ -1093,7 +1411,7 @@
           "name": "cf_primitives::AccountRole",
           "values": [
             {
-              "name": "None",
+              "name": "Unregistered",
               "value": {
                 "type": "primitive",
                 "name": "null"
@@ -1857,6 +2175,18 @@
                         "name": "u8"
                       }
                     }
+                  }
+                }
+              }
+            },
+            {
+              "name": "MaxAuthoritySetContractionPercentage",
+              "value": {
+                "type": "struct",
+                "fields": {
+                  "percentage": {
+                    "type": "primitive",
+                    "name": "Percent"
                   }
                 }
               }
@@ -3047,15 +3377,7 @@
                   "type": "struct",
                   "name": "CfChainsBtcBitcoinFeeInfo",
                   "fields": {
-                    "feePerInputUtxo": {
-                      "type": "primitive",
-                      "name": "u64"
-                    },
-                    "feePerOutputUtxo": {
-                      "type": "primitive",
-                      "name": "u64"
-                    },
-                    "minFeeRequiredPerTx": {
+                    "satsPerKilobyte": {
                       "type": "primitive",
                       "name": "u64"
                     }
@@ -4353,19 +4675,6 @@
         }
       }
     },
-    "CurrentKeyUnavailable": {
-      "type": "struct",
-      "fields": {
-        "requestId": {
-          "type": "primitive",
-          "name": "u32"
-        },
-        "attemptCount": {
-          "type": "primitive",
-          "name": "u32"
-        }
-      }
-    },
     "ThresholdSignatureResponseTimeoutUpdated": {
       "type": "struct",
       "fields": {
@@ -4735,19 +5044,6 @@
       }
     },
     "SignersUnavailable": {
-      "type": "struct",
-      "fields": {
-        "requestId": {
-          "type": "primitive",
-          "name": "u32"
-        },
-        "attemptCount": {
-          "type": "primitive",
-          "name": "u32"
-        }
-      }
-    },
-    "CurrentKeyUnavailable": {
       "type": "struct",
       "fields": {
         "requestId": {
@@ -5190,19 +5486,6 @@
         }
       }
     },
-    "CurrentKeyUnavailable": {
-      "type": "struct",
-      "fields": {
-        "requestId": {
-          "type": "primitive",
-          "name": "u32"
-        },
-        "attemptCount": {
-          "type": "primitive",
-          "name": "u32"
-        }
-      }
-    },
     "ThresholdSignatureResponseTimeoutUpdated": {
       "type": "struct",
       "fields": {
@@ -5217,19 +5500,9 @@
     "TransactionBroadcastRequest": {
       "type": "struct",
       "fields": {
-        "broadcastAttemptId": {
-          "type": "struct",
-          "name": "PalletCfBroadcastBroadcastAttemptId",
-          "fields": {
-            "broadcastId": {
-              "type": "primitive",
-              "name": "u32"
-            },
-            "attemptCount": {
-              "type": "primitive",
-              "name": "u32"
-            }
-          }
+        "broadcastId": {
+          "type": "primitive",
+          "name": "u32"
         },
         "nominee": {
           "type": "primitive",
@@ -5305,38 +5578,22 @@
     "BroadcastRetryScheduled": {
       "type": "struct",
       "fields": {
-        "broadcastAttemptId": {
-          "type": "struct",
-          "name": "PalletCfBroadcastBroadcastAttemptId",
-          "fields": {
-            "broadcastId": {
-              "type": "primitive",
-              "name": "u32"
-            },
-            "attemptCount": {
-              "type": "primitive",
-              "name": "u32"
-            }
-          }
+        "broadcastId": {
+          "type": "primitive",
+          "name": "u32"
+        },
+        "retryBlock": {
+          "type": "primitive",
+          "name": "u32"
         }
       }
     },
-    "BroadcastAttemptTimeout": {
+    "BroadcastTimeout": {
       "type": "struct",
       "fields": {
-        "broadcastAttemptId": {
-          "type": "struct",
-          "name": "PalletCfBroadcastBroadcastAttemptId",
-          "fields": {
-            "broadcastId": {
-              "type": "primitive",
-              "name": "u32"
-            },
-            "attemptCount": {
-              "type": "primitive",
-              "name": "u32"
-            }
-          }
+        "broadcastId": {
+          "type": "primitive",
+          "name": "u32"
         }
       }
     },
@@ -5386,10 +5643,6 @@
         "broadcastId": {
           "type": "primitive",
           "name": "u32"
-        },
-        "retryBroadcastId": {
-          "type": "primitive",
-          "name": "u32"
         }
       }
     },
@@ -5668,25 +5921,24 @@
           "name": "H160"
         }
       }
+    },
+    "CallResigned": {
+      "type": "struct",
+      "fields": {
+        "broadcastId": {
+          "type": "primitive",
+          "name": "u32"
+        }
+      }
     }
   },
   "PolkadotBroadcaster": {
     "TransactionBroadcastRequest": {
       "type": "struct",
       "fields": {
-        "broadcastAttemptId": {
-          "type": "struct",
-          "name": "PalletCfBroadcastBroadcastAttemptId",
-          "fields": {
-            "broadcastId": {
-              "type": "primitive",
-              "name": "u32"
-            },
-            "attemptCount": {
-              "type": "primitive",
-              "name": "u32"
-            }
-          }
+        "broadcastId": {
+          "type": "primitive",
+          "name": "u32"
         },
         "nominee": {
           "type": "primitive",
@@ -5715,38 +5967,22 @@
     "BroadcastRetryScheduled": {
       "type": "struct",
       "fields": {
-        "broadcastAttemptId": {
-          "type": "struct",
-          "name": "PalletCfBroadcastBroadcastAttemptId",
-          "fields": {
-            "broadcastId": {
-              "type": "primitive",
-              "name": "u32"
-            },
-            "attemptCount": {
-              "type": "primitive",
-              "name": "u32"
-            }
-          }
+        "broadcastId": {
+          "type": "primitive",
+          "name": "u32"
+        },
+        "retryBlock": {
+          "type": "primitive",
+          "name": "u32"
         }
       }
     },
-    "BroadcastAttemptTimeout": {
+    "BroadcastTimeout": {
       "type": "struct",
       "fields": {
-        "broadcastAttemptId": {
-          "type": "struct",
-          "name": "PalletCfBroadcastBroadcastAttemptId",
-          "fields": {
-            "broadcastId": {
-              "type": "primitive",
-              "name": "u32"
-            },
-            "attemptCount": {
-              "type": "primitive",
-              "name": "u32"
-            }
-          }
+        "broadcastId": {
+          "type": "primitive",
+          "name": "u32"
         }
       }
     },
@@ -5780,10 +6016,6 @@
       "type": "struct",
       "fields": {
         "broadcastId": {
-          "type": "primitive",
-          "name": "u32"
-        },
-        "retryBroadcastId": {
           "type": "primitive",
           "name": "u32"
         }
@@ -6072,25 +6304,24 @@
           "length": 32
         }
       }
+    },
+    "CallResigned": {
+      "type": "struct",
+      "fields": {
+        "broadcastId": {
+          "type": "primitive",
+          "name": "u32"
+        }
+      }
     }
   },
   "BitcoinBroadcaster": {
     "TransactionBroadcastRequest": {
       "type": "struct",
       "fields": {
-        "broadcastAttemptId": {
-          "type": "struct",
-          "name": "PalletCfBroadcastBroadcastAttemptId",
-          "fields": {
-            "broadcastId": {
-              "type": "primitive",
-              "name": "u32"
-            },
-            "attemptCount": {
-              "type": "primitive",
-              "name": "u32"
-            }
-          }
+        "broadcastId": {
+          "type": "primitive",
+          "name": "u32"
         },
         "nominee": {
           "type": "primitive",
@@ -6119,38 +6350,22 @@
     "BroadcastRetryScheduled": {
       "type": "struct",
       "fields": {
-        "broadcastAttemptId": {
-          "type": "struct",
-          "name": "PalletCfBroadcastBroadcastAttemptId",
-          "fields": {
-            "broadcastId": {
-              "type": "primitive",
-              "name": "u32"
-            },
-            "attemptCount": {
-              "type": "primitive",
-              "name": "u32"
-            }
-          }
+        "broadcastId": {
+          "type": "primitive",
+          "name": "u32"
+        },
+        "retryBlock": {
+          "type": "primitive",
+          "name": "u32"
         }
       }
     },
-    "BroadcastAttemptTimeout": {
+    "BroadcastTimeout": {
       "type": "struct",
       "fields": {
-        "broadcastAttemptId": {
-          "type": "struct",
-          "name": "PalletCfBroadcastBroadcastAttemptId",
-          "fields": {
-            "broadcastId": {
-              "type": "primitive",
-              "name": "u32"
-            },
-            "attemptCount": {
-              "type": "primitive",
-              "name": "u32"
-            }
-          }
+        "broadcastId": {
+          "type": "primitive",
+          "name": "u32"
         }
       }
     },
@@ -6184,10 +6399,6 @@
       "type": "struct",
       "fields": {
         "broadcastId": {
-          "type": "primitive",
-          "name": "u32"
-        },
-        "retryBroadcastId": {
           "type": "primitive",
           "name": "u32"
         }
@@ -6612,6 +6823,15 @@
               }
             }
           ]
+        }
+      }
+    },
+    "CallResigned": {
+      "type": "struct",
+      "fields": {
+        "broadcastId": {
+          "type": "primitive",
+          "name": "u32"
         }
       }
     }
@@ -7231,6 +7451,10 @@
           "type": "primitive",
           "name": "u128"
         },
+        "swapInput": {
+          "type": "primitive",
+          "name": "u128"
+        },
         "destinationAsset": {
           "type": "enum",
           "name": "cf_primitives::chains::assets::any::Asset",
@@ -7280,6 +7504,10 @@
           ]
         },
         "egressAmount": {
+          "type": "primitive",
+          "name": "u128"
+        },
+        "swapOutput": {
           "type": "primitive",
           "name": "u128"
         },
@@ -7393,6 +7621,10 @@
         "amount": {
           "type": "primitive",
           "name": "u128"
+        },
+        "fee": {
+          "type": "primitive",
+          "name": "u128"
         }
       }
     },
@@ -7443,6 +7675,10 @@
           ]
         },
         "egressAmount": {
+          "type": "primitive",
+          "name": "u128"
+        },
+        "egressFee": {
           "type": "primitive",
           "name": "u128"
         },
@@ -7839,228 +8075,6 @@
         }
       }
     },
-    "MinimumSwapAmountSet": {
-      "type": "struct",
-      "fields": {
-        "asset": {
-          "type": "enum",
-          "name": "cf_primitives::chains::assets::any::Asset",
-          "values": [
-            {
-              "name": "__Unused0",
-              "value": {
-                "type": "primitive",
-                "name": "null"
-              }
-            },
-            {
-              "name": "Eth",
-              "value": {
-                "type": "primitive",
-                "name": "null"
-              }
-            },
-            {
-              "name": "Flip",
-              "value": {
-                "type": "primitive",
-                "name": "null"
-              }
-            },
-            {
-              "name": "Usdc",
-              "value": {
-                "type": "primitive",
-                "name": "null"
-              }
-            },
-            {
-              "name": "Dot",
-              "value": {
-                "type": "primitive",
-                "name": "null"
-              }
-            },
-            {
-              "name": "Btc",
-              "value": {
-                "type": "primitive",
-                "name": "null"
-              }
-            }
-          ]
-        },
-        "amount": {
-          "type": "primitive",
-          "name": "u128"
-        }
-      }
-    },
-    "SwapAmountTooLow": {
-      "type": "struct",
-      "fields": {
-        "asset": {
-          "type": "enum",
-          "name": "cf_primitives::chains::assets::any::Asset",
-          "values": [
-            {
-              "name": "__Unused0",
-              "value": {
-                "type": "primitive",
-                "name": "null"
-              }
-            },
-            {
-              "name": "Eth",
-              "value": {
-                "type": "primitive",
-                "name": "null"
-              }
-            },
-            {
-              "name": "Flip",
-              "value": {
-                "type": "primitive",
-                "name": "null"
-              }
-            },
-            {
-              "name": "Usdc",
-              "value": {
-                "type": "primitive",
-                "name": "null"
-              }
-            },
-            {
-              "name": "Dot",
-              "value": {
-                "type": "primitive",
-                "name": "null"
-              }
-            },
-            {
-              "name": "Btc",
-              "value": {
-                "type": "primitive",
-                "name": "null"
-              }
-            }
-          ]
-        },
-        "amount": {
-          "type": "primitive",
-          "name": "u128"
-        },
-        "destinationAddress": {
-          "type": "enum",
-          "name": "cf_chains::address::EncodedAddress",
-          "values": [
-            {
-              "name": "Eth",
-              "value": {
-                "type": "array",
-                "value": {
-                  "type": "primitive",
-                  "name": "u8"
-                },
-                "length": 20
-              }
-            },
-            {
-              "name": "Dot",
-              "value": {
-                "type": "array",
-                "value": {
-                  "type": "primitive",
-                  "name": "u8"
-                },
-                "length": 32
-              }
-            },
-            {
-              "name": "Btc",
-              "value": {
-                "type": "primitive",
-                "name": "Bytes"
-              }
-            }
-          ]
-        },
-        "origin": {
-          "type": "enum",
-          "name": "cf_chains::SwapOrigin",
-          "values": [
-            {
-              "name": "DepositChannel",
-              "value": {
-                "type": "struct",
-                "fields": {
-                  "depositAddress": {
-                    "type": "enum",
-                    "name": "cf_chains::address::EncodedAddress",
-                    "values": [
-                      {
-                        "name": "Eth",
-                        "value": {
-                          "type": "array",
-                          "value": {
-                            "type": "primitive",
-                            "name": "u8"
-                          },
-                          "length": 20
-                        }
-                      },
-                      {
-                        "name": "Dot",
-                        "value": {
-                          "type": "array",
-                          "value": {
-                            "type": "primitive",
-                            "name": "u8"
-                          },
-                          "length": 32
-                        }
-                      },
-                      {
-                        "name": "Btc",
-                        "value": {
-                          "type": "primitive",
-                          "name": "Bytes"
-                        }
-                      }
-                    ]
-                  },
-                  "channelId": {
-                    "type": "primitive",
-                    "name": "u64"
-                  },
-                  "depositBlockHeight": {
-                    "type": "primitive",
-                    "name": "u64"
-                  }
-                }
-              }
-            },
-            {
-              "name": "Vault",
-              "value": {
-                "type": "struct",
-                "fields": {
-                  "txHash": {
-                    "type": "array",
-                    "value": {
-                      "type": "primitive",
-                      "name": "u8"
-                    },
-                    "length": 32
-                  }
-                }
-              }
-            }
-          ]
-        }
-      }
-    },
     "CcmFailed": {
       "type": "struct",
       "fields": {
@@ -8077,13 +8091,6 @@
             },
             {
               "name": "InsufficientDepositAmount",
-              "value": {
-                "type": "primitive",
-                "name": "null"
-              }
-            },
-            {
-              "name": "PrincipalSwapAmountTooLow",
               "value": {
                 "type": "primitive",
                 "name": "null"
@@ -8290,6 +8297,469 @@
               }
             }
           }
+        }
+      }
+    },
+    "MaximumSwapAmountSet": {
+      "type": "struct",
+      "fields": {
+        "asset": {
+          "type": "enum",
+          "name": "cf_primitives::chains::assets::any::Asset",
+          "values": [
+            {
+              "name": "__Unused0",
+              "value": {
+                "type": "primitive",
+                "name": "null"
+              }
+            },
+            {
+              "name": "Eth",
+              "value": {
+                "type": "primitive",
+                "name": "null"
+              }
+            },
+            {
+              "name": "Flip",
+              "value": {
+                "type": "primitive",
+                "name": "null"
+              }
+            },
+            {
+              "name": "Usdc",
+              "value": {
+                "type": "primitive",
+                "name": "null"
+              }
+            },
+            {
+              "name": "Dot",
+              "value": {
+                "type": "primitive",
+                "name": "null"
+              }
+            },
+            {
+              "name": "Btc",
+              "value": {
+                "type": "primitive",
+                "name": "null"
+              }
+            }
+          ]
+        },
+        "amount": {
+          "type": "option",
+          "value": {
+            "type": "primitive",
+            "name": "u128"
+          }
+        }
+      }
+    },
+    "SwapAmountConfiscated": {
+      "type": "struct",
+      "fields": {
+        "swapId": {
+          "type": "primitive",
+          "name": "u64"
+        },
+        "sourceAsset": {
+          "type": "enum",
+          "name": "cf_primitives::chains::assets::any::Asset",
+          "values": [
+            {
+              "name": "__Unused0",
+              "value": {
+                "type": "primitive",
+                "name": "null"
+              }
+            },
+            {
+              "name": "Eth",
+              "value": {
+                "type": "primitive",
+                "name": "null"
+              }
+            },
+            {
+              "name": "Flip",
+              "value": {
+                "type": "primitive",
+                "name": "null"
+              }
+            },
+            {
+              "name": "Usdc",
+              "value": {
+                "type": "primitive",
+                "name": "null"
+              }
+            },
+            {
+              "name": "Dot",
+              "value": {
+                "type": "primitive",
+                "name": "null"
+              }
+            },
+            {
+              "name": "Btc",
+              "value": {
+                "type": "primitive",
+                "name": "null"
+              }
+            }
+          ]
+        },
+        "destinationAsset": {
+          "type": "enum",
+          "name": "cf_primitives::chains::assets::any::Asset",
+          "values": [
+            {
+              "name": "__Unused0",
+              "value": {
+                "type": "primitive",
+                "name": "null"
+              }
+            },
+            {
+              "name": "Eth",
+              "value": {
+                "type": "primitive",
+                "name": "null"
+              }
+            },
+            {
+              "name": "Flip",
+              "value": {
+                "type": "primitive",
+                "name": "null"
+              }
+            },
+            {
+              "name": "Usdc",
+              "value": {
+                "type": "primitive",
+                "name": "null"
+              }
+            },
+            {
+              "name": "Dot",
+              "value": {
+                "type": "primitive",
+                "name": "null"
+              }
+            },
+            {
+              "name": "Btc",
+              "value": {
+                "type": "primitive",
+                "name": "null"
+              }
+            }
+          ]
+        },
+        "totalAmount": {
+          "type": "primitive",
+          "name": "u128"
+        },
+        "confiscatedAmount": {
+          "type": "primitive",
+          "name": "u128"
+        }
+      }
+    },
+    "SwapEgressIgnored": {
+      "type": "struct",
+      "fields": {
+        "swapId": {
+          "type": "primitive",
+          "name": "u64"
+        },
+        "asset": {
+          "type": "enum",
+          "name": "cf_primitives::chains::assets::any::Asset",
+          "values": [
+            {
+              "name": "__Unused0",
+              "value": {
+                "type": "primitive",
+                "name": "null"
+              }
+            },
+            {
+              "name": "Eth",
+              "value": {
+                "type": "primitive",
+                "name": "null"
+              }
+            },
+            {
+              "name": "Flip",
+              "value": {
+                "type": "primitive",
+                "name": "null"
+              }
+            },
+            {
+              "name": "Usdc",
+              "value": {
+                "type": "primitive",
+                "name": "null"
+              }
+            },
+            {
+              "name": "Dot",
+              "value": {
+                "type": "primitive",
+                "name": "null"
+              }
+            },
+            {
+              "name": "Btc",
+              "value": {
+                "type": "primitive",
+                "name": "null"
+              }
+            }
+          ]
+        },
+        "amount": {
+          "type": "primitive",
+          "name": "u128"
+        },
+        "reason": {
+          "type": "enum",
+          "name": "sp_runtime::DispatchError",
+          "values": [
+            {
+              "name": "Other",
+              "value": {
+                "type": "primitive",
+                "name": "null"
+              }
+            },
+            {
+              "name": "CannotLookup",
+              "value": {
+                "type": "primitive",
+                "name": "null"
+              }
+            },
+            {
+              "name": "BadOrigin",
+              "value": {
+                "type": "primitive",
+                "name": "null"
+              }
+            },
+            {
+              "name": "Module",
+              "value": {
+                "type": "struct",
+                "name": "SpRuntimeModuleError",
+                "fields": {
+                  "index": {
+                    "type": "primitive",
+                    "name": "u8"
+                  },
+                  "error": {
+                    "type": "array",
+                    "value": {
+                      "type": "primitive",
+                      "name": "u8"
+                    },
+                    "length": 4
+                  }
+                }
+              }
+            },
+            {
+              "name": "ConsumerRemaining",
+              "value": {
+                "type": "primitive",
+                "name": "null"
+              }
+            },
+            {
+              "name": "NoProviders",
+              "value": {
+                "type": "primitive",
+                "name": "null"
+              }
+            },
+            {
+              "name": "TooManyConsumers",
+              "value": {
+                "type": "primitive",
+                "name": "null"
+              }
+            },
+            {
+              "name": "Token",
+              "value": {
+                "type": "enum",
+                "name": "sp_runtime::TokenError",
+                "values": [
+                  {
+                    "name": "FundsUnavailable",
+                    "value": {
+                      "type": "primitive",
+                      "name": "null"
+                    }
+                  },
+                  {
+                    "name": "OnlyProvider",
+                    "value": {
+                      "type": "primitive",
+                      "name": "null"
+                    }
+                  },
+                  {
+                    "name": "BelowMinimum",
+                    "value": {
+                      "type": "primitive",
+                      "name": "null"
+                    }
+                  },
+                  {
+                    "name": "CannotCreate",
+                    "value": {
+                      "type": "primitive",
+                      "name": "null"
+                    }
+                  },
+                  {
+                    "name": "UnknownAsset",
+                    "value": {
+                      "type": "primitive",
+                      "name": "null"
+                    }
+                  },
+                  {
+                    "name": "Frozen",
+                    "value": {
+                      "type": "primitive",
+                      "name": "null"
+                    }
+                  },
+                  {
+                    "name": "Unsupported",
+                    "value": {
+                      "type": "primitive",
+                      "name": "null"
+                    }
+                  },
+                  {
+                    "name": "CannotCreateHold",
+                    "value": {
+                      "type": "primitive",
+                      "name": "null"
+                    }
+                  },
+                  {
+                    "name": "NotExpendable",
+                    "value": {
+                      "type": "primitive",
+                      "name": "null"
+                    }
+                  },
+                  {
+                    "name": "Blocked",
+                    "value": {
+                      "type": "primitive",
+                      "name": "null"
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "name": "Arithmetic",
+              "value": {
+                "type": "enum",
+                "name": "sp_arithmetic::ArithmeticError",
+                "values": [
+                  {
+                    "name": "Underflow",
+                    "value": {
+                      "type": "primitive",
+                      "name": "null"
+                    }
+                  },
+                  {
+                    "name": "Overflow",
+                    "value": {
+                      "type": "primitive",
+                      "name": "null"
+                    }
+                  },
+                  {
+                    "name": "DivisionByZero",
+                    "value": {
+                      "type": "primitive",
+                      "name": "null"
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "name": "Transactional",
+              "value": {
+                "type": "enum",
+                "name": "sp_runtime::TransactionalError",
+                "values": [
+                  {
+                    "name": "LimitReached",
+                    "value": {
+                      "type": "primitive",
+                      "name": "null"
+                    }
+                  },
+                  {
+                    "name": "NoLayer",
+                    "value": {
+                      "type": "primitive",
+                      "name": "null"
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "name": "Exhausted",
+              "value": {
+                "type": "primitive",
+                "name": "null"
+              }
+            },
+            {
+              "name": "Corruption",
+              "value": {
+                "type": "primitive",
+                "name": "null"
+              }
+            },
+            {
+              "name": "Unavailable",
+              "value": {
+                "type": "primitive",
+                "name": "null"
+              }
+            },
+            {
+              "name": "RootNotAllowed",
+              "value": {
+                "type": "primitive",
+                "name": "null"
+              }
+            }
+          ]
         }
       }
     }
@@ -8649,6 +9119,10 @@
               }
             }
           ]
+        },
+        "fee": {
+          "type": "primitive",
+          "name": "u128"
         }
       }
     },
@@ -8798,6 +9272,67 @@
           ]
         }
       }
+    },
+    "LiquidityDepositCredited": {
+      "type": "struct",
+      "fields": {
+        "accountId": {
+          "type": "primitive",
+          "name": "AccountId32"
+        },
+        "asset": {
+          "type": "enum",
+          "name": "cf_primitives::chains::assets::any::Asset",
+          "values": [
+            {
+              "name": "__Unused0",
+              "value": {
+                "type": "primitive",
+                "name": "null"
+              }
+            },
+            {
+              "name": "Eth",
+              "value": {
+                "type": "primitive",
+                "name": "null"
+              }
+            },
+            {
+              "name": "Flip",
+              "value": {
+                "type": "primitive",
+                "name": "null"
+              }
+            },
+            {
+              "name": "Usdc",
+              "value": {
+                "type": "primitive",
+                "name": "null"
+              }
+            },
+            {
+              "name": "Dot",
+              "value": {
+                "type": "primitive",
+                "name": "null"
+              }
+            },
+            {
+              "name": "Btc",
+              "value": {
+                "type": "primitive",
+                "name": "null"
+              }
+            }
+          ]
+        },
+        "amountCredited": {
+          "type": "primitive",
+          "name": "u128"
+        }
+      }
     }
   },
   "EthereumIngressEgress": {
@@ -8842,6 +9377,69 @@
         "depositDetails": {
           "type": "primitive",
           "name": "null"
+        },
+        "ingressFee": {
+          "type": "primitive",
+          "name": "u128"
+        },
+        "action": {
+          "type": "enum",
+          "name": "pallet_cf_ethereum_ingress_egress::pallet::DepositAction",
+          "values": [
+            {
+              "name": "Swap",
+              "value": {
+                "type": "struct",
+                "fields": {
+                  "swapId": {
+                    "type": "primitive",
+                    "name": "u64"
+                  }
+                }
+              }
+            },
+            {
+              "name": "LiquidityProvision",
+              "value": {
+                "type": "struct",
+                "fields": {
+                  "lpAccount": {
+                    "type": "primitive",
+                    "name": "AccountId32"
+                  }
+                }
+              }
+            },
+            {
+              "name": "CcmTransfer",
+              "value": {
+                "type": "struct",
+                "fields": {
+                  "principalSwapId": {
+                    "type": "option",
+                    "value": {
+                      "type": "primitive",
+                      "name": "u64"
+                    }
+                  },
+                  "gasSwapId": {
+                    "type": "option",
+                    "value": {
+                      "type": "primitive",
+                      "name": "u64"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "name": "NoAction",
+              "value": {
+                "type": "primitive",
+                "name": "null"
+              }
+            }
+          ]
         }
       }
     },
@@ -8878,89 +9476,6 @@
         "disabled": {
           "type": "primitive",
           "name": "bool"
-        }
-      }
-    },
-    "EgressScheduled": {
-      "type": "struct",
-      "fields": {
-        "id": {
-          "type": "tuple",
-          "values": [
-            {
-              "type": "enum",
-              "name": "cf_primitives::chains::ForeignChain",
-              "values": [
-                {
-                  "name": "__Unused0",
-                  "value": {
-                    "type": "primitive",
-                    "name": "null"
-                  }
-                },
-                {
-                  "name": "Ethereum",
-                  "value": {
-                    "type": "primitive",
-                    "name": "null"
-                  }
-                },
-                {
-                  "name": "Polkadot",
-                  "value": {
-                    "type": "primitive",
-                    "name": "null"
-                  }
-                },
-                {
-                  "name": "Bitcoin",
-                  "value": {
-                    "type": "primitive",
-                    "name": "null"
-                  }
-                }
-              ]
-            },
-            {
-              "type": "primitive",
-              "name": "u64"
-            }
-          ]
-        },
-        "asset": {
-          "type": "enum",
-          "name": "cf_primitives::chains::assets::eth::Asset",
-          "values": [
-            {
-              "name": "Eth",
-              "value": {
-                "type": "primitive",
-                "name": "null"
-              }
-            },
-            {
-              "name": "Flip",
-              "value": {
-                "type": "primitive",
-                "name": "null"
-              }
-            },
-            {
-              "name": "Usdc",
-              "value": {
-                "type": "primitive",
-                "name": "null"
-              }
-            }
-          ]
-        },
-        "amount": {
-          "type": "primitive",
-          "name": "u128"
-        },
-        "destinationAddress": {
-          "type": "primitive",
-          "name": "H160"
         }
       }
     },
@@ -9461,10 +9976,30 @@
         "depositDetails": {
           "type": "primitive",
           "name": "null"
+        },
+        "reason": {
+          "type": "enum",
+          "name": "pallet_cf_ethereum_ingress_egress::DepositIgnoredReason",
+          "values": [
+            {
+              "name": "BelowMinimumDeposit",
+              "value": {
+                "type": "primitive",
+                "name": "null"
+              }
+            },
+            {
+              "name": "NotEnoughToPayFees",
+              "value": {
+                "type": "primitive",
+                "name": "null"
+              }
+            }
+          ]
         }
       }
     },
-    "VaultTransferFailed": {
+    "TransferFallbackRequested": {
       "type": "struct",
       "fields": {
         "asset": {
@@ -9501,6 +10036,10 @@
         "destinationAddress": {
           "type": "primitive",
           "name": "H160"
+        },
+        "broadcastId": {
+          "type": "primitive",
+          "name": "u32"
         }
       }
     },
@@ -9782,6 +10321,46 @@
           }
         }
       }
+    },
+    "CcmBroadcastFailed": {
+      "type": "struct",
+      "fields": {
+        "broadcastId": {
+          "type": "primitive",
+          "name": "u32"
+        }
+      }
+    },
+    "FailedForeignChainCallResigned": {
+      "type": "struct",
+      "fields": {
+        "broadcastId": {
+          "type": "primitive",
+          "name": "u32"
+        },
+        "thresholdSignatureId": {
+          "type": "primitive",
+          "name": "u32"
+        }
+      }
+    },
+    "FailedForeignChainCallExpired": {
+      "type": "struct",
+      "fields": {
+        "broadcastId": {
+          "type": "primitive",
+          "name": "u32"
+        }
+      }
+    },
+    "UtxoConsolidation": {
+      "type": "struct",
+      "fields": {
+        "broadcastId": {
+          "type": "primitive",
+          "name": "u32"
+        }
+      }
     }
   },
   "PolkadotIngressEgress": {
@@ -9816,6 +10395,69 @@
         "depositDetails": {
           "type": "primitive",
           "name": "null"
+        },
+        "ingressFee": {
+          "type": "primitive",
+          "name": "u128"
+        },
+        "action": {
+          "type": "enum",
+          "name": "pallet_cf_polkadot_ingress_egress::pallet::DepositAction",
+          "values": [
+            {
+              "name": "Swap",
+              "value": {
+                "type": "struct",
+                "fields": {
+                  "swapId": {
+                    "type": "primitive",
+                    "name": "u64"
+                  }
+                }
+              }
+            },
+            {
+              "name": "LiquidityProvision",
+              "value": {
+                "type": "struct",
+                "fields": {
+                  "lpAccount": {
+                    "type": "primitive",
+                    "name": "AccountId32"
+                  }
+                }
+              }
+            },
+            {
+              "name": "CcmTransfer",
+              "value": {
+                "type": "struct",
+                "fields": {
+                  "principalSwapId": {
+                    "type": "option",
+                    "value": {
+                      "type": "primitive",
+                      "name": "u64"
+                    }
+                  },
+                  "gasSwapId": {
+                    "type": "option",
+                    "value": {
+                      "type": "primitive",
+                      "name": "u64"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "name": "NoAction",
+              "value": {
+                "type": "primitive",
+                "name": "null"
+              }
+            }
+          ]
         }
       }
     },
@@ -9838,79 +10480,6 @@
         "disabled": {
           "type": "primitive",
           "name": "bool"
-        }
-      }
-    },
-    "EgressScheduled": {
-      "type": "struct",
-      "fields": {
-        "id": {
-          "type": "tuple",
-          "values": [
-            {
-              "type": "enum",
-              "name": "cf_primitives::chains::ForeignChain",
-              "values": [
-                {
-                  "name": "__Unused0",
-                  "value": {
-                    "type": "primitive",
-                    "name": "null"
-                  }
-                },
-                {
-                  "name": "Ethereum",
-                  "value": {
-                    "type": "primitive",
-                    "name": "null"
-                  }
-                },
-                {
-                  "name": "Polkadot",
-                  "value": {
-                    "type": "primitive",
-                    "name": "null"
-                  }
-                },
-                {
-                  "name": "Bitcoin",
-                  "value": {
-                    "type": "primitive",
-                    "name": "null"
-                  }
-                }
-              ]
-            },
-            {
-              "type": "primitive",
-              "name": "u64"
-            }
-          ]
-        },
-        "asset": {
-          "type": "enum",
-          "name": "cf_primitives::chains::assets::dot::Asset",
-          "values": [
-            {
-              "name": "Dot",
-              "value": {
-                "type": "primitive",
-                "name": "null"
-              }
-            }
-          ]
-        },
-        "amount": {
-          "type": "primitive",
-          "name": "u128"
-        },
-        "destinationAddress": {
-          "type": "array",
-          "value": {
-            "type": "primitive",
-            "name": "u8"
-          },
-          "length": 32
         }
       }
     },
@@ -10373,10 +10942,30 @@
         "depositDetails": {
           "type": "primitive",
           "name": "null"
+        },
+        "reason": {
+          "type": "enum",
+          "name": "pallet_cf_polkadot_ingress_egress::DepositIgnoredReason",
+          "values": [
+            {
+              "name": "BelowMinimumDeposit",
+              "value": {
+                "type": "primitive",
+                "name": "null"
+              }
+            },
+            {
+              "name": "NotEnoughToPayFees",
+              "value": {
+                "type": "primitive",
+                "name": "null"
+              }
+            }
+          ]
         }
       }
     },
-    "VaultTransferFailed": {
+    "TransferFallbackRequested": {
       "type": "struct",
       "fields": {
         "asset": {
@@ -10403,6 +10992,10 @@
             "name": "u8"
           },
           "length": 32
+        },
+        "broadcastId": {
+          "type": "primitive",
+          "name": "u32"
         }
       }
     },
@@ -10674,6 +11267,46 @@
           }
         }
       }
+    },
+    "CcmBroadcastFailed": {
+      "type": "struct",
+      "fields": {
+        "broadcastId": {
+          "type": "primitive",
+          "name": "u32"
+        }
+      }
+    },
+    "FailedForeignChainCallResigned": {
+      "type": "struct",
+      "fields": {
+        "broadcastId": {
+          "type": "primitive",
+          "name": "u32"
+        },
+        "thresholdSignatureId": {
+          "type": "primitive",
+          "name": "u32"
+        }
+      }
+    },
+    "FailedForeignChainCallExpired": {
+      "type": "struct",
+      "fields": {
+        "broadcastId": {
+          "type": "primitive",
+          "name": "u32"
+        }
+      }
+    },
+    "UtxoConsolidation": {
+      "type": "struct",
+      "fields": {
+        "broadcastId": {
+          "type": "primitive",
+          "name": "u32"
+        }
+      }
     }
   },
   "BitcoinIngressEgress": {
@@ -10791,6 +11424,69 @@
               "name": "u32"
             }
           }
+        },
+        "ingressFee": {
+          "type": "primitive",
+          "name": "u64"
+        },
+        "action": {
+          "type": "enum",
+          "name": "pallet_cf_bitcoin_ingress_egress::pallet::DepositAction",
+          "values": [
+            {
+              "name": "Swap",
+              "value": {
+                "type": "struct",
+                "fields": {
+                  "swapId": {
+                    "type": "primitive",
+                    "name": "u64"
+                  }
+                }
+              }
+            },
+            {
+              "name": "LiquidityProvision",
+              "value": {
+                "type": "struct",
+                "fields": {
+                  "lpAccount": {
+                    "type": "primitive",
+                    "name": "AccountId32"
+                  }
+                }
+              }
+            },
+            {
+              "name": "CcmTransfer",
+              "value": {
+                "type": "struct",
+                "fields": {
+                  "principalSwapId": {
+                    "type": "option",
+                    "value": {
+                      "type": "primitive",
+                      "name": "u64"
+                    }
+                  },
+                  "gasSwapId": {
+                    "type": "option",
+                    "value": {
+                      "type": "primitive",
+                      "name": "u64"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "name": "NoAction",
+              "value": {
+                "type": "primitive",
+                "name": "null"
+              }
+            }
+          ]
         }
       }
     },
@@ -10813,148 +11509,6 @@
         "disabled": {
           "type": "primitive",
           "name": "bool"
-        }
-      }
-    },
-    "EgressScheduled": {
-      "type": "struct",
-      "fields": {
-        "id": {
-          "type": "tuple",
-          "values": [
-            {
-              "type": "enum",
-              "name": "cf_primitives::chains::ForeignChain",
-              "values": [
-                {
-                  "name": "__Unused0",
-                  "value": {
-                    "type": "primitive",
-                    "name": "null"
-                  }
-                },
-                {
-                  "name": "Ethereum",
-                  "value": {
-                    "type": "primitive",
-                    "name": "null"
-                  }
-                },
-                {
-                  "name": "Polkadot",
-                  "value": {
-                    "type": "primitive",
-                    "name": "null"
-                  }
-                },
-                {
-                  "name": "Bitcoin",
-                  "value": {
-                    "type": "primitive",
-                    "name": "null"
-                  }
-                }
-              ]
-            },
-            {
-              "type": "primitive",
-              "name": "u64"
-            }
-          ]
-        },
-        "asset": {
-          "type": "enum",
-          "name": "cf_primitives::chains::assets::btc::Asset",
-          "values": [
-            {
-              "name": "Btc",
-              "value": {
-                "type": "primitive",
-                "name": "null"
-              }
-            }
-          ]
-        },
-        "amount": {
-          "type": "primitive",
-          "name": "u128"
-        },
-        "destinationAddress": {
-          "type": "enum",
-          "name": "cf_chains::btc::ScriptPubkey",
-          "values": [
-            {
-              "name": "P2PKH",
-              "value": {
-                "type": "array",
-                "value": {
-                  "type": "primitive",
-                  "name": "u8"
-                },
-                "length": 20
-              }
-            },
-            {
-              "name": "P2SH",
-              "value": {
-                "type": "array",
-                "value": {
-                  "type": "primitive",
-                  "name": "u8"
-                },
-                "length": 20
-              }
-            },
-            {
-              "name": "P2WPKH",
-              "value": {
-                "type": "array",
-                "value": {
-                  "type": "primitive",
-                  "name": "u8"
-                },
-                "length": 20
-              }
-            },
-            {
-              "name": "P2WSH",
-              "value": {
-                "type": "array",
-                "value": {
-                  "type": "primitive",
-                  "name": "u8"
-                },
-                "length": 32
-              }
-            },
-            {
-              "name": "Taproot",
-              "value": {
-                "type": "array",
-                "value": {
-                  "type": "primitive",
-                  "name": "u8"
-                },
-                "length": 32
-              }
-            },
-            {
-              "name": "OtherSegwit",
-              "value": {
-                "type": "struct",
-                "fields": {
-                  "version": {
-                    "type": "primitive",
-                    "name": "u8"
-                  },
-                  "program": {
-                    "type": "primitive",
-                    "name": "Bytes"
-                  }
-                }
-              }
-            }
-          ]
         }
       }
     },
@@ -11500,10 +12054,30 @@
               "name": "u32"
             }
           }
+        },
+        "reason": {
+          "type": "enum",
+          "name": "pallet_cf_bitcoin_ingress_egress::DepositIgnoredReason",
+          "values": [
+            {
+              "name": "BelowMinimumDeposit",
+              "value": {
+                "type": "primitive",
+                "name": "null"
+              }
+            },
+            {
+              "name": "NotEnoughToPayFees",
+              "value": {
+                "type": "primitive",
+                "name": "null"
+              }
+            }
+          ]
         }
       }
     },
-    "VaultTransferFailed": {
+    "TransferFallbackRequested": {
       "type": "struct",
       "fields": {
         "asset": {
@@ -11599,6 +12173,10 @@
               }
             }
           ]
+        },
+        "broadcastId": {
+          "type": "primitive",
+          "name": "u32"
         }
       }
     },
@@ -11953,6 +12531,46 @@
           }
         }
       }
+    },
+    "CcmBroadcastFailed": {
+      "type": "struct",
+      "fields": {
+        "broadcastId": {
+          "type": "primitive",
+          "name": "u32"
+        }
+      }
+    },
+    "FailedForeignChainCallResigned": {
+      "type": "struct",
+      "fields": {
+        "broadcastId": {
+          "type": "primitive",
+          "name": "u32"
+        },
+        "thresholdSignatureId": {
+          "type": "primitive",
+          "name": "u32"
+        }
+      }
+    },
+    "FailedForeignChainCallExpired": {
+      "type": "struct",
+      "fields": {
+        "broadcastId": {
+          "type": "primitive",
+          "name": "u32"
+        }
+      }
+    },
+    "UtxoConsolidation": {
+      "type": "struct",
+      "fields": {
+        "broadcastId": {
+          "type": "primitive",
+          "name": "u32"
+        }
+      }
     }
   },
   "LiquidityPools": {
@@ -11962,111 +12580,6 @@
         "buyInterval": {
           "type": "primitive",
           "name": "u32"
-        }
-      }
-    },
-    "PoolStateUpdated": {
-      "type": "struct",
-      "fields": {
-        "baseAsset": {
-          "type": "enum",
-          "name": "cf_primitives::chains::assets::any::Asset",
-          "values": [
-            {
-              "name": "__Unused0",
-              "value": {
-                "type": "primitive",
-                "name": "null"
-              }
-            },
-            {
-              "name": "Eth",
-              "value": {
-                "type": "primitive",
-                "name": "null"
-              }
-            },
-            {
-              "name": "Flip",
-              "value": {
-                "type": "primitive",
-                "name": "null"
-              }
-            },
-            {
-              "name": "Usdc",
-              "value": {
-                "type": "primitive",
-                "name": "null"
-              }
-            },
-            {
-              "name": "Dot",
-              "value": {
-                "type": "primitive",
-                "name": "null"
-              }
-            },
-            {
-              "name": "Btc",
-              "value": {
-                "type": "primitive",
-                "name": "null"
-              }
-            }
-          ]
-        },
-        "pairAsset": {
-          "type": "enum",
-          "name": "cf_primitives::chains::assets::any::Asset",
-          "values": [
-            {
-              "name": "__Unused0",
-              "value": {
-                "type": "primitive",
-                "name": "null"
-              }
-            },
-            {
-              "name": "Eth",
-              "value": {
-                "type": "primitive",
-                "name": "null"
-              }
-            },
-            {
-              "name": "Flip",
-              "value": {
-                "type": "primitive",
-                "name": "null"
-              }
-            },
-            {
-              "name": "Usdc",
-              "value": {
-                "type": "primitive",
-                "name": "null"
-              }
-            },
-            {
-              "name": "Dot",
-              "value": {
-                "type": "primitive",
-                "name": "null"
-              }
-            },
-            {
-              "name": "Btc",
-              "value": {
-                "type": "primitive",
-                "name": "null"
-              }
-            }
-          ]
-        },
-        "enabled": {
-          "type": "primitive",
-          "name": "bool"
         }
       }
     },
@@ -12121,7 +12634,7 @@
             }
           ]
         },
-        "pairAsset": {
+        "quoteAsset": {
           "type": "enum",
           "name": "cf_primitives::chains::assets::any::Asset",
           "values": [
@@ -12234,7 +12747,7 @@
             }
           ]
         },
-        "pairAsset": {
+        "quoteAsset": {
           "type": "enum",
           "name": "cf_primitives::chains::assets::any::Asset",
           "values": [
@@ -12311,13 +12824,13 @@
                     },
                     "amounts": {
                       "type": "struct",
-                      "name": "PalletCfPoolsAssetsMap",
+                      "name": "PalletCfPoolsAssetsMapU128",
                       "fields": {
                         "base": {
                           "type": "primitive",
                           "name": "u128"
                         },
-                        "pair": {
+                        "quote": {
                           "type": "primitive",
                           "name": "u128"
                         }
@@ -12338,13 +12851,13 @@
                     },
                     "amounts": {
                       "type": "struct",
-                      "name": "PalletCfPoolsAssetsMap",
+                      "name": "PalletCfPoolsAssetsMapU128",
                       "fields": {
                         "base": {
                           "type": "primitive",
                           "name": "u128"
                         },
-                        "pair": {
+                        "quote": {
                           "type": "primitive",
                           "name": "u128"
                         }
@@ -12362,13 +12875,13 @@
         },
         "collectedFees": {
           "type": "struct",
-          "name": "PalletCfPoolsAssetsMap",
+          "name": "PalletCfPoolsAssetsMapU128",
           "fields": {
             "base": {
               "type": "primitive",
               "name": "u128"
             },
-            "pair": {
+            "quote": {
               "type": "primitive",
               "name": "u128"
             }
@@ -12383,7 +12896,7 @@
           "type": "primitive",
           "name": "AccountId32"
         },
-        "sellAsset": {
+        "baseAsset": {
           "type": "enum",
           "name": "cf_primitives::chains::assets::any::Asset",
           "values": [
@@ -12431,7 +12944,7 @@
             }
           ]
         },
-        "buyAsset": {
+        "quoteAsset": {
           "type": "enum",
           "name": "cf_primitives::chains::assets::any::Asset",
           "values": [
@@ -12472,6 +12985,26 @@
             },
             {
               "name": "Btc",
+              "value": {
+                "type": "primitive",
+                "name": "null"
+              }
+            }
+          ]
+        },
+        "side": {
+          "type": "enum",
+          "name": "cf_amm::common::Order",
+          "values": [
+            {
+              "name": "Buy",
+              "value": {
+                "type": "primitive",
+                "name": "null"
+              }
+            },
+            {
+              "name": "Sell",
               "value": {
                 "type": "primitive",
                 "name": "null"
@@ -12487,7 +13020,7 @@
           "type": "primitive",
           "name": "i32"
         },
-        "amountChange": {
+        "sellAmountChange": {
           "type": "option",
           "value": {
             "type": "enum",
@@ -12510,7 +13043,7 @@
             ]
           }
         },
-        "amountTotal": {
+        "sellAmountTotal": {
           "type": "primitive",
           "name": "u128"
         },
@@ -12693,7 +13226,7 @@
             }
           ]
         },
-        "pairAsset": {
+        "quoteAsset": {
           "type": "enum",
           "name": "cf_primitives::chains::assets::any::Asset",
           "values": [
@@ -12742,6 +13275,278 @@
           ]
         },
         "feeHundredthPips": {
+          "type": "primitive",
+          "name": "u32"
+        }
+      }
+    },
+    "ScheduledLimitOrderUpdateDispatchSuccess": {
+      "type": "struct",
+      "fields": {
+        "lp": {
+          "type": "primitive",
+          "name": "AccountId32"
+        },
+        "orderId": {
+          "type": "primitive",
+          "name": "u64"
+        }
+      }
+    },
+    "ScheduledLimitOrderUpdateDispatchFailure": {
+      "type": "struct",
+      "fields": {
+        "lp": {
+          "type": "primitive",
+          "name": "AccountId32"
+        },
+        "orderId": {
+          "type": "primitive",
+          "name": "u64"
+        },
+        "error": {
+          "type": "enum",
+          "name": "sp_runtime::DispatchError",
+          "values": [
+            {
+              "name": "Other",
+              "value": {
+                "type": "primitive",
+                "name": "null"
+              }
+            },
+            {
+              "name": "CannotLookup",
+              "value": {
+                "type": "primitive",
+                "name": "null"
+              }
+            },
+            {
+              "name": "BadOrigin",
+              "value": {
+                "type": "primitive",
+                "name": "null"
+              }
+            },
+            {
+              "name": "Module",
+              "value": {
+                "type": "struct",
+                "name": "SpRuntimeModuleError",
+                "fields": {
+                  "index": {
+                    "type": "primitive",
+                    "name": "u8"
+                  },
+                  "error": {
+                    "type": "array",
+                    "value": {
+                      "type": "primitive",
+                      "name": "u8"
+                    },
+                    "length": 4
+                  }
+                }
+              }
+            },
+            {
+              "name": "ConsumerRemaining",
+              "value": {
+                "type": "primitive",
+                "name": "null"
+              }
+            },
+            {
+              "name": "NoProviders",
+              "value": {
+                "type": "primitive",
+                "name": "null"
+              }
+            },
+            {
+              "name": "TooManyConsumers",
+              "value": {
+                "type": "primitive",
+                "name": "null"
+              }
+            },
+            {
+              "name": "Token",
+              "value": {
+                "type": "enum",
+                "name": "sp_runtime::TokenError",
+                "values": [
+                  {
+                    "name": "FundsUnavailable",
+                    "value": {
+                      "type": "primitive",
+                      "name": "null"
+                    }
+                  },
+                  {
+                    "name": "OnlyProvider",
+                    "value": {
+                      "type": "primitive",
+                      "name": "null"
+                    }
+                  },
+                  {
+                    "name": "BelowMinimum",
+                    "value": {
+                      "type": "primitive",
+                      "name": "null"
+                    }
+                  },
+                  {
+                    "name": "CannotCreate",
+                    "value": {
+                      "type": "primitive",
+                      "name": "null"
+                    }
+                  },
+                  {
+                    "name": "UnknownAsset",
+                    "value": {
+                      "type": "primitive",
+                      "name": "null"
+                    }
+                  },
+                  {
+                    "name": "Frozen",
+                    "value": {
+                      "type": "primitive",
+                      "name": "null"
+                    }
+                  },
+                  {
+                    "name": "Unsupported",
+                    "value": {
+                      "type": "primitive",
+                      "name": "null"
+                    }
+                  },
+                  {
+                    "name": "CannotCreateHold",
+                    "value": {
+                      "type": "primitive",
+                      "name": "null"
+                    }
+                  },
+                  {
+                    "name": "NotExpendable",
+                    "value": {
+                      "type": "primitive",
+                      "name": "null"
+                    }
+                  },
+                  {
+                    "name": "Blocked",
+                    "value": {
+                      "type": "primitive",
+                      "name": "null"
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "name": "Arithmetic",
+              "value": {
+                "type": "enum",
+                "name": "sp_arithmetic::ArithmeticError",
+                "values": [
+                  {
+                    "name": "Underflow",
+                    "value": {
+                      "type": "primitive",
+                      "name": "null"
+                    }
+                  },
+                  {
+                    "name": "Overflow",
+                    "value": {
+                      "type": "primitive",
+                      "name": "null"
+                    }
+                  },
+                  {
+                    "name": "DivisionByZero",
+                    "value": {
+                      "type": "primitive",
+                      "name": "null"
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "name": "Transactional",
+              "value": {
+                "type": "enum",
+                "name": "sp_runtime::TransactionalError",
+                "values": [
+                  {
+                    "name": "LimitReached",
+                    "value": {
+                      "type": "primitive",
+                      "name": "null"
+                    }
+                  },
+                  {
+                    "name": "NoLayer",
+                    "value": {
+                      "type": "primitive",
+                      "name": "null"
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "name": "Exhausted",
+              "value": {
+                "type": "primitive",
+                "name": "null"
+              }
+            },
+            {
+              "name": "Corruption",
+              "value": {
+                "type": "primitive",
+                "name": "null"
+              }
+            },
+            {
+              "name": "Unavailable",
+              "value": {
+                "type": "primitive",
+                "name": "null"
+              }
+            },
+            {
+              "name": "RootNotAllowed",
+              "value": {
+                "type": "primitive",
+                "name": "null"
+              }
+            }
+          ]
+        }
+      }
+    },
+    "LimitOrderSetOrUpdateScheduled": {
+      "type": "struct",
+      "fields": {
+        "lp": {
+          "type": "primitive",
+          "name": "AccountId32"
+        },
+        "orderId": {
+          "type": "primitive",
+          "name": "u64"
+        },
+        "dispatchAt": {
           "type": "primitive",
           "name": "u32"
         }

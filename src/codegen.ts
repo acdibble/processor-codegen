@@ -124,6 +124,10 @@ export default class CodeGenerator {
   }
 
   private generateEnum(def: EnumType): Identifier {
+    const identifier = nameToIdentifier(def.name);
+
+    if (this.registry.types.has(identifier)) return new Identifier(identifier);
+
     const isSimple = def.values.every((v) => isNull(v.value));
     const values = def.values.filter((n) => !n.name.startsWith('__Unused'));
 
@@ -146,15 +150,19 @@ export default class CodeGenerator {
         .join(', ')}])`;
     }
 
-    const identifier = nameToIdentifier(def.name);
-
     this.registry.types.set(identifier, new Code(generated));
 
     return new Identifier(identifier);
   }
 
-  private generateStruct(def: StructType): Code {
-    return new Code(
+  private generateStruct(def: StructType): CodegenResult {
+    const identifier = def.name && nameToIdentifier(def.name);
+
+    if (identifier && this.registry.types.has(identifier)) {
+      return new Identifier(identifier);
+    }
+
+    const code = new Code(
       `z.object({ ${Object.entries(def.fields)
         .filter(([_, value]) => !isNull(value))
         .map(([key, value]) => {
@@ -172,6 +180,12 @@ export default class CodeGenerator {
         })
         .join(', ')} })`,
     );
+
+    if (!identifier) return code;
+
+    this.registry.types.set(identifier, code);
+
+    return new Identifier(identifier);
   }
 
   private generateArray(def: ArrayType): CodegenResult {

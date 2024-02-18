@@ -13,6 +13,11 @@ const numberOrHex = z
   .union([z.number(), hexString, numericString])
   .transform((n) => BigInt(n));
 
+const spWeightsWeightV2Weight = z.object({
+  refTime: numberOrHex,
+  proofSize: numberOrHex,
+});
+
 const simpleEnum = <U extends string, T extends readonly [U, ...U[]]>(
   values: T,
 ) => z.object({ __kind: z.enum(values) }).transform(({ __kind }) => __kind!);
@@ -25,17 +30,21 @@ const frameSupportDispatchDispatchClass = simpleEnum([
 
 const frameSupportDispatchPays = simpleEnum(['Yes', 'No']);
 
+const frameSupportDispatchDispatchInfo = z.object({
+  weight: spWeightsWeightV2Weight,
+  class: frameSupportDispatchDispatchClass,
+  paysFee: frameSupportDispatchPays,
+});
+
 export const systemEventExtrinsicSuccess = z.object({
-  dispatchInfo: z.object({
-    weight: z.object({ refTime: numberOrHex, proofSize: numberOrHex }),
-    class: frameSupportDispatchDispatchClass,
-    paysFee: frameSupportDispatchPays,
-  }),
+  dispatchInfo: frameSupportDispatchDispatchInfo,
 });
 
 export type SystemEventExtrinsicSuccessArgs = z.output<
   typeof systemEventExtrinsicSuccess
 >;
+
+const spRuntimeModuleError = z.object({ index: z.number(), error: hexString });
 
 const spRuntimeTokenError = simpleEnum([
   'FundsUnavailable',
@@ -62,10 +71,7 @@ const spRuntimeDispatchError = z.union([
   z.object({ __kind: z.literal('Other') }),
   z.object({ __kind: z.literal('CannotLookup') }),
   z.object({ __kind: z.literal('BadOrigin') }),
-  z.object({
-    __kind: z.literal('Module'),
-    value: z.object({ index: z.number(), error: hexString }),
-  }),
+  z.object({ __kind: z.literal('Module'), value: spRuntimeModuleError }),
   z.object({ __kind: z.literal('ConsumerRemaining') }),
   z.object({ __kind: z.literal('NoProviders') }),
   z.object({ __kind: z.literal('TooManyConsumers') }),
@@ -86,11 +92,7 @@ const spRuntimeDispatchError = z.union([
 
 export const systemEventExtrinsicFailed = z.object({
   dispatchError: spRuntimeDispatchError,
-  dispatchInfo: z.object({
-    weight: z.object({ refTime: numberOrHex, proofSize: numberOrHex }),
-    class: frameSupportDispatchDispatchClass,
-    paysFee: frameSupportDispatchPays,
-  }),
+  dispatchInfo: frameSupportDispatchDispatchInfo,
 });
 
 export type SystemEventExtrinsicFailedArgs = z.output<
@@ -166,67 +168,95 @@ export type EnvironmentEventBitcoinBlockNumberSetForVaultArgs = z.output<
   typeof environmentEventBitcoinBlockNumberSetForVault
 >;
 
+const palletCfEmissionsPalletSafeMode = z.object({
+  emissionsSyncEnabled: z.boolean(),
+});
+
+const palletCfFundingPalletSafeMode = z.object({
+  redeemEnabled: z.boolean(),
+  startBiddingEnabled: z.boolean(),
+  stopBiddingEnabled: z.boolean(),
+});
+
+const palletCfSwappingPalletSafeMode = z.object({
+  swapsEnabled: z.boolean(),
+  withdrawalsEnabled: z.boolean(),
+  depositsEnabled: z.boolean(),
+  brokerRegistrationEnabled: z.boolean(),
+});
+
+const palletCfLpPalletSafeMode = z.object({
+  depositEnabled: z.boolean(),
+  withdrawalEnabled: z.boolean(),
+});
+
+const palletCfValidatorPalletSafeMode = z.object({
+  authorityRotationEnabled: z.boolean(),
+});
+
+const palletCfPoolsPalletSafeMode = z.object({
+  rangeOrderUpdateEnabled: z.boolean(),
+  limitOrderUpdateEnabled: z.boolean(),
+});
+
+const palletCfReputationPalletSafeMode = z.object({
+  reportingEnabled: z.boolean(),
+});
+
+const palletCfVaultsPalletSafeMode = z.object({ slashingEnabled: z.boolean() });
+
+const palletCfBroadcastPalletSafeMode = z.object({ retryEnabled: z.boolean() });
+
+const stateChainRuntimeSafeModeWitnesserCallPermission = z.object({
+  governance: z.boolean(),
+  funding: z.boolean(),
+  swapping: z.boolean(),
+  ethereumBroadcast: z.boolean(),
+  ethereumChainTracking: z.boolean(),
+  ethereumIngressEgress: z.boolean(),
+  ethereumVault: z.boolean(),
+  polkadotBroadcast: z.boolean(),
+  polkadotChainTracking: z.boolean(),
+  polkadotIngressEgress: z.boolean(),
+  polkadotVault: z.boolean(),
+  bitcoinBroadcast: z.boolean(),
+  bitcoinChainTracking: z.boolean(),
+  bitcoinIngressEgress: z.boolean(),
+  bitcoinVault: z.boolean(),
+});
+
 const palletCfWitnesserPalletSafeMode = z.union([
   z.object({ __kind: z.literal('CodeGreen') }),
   z.object({ __kind: z.literal('CodeRed') }),
   z.object({
     __kind: z.literal('CodeAmber'),
-    value: z.object({
-      governance: z.boolean(),
-      funding: z.boolean(),
-      swapping: z.boolean(),
-      ethereumBroadcast: z.boolean(),
-      ethereumChainTracking: z.boolean(),
-      ethereumIngressEgress: z.boolean(),
-      ethereumVault: z.boolean(),
-      polkadotBroadcast: z.boolean(),
-      polkadotChainTracking: z.boolean(),
-      polkadotIngressEgress: z.boolean(),
-      polkadotVault: z.boolean(),
-      bitcoinBroadcast: z.boolean(),
-      bitcoinChainTracking: z.boolean(),
-      bitcoinIngressEgress: z.boolean(),
-      bitcoinVault: z.boolean(),
-    }),
+    value: stateChainRuntimeSafeModeWitnesserCallPermission,
   }),
 ]);
+
+const stateChainRuntimeSafeModeInnerRuntimeSafeMode = z.object({
+  emissions: palletCfEmissionsPalletSafeMode,
+  funding: palletCfFundingPalletSafeMode,
+  swapping: palletCfSwappingPalletSafeMode,
+  liquidityProvider: palletCfLpPalletSafeMode,
+  validator: palletCfValidatorPalletSafeMode,
+  pools: palletCfPoolsPalletSafeMode,
+  reputation: palletCfReputationPalletSafeMode,
+  vaultEthereum: palletCfVaultsPalletSafeMode,
+  vaultBitcoin: palletCfVaultsPalletSafeMode,
+  vaultPolkadot: palletCfVaultsPalletSafeMode,
+  broadcastEthereum: palletCfBroadcastPalletSafeMode,
+  broadcastBitcoin: palletCfBroadcastPalletSafeMode,
+  broadcastPolkadot: palletCfBroadcastPalletSafeMode,
+  witnesser: palletCfWitnesserPalletSafeMode,
+});
 
 const palletCfEnvironmentSafeModeUpdate = z.union([
   z.object({ __kind: z.literal('CodeRed') }),
   z.object({ __kind: z.literal('CodeGreen') }),
   z.object({
     __kind: z.literal('CodeAmber'),
-    value: z.object({
-      emissions: z.object({ emissionsSyncEnabled: z.boolean() }),
-      funding: z.object({
-        redeemEnabled: z.boolean(),
-        startBiddingEnabled: z.boolean(),
-        stopBiddingEnabled: z.boolean(),
-      }),
-      swapping: z.object({
-        swapsEnabled: z.boolean(),
-        withdrawalsEnabled: z.boolean(),
-        depositsEnabled: z.boolean(),
-        brokerRegistrationEnabled: z.boolean(),
-      }),
-      liquidityProvider: z.object({
-        depositEnabled: z.boolean(),
-        withdrawalEnabled: z.boolean(),
-      }),
-      validator: z.object({ authorityRotationEnabled: z.boolean() }),
-      pools: z.object({
-        rangeOrderUpdateEnabled: z.boolean(),
-        limitOrderUpdateEnabled: z.boolean(),
-      }),
-      reputation: z.object({ reportingEnabled: z.boolean() }),
-      vaultEthereum: z.object({ slashingEnabled: z.boolean() }),
-      vaultBitcoin: z.object({ slashingEnabled: z.boolean() }),
-      vaultPolkadot: z.object({ slashingEnabled: z.boolean() }),
-      broadcastEthereum: z.object({ retryEnabled: z.boolean() }),
-      broadcastBitcoin: z.object({ retryEnabled: z.boolean() }),
-      broadcastPolkadot: z.object({ retryEnabled: z.boolean() }),
-      witnesser: palletCfWitnesserPalletSafeMode,
-    }),
+    value: stateChainRuntimeSafeModeInnerRuntimeSafeMode,
   }),
 ]);
 
@@ -475,57 +505,35 @@ export type ValidatorEventNewEpochArgs = z.output<
   typeof validatorEventNewEpoch
 >;
 
+const palletCfValidatorRotationState = z.object({
+  primaryCandidates: z.array(accountId),
+  secondaryCandidates: z.array(accountId),
+  banned: z.array(accountId),
+  bond: numberOrHex,
+  newEpochIndex: z.number(),
+});
+
 const palletCfValidatorRotationPhase = z.union([
   z.object({ __kind: z.literal('Idle') }),
   z.object({
     __kind: z.literal('KeygensInProgress'),
-    value: z.object({
-      primaryCandidates: z.array(accountId),
-      secondaryCandidates: z.array(accountId),
-      banned: z.array(accountId),
-      bond: numberOrHex,
-      newEpochIndex: z.number(),
-    }),
+    value: palletCfValidatorRotationState,
   }),
   z.object({
     __kind: z.literal('KeyHandoversInProgress'),
-    value: z.object({
-      primaryCandidates: z.array(accountId),
-      secondaryCandidates: z.array(accountId),
-      banned: z.array(accountId),
-      bond: numberOrHex,
-      newEpochIndex: z.number(),
-    }),
+    value: palletCfValidatorRotationState,
   }),
   z.object({
     __kind: z.literal('ActivatingKeys'),
-    value: z.object({
-      primaryCandidates: z.array(accountId),
-      secondaryCandidates: z.array(accountId),
-      banned: z.array(accountId),
-      bond: numberOrHex,
-      newEpochIndex: z.number(),
-    }),
+    value: palletCfValidatorRotationState,
   }),
   z.object({
     __kind: z.literal('NewKeysActivated'),
-    value: z.object({
-      primaryCandidates: z.array(accountId),
-      secondaryCandidates: z.array(accountId),
-      banned: z.array(accountId),
-      bond: numberOrHex,
-      newEpochIndex: z.number(),
-    }),
+    value: palletCfValidatorRotationState,
   }),
   z.object({
     __kind: z.literal('SessionRotating'),
-    value: z.object({
-      primaryCandidates: z.array(accountId),
-      secondaryCandidates: z.array(accountId),
-      banned: z.array(accountId),
-      bond: numberOrHex,
-      newEpochIndex: z.number(),
-    }),
+    value: palletCfValidatorRotationState,
   }),
 ]);
 
@@ -537,18 +545,16 @@ export type ValidatorEventRotationPhaseUpdatedArgs = z.output<
   typeof validatorEventRotationPhaseUpdated
 >;
 
+const cfPrimitivesSemVer = z.object({
+  major: z.number(),
+  minor: z.number(),
+  patch: z.number(),
+});
+
 export const validatorEventCFEVersionUpdated = z.object({
   accountId,
-  oldVersion: z.object({
-    major: z.number(),
-    minor: z.number(),
-    patch: z.number(),
-  }),
-  newVersion: z.object({
-    major: z.number(),
-    minor: z.number(),
-    patch: z.number(),
-  }),
+  oldVersion: cfPrimitivesSemVer,
+  newVersion: cfPrimitivesSemVer,
 });
 
 export type ValidatorEventCFEVersionUpdatedArgs = z.output<
@@ -587,6 +593,12 @@ export type ValidatorEventAuctionCompletedArgs = z.output<
   typeof validatorEventAuctionCompleted
 >;
 
+const palletCfValidatorAuctionResolverSetSizeParameters = z.object({
+  minSize: z.number(),
+  maxSize: z.number(),
+  maxExpansion: z.number(),
+});
+
 const palletCfValidatorPalletConfigUpdate = z.union([
   z.object({
     __kind: z.literal('RegistrationBondPercentage'),
@@ -615,22 +627,12 @@ const palletCfValidatorPalletConfigUpdate = z.union([
   z.object({
     __kind: z.literal('AuctionParameters'),
     value: z.object({
-      parameters: z.object({
-        minSize: z.number(),
-        maxSize: z.number(),
-        maxExpansion: z.number(),
-      }),
+      parameters: palletCfValidatorAuctionResolverSetSizeParameters,
     }),
   }),
   z.object({
     __kind: z.literal('MinimumReportedCfeVersion'),
-    value: z.object({
-      version: z.object({
-        major: z.number(),
-        minor: z.number(),
-        patch: z.number(),
-      }),
-    }),
+    value: z.object({ version: cfPrimitivesSemVer }),
   }),
 ]);
 
@@ -826,55 +828,79 @@ export type ReputationEventMissedHeartbeatPenaltyUpdatedArgs = z.output<
   typeof reputationEventMissedHeartbeatPenaltyUpdated
 >;
 
+const palletCfReputationPenalty = z.object({
+  reputation: z.number(),
+  suspension: z.number(),
+});
+
 export const reputationEventPenaltyUpdated = z.object({
   offence: stateChainRuntimeChainflipOffencesOffence,
-  oldPenalty: z.object({ reputation: z.number(), suspension: z.number() }),
-  newPenalty: z.object({ reputation: z.number(), suspension: z.number() }),
+  oldPenalty: palletCfReputationPenalty,
+  newPenalty: palletCfReputationPenalty,
 });
 
 export type ReputationEventPenaltyUpdatedArgs = z.output<
   typeof reputationEventPenaltyUpdated
 >;
 
+const cfChainsEthEthereumTrackedData = z.object({
+  baseFee: numberOrHex,
+  priorityFee: numberOrHex,
+});
+
+const cfChainsChainStateEthereum = z.object({
+  blockHeight: numberOrHex,
+  trackedData: cfChainsEthEthereumTrackedData,
+});
+
 export const ethereumChainTrackingEventChainStateUpdated = z.object({
-  newChainState: z.object({
-    blockHeight: numberOrHex,
-    trackedData: z.object({ baseFee: numberOrHex, priorityFee: numberOrHex }),
-  }),
+  newChainState: cfChainsChainStateEthereum,
 });
 
 export type EthereumChainTrackingEventChainStateUpdatedArgs = z.output<
   typeof ethereumChainTrackingEventChainStateUpdated
 >;
 
+const cfChainsDotRuntimeVersion = z.object({
+  specVersion: z.number(),
+  transactionVersion: z.number(),
+});
+
+const cfChainsDotPolkadotTrackedData = z.object({
+  medianTip: numberOrHex,
+  runtimeVersion: cfChainsDotRuntimeVersion,
+});
+
+const cfChainsChainStatePolkadot = z.object({
+  blockHeight: z.number(),
+  trackedData: cfChainsDotPolkadotTrackedData,
+});
+
 export const polkadotChainTrackingEventChainStateUpdated = z.object({
-  newChainState: z.object({
-    blockHeight: z.number(),
-    trackedData: z.object({
-      medianTip: numberOrHex,
-      runtimeVersion: z.object({
-        specVersion: z.number(),
-        transactionVersion: z.number(),
-      }),
-    }),
-  }),
+  newChainState: cfChainsChainStatePolkadot,
 });
 
 export type PolkadotChainTrackingEventChainStateUpdatedArgs = z.output<
   typeof polkadotChainTrackingEventChainStateUpdated
 >;
 
+const cfChainsBtcBitcoinFeeInfo = z.object({
+  feePerInputUtxo: numberOrHex,
+  feePerOutputUtxo: numberOrHex,
+  minFeeRequiredPerTx: numberOrHex,
+});
+
+const cfChainsBtcBitcoinTrackedData = z.object({
+  btcFeeInfo: cfChainsBtcBitcoinFeeInfo,
+});
+
+const cfChainsChainStateBitcoin = z.object({
+  blockHeight: numberOrHex,
+  trackedData: cfChainsBtcBitcoinTrackedData,
+});
+
 export const bitcoinChainTrackingEventChainStateUpdated = z.object({
-  newChainState: z.object({
-    blockHeight: numberOrHex,
-    trackedData: z.object({
-      btcFeeInfo: z.object({
-        feePerInputUtxo: numberOrHex,
-        feePerOutputUtxo: numberOrHex,
-        minFeeRequiredPerTx: numberOrHex,
-      }),
-    }),
-  }),
+  newChainState: cfChainsChainStateBitcoin,
 });
 
 export type BitcoinChainTrackingEventChainStateUpdatedArgs = z.output<
@@ -893,16 +919,18 @@ export type EthereumVaultEventKeygenRequestArgs = z.output<
 
 const cfChainsEvmParityBit = simpleEnum(['Odd', 'Even']);
 
+const cfChainsEvmAggKey = z.object({
+  pubKeyX: hexString,
+  pubKeyYParity: cfChainsEvmParityBit,
+});
+
 export const ethereumVaultEventKeyHandoverRequest = z.object({
   ceremonyId: numberOrHex,
   fromEpoch: z.number(),
-  keyToShare: z.object({
-    pubKeyX: hexString,
-    pubKeyYParity: cfChainsEvmParityBit,
-  }),
+  keyToShare: cfChainsEvmAggKey,
   sharingParticipants: z.array(accountId),
   receivingParticipants: z.array(accountId),
-  newKey: z.object({ pubKeyX: hexString, pubKeyYParity: cfChainsEvmParityBit }),
+  newKey: cfChainsEvmAggKey,
   toEpoch: z.number(),
 });
 
@@ -916,10 +944,7 @@ export type EthereumVaultEventVaultRotationCompletedArgs = z.output<
   typeof ethereumVaultEventVaultRotationCompleted
 >;
 
-export const ethereumVaultEventVaultRotatedExternally = z.object({
-  pubKeyX: hexString,
-  pubKeyYParity: cfChainsEvmParityBit,
-});
+export const ethereumVaultEventVaultRotatedExternally = cfChainsEvmAggKey;
 
 export type EthereumVaultEventVaultRotatedExternallyArgs = z.output<
   typeof ethereumVaultEventVaultRotatedExternally
@@ -970,7 +995,7 @@ export type EthereumVaultEventNoKeyHandoverArgs = z.output<
 >;
 
 export const ethereumVaultEventKeygenVerificationSuccess = z.object({
-  aggKey: z.object({ pubKeyX: hexString, pubKeyYParity: cfChainsEvmParityBit }),
+  aggKey: cfChainsEvmAggKey,
 });
 
 export type EthereumVaultEventKeygenVerificationSuccessArgs = z.output<
@@ -978,7 +1003,7 @@ export type EthereumVaultEventKeygenVerificationSuccessArgs = z.output<
 >;
 
 export const ethereumVaultEventKeyHandoverVerificationSuccess = z.object({
-  aggKey: z.object({ pubKeyX: hexString, pubKeyYParity: cfChainsEvmParityBit }),
+  aggKey: cfChainsEvmAggKey,
 });
 
 export type EthereumVaultEventKeyHandoverVerificationSuccessArgs = z.output<
@@ -1030,10 +1055,7 @@ export type EthereumVaultEventKeygenResponseTimeoutUpdatedArgs = z.output<
 >;
 
 export const ethereumVaultEventAwaitingGovernanceActivation = z.object({
-  newPublicKey: z.object({
-    pubKeyX: hexString,
-    pubKeyYParity: cfChainsEvmParityBit,
-  }),
+  newPublicKey: cfChainsEvmAggKey,
 });
 
 export type EthereumVaultEventAwaitingGovernanceActivationArgs = z.output<
@@ -1226,13 +1248,18 @@ export type BitcoinVaultEventKeygenRequestArgs = z.output<
   typeof bitcoinVaultEventKeygenRequest
 >;
 
+const cfChainsBtcAggKey = z.object({
+  previous: hexString.nullish(),
+  current: hexString,
+});
+
 export const bitcoinVaultEventKeyHandoverRequest = z.object({
   ceremonyId: numberOrHex,
   fromEpoch: z.number(),
-  keyToShare: z.object({ previous: hexString.nullish(), current: hexString }),
+  keyToShare: cfChainsBtcAggKey,
   sharingParticipants: z.array(accountId),
   receivingParticipants: z.array(accountId),
-  newKey: z.object({ previous: hexString.nullish(), current: hexString }),
+  newKey: cfChainsBtcAggKey,
   toEpoch: z.number(),
 });
 
@@ -1246,10 +1273,7 @@ export type BitcoinVaultEventVaultRotationCompletedArgs = z.output<
   typeof bitcoinVaultEventVaultRotationCompleted
 >;
 
-export const bitcoinVaultEventVaultRotatedExternally = z.object({
-  previous: hexString.nullish(),
-  current: hexString,
-});
+export const bitcoinVaultEventVaultRotatedExternally = cfChainsBtcAggKey;
 
 export type BitcoinVaultEventVaultRotatedExternallyArgs = z.output<
   typeof bitcoinVaultEventVaultRotatedExternally
@@ -1300,7 +1324,7 @@ export type BitcoinVaultEventNoKeyHandoverArgs = z.output<
 >;
 
 export const bitcoinVaultEventKeygenVerificationSuccess = z.object({
-  aggKey: z.object({ previous: hexString.nullish(), current: hexString }),
+  aggKey: cfChainsBtcAggKey,
 });
 
 export type BitcoinVaultEventKeygenVerificationSuccessArgs = z.output<
@@ -1308,7 +1332,7 @@ export type BitcoinVaultEventKeygenVerificationSuccessArgs = z.output<
 >;
 
 export const bitcoinVaultEventKeyHandoverVerificationSuccess = z.object({
-  aggKey: z.object({ previous: hexString.nullish(), current: hexString }),
+  aggKey: cfChainsBtcAggKey,
 });
 
 export type BitcoinVaultEventKeyHandoverVerificationSuccessArgs = z.output<
@@ -1360,7 +1384,7 @@ export type BitcoinVaultEventKeygenResponseTimeoutUpdatedArgs = z.output<
 >;
 
 export const bitcoinVaultEventAwaitingGovernanceActivation = z.object({
-  newPublicKey: z.object({ previous: hexString.nullish(), current: hexString }),
+  newPublicKey: cfChainsBtcAggKey,
 });
 
 export type BitcoinVaultEventAwaitingGovernanceActivationArgs = z.output<
@@ -1385,7 +1409,7 @@ export const ethereumThresholdSignerEventThresholdSignatureRequest = z.object({
   requestId: z.number(),
   ceremonyId: numberOrHex,
   epoch: z.number(),
-  key: z.object({ pubKeyX: hexString, pubKeyYParity: cfChainsEvmParityBit }),
+  key: cfChainsEvmAggKey,
   signatories: z.array(accountId),
   payload: hexString,
 });
@@ -1560,7 +1584,7 @@ export const bitcoinThresholdSignerEventThresholdSignatureRequest = z.object({
   requestId: z.number(),
   ceremonyId: numberOrHex,
   epoch: z.number(),
-  key: z.object({ previous: hexString.nullish(), current: hexString }),
+  key: cfChainsBtcAggKey,
   signatories: z.array(accountId),
   payload: z.array(z.tuple([cfChainsBtcPreviousOrCurrent, hexString])),
 });
@@ -1643,22 +1667,31 @@ export type BitcoinThresholdSignerEventThresholdSignatureResponseTimeoutUpdatedA
     typeof bitcoinThresholdSignerEventThresholdSignatureResponseTimeoutUpdated
   >;
 
+const palletCfBroadcastBroadcastAttemptId = z.object({
+  broadcastId: z.number(),
+  attemptCount: z.number(),
+});
+
+const cfChainsEvmTransaction = z.object({
+  chainId: numberOrHex,
+  maxPriorityFeePerGas: numberOrHex.nullish(),
+  maxFeePerGas: numberOrHex.nullish(),
+  gasLimit: numberOrHex.nullish(),
+  contract: hexString,
+  value: numberOrHex,
+  data: hexString,
+});
+
+const cfChainsEvmSchnorrVerificationComponents = z.object({
+  s: hexString,
+  kTimesGAddress: hexString,
+});
+
 export const ethereumBroadcasterEventTransactionBroadcastRequest = z.object({
-  broadcastAttemptId: z.object({
-    broadcastId: z.number(),
-    attemptCount: z.number(),
-  }),
+  broadcastAttemptId: palletCfBroadcastBroadcastAttemptId,
   nominee: accountId,
-  transactionPayload: z.object({
-    chainId: numberOrHex,
-    maxPriorityFeePerGas: numberOrHex.nullish(),
-    maxFeePerGas: numberOrHex.nullish(),
-    gasLimit: numberOrHex.nullish(),
-    contract: hexString,
-    value: numberOrHex,
-    data: hexString,
-  }),
-  transactionOutId: z.object({ s: hexString, kTimesGAddress: hexString }),
+  transactionPayload: cfChainsEvmTransaction,
+  transactionOutId: cfChainsEvmSchnorrVerificationComponents,
 });
 
 export type EthereumBroadcasterEventTransactionBroadcastRequestArgs = z.output<
@@ -1666,10 +1699,7 @@ export type EthereumBroadcasterEventTransactionBroadcastRequestArgs = z.output<
 >;
 
 export const ethereumBroadcasterEventBroadcastRetryScheduled = z.object({
-  broadcastAttemptId: z.object({
-    broadcastId: z.number(),
-    attemptCount: z.number(),
-  }),
+  broadcastAttemptId: palletCfBroadcastBroadcastAttemptId,
 });
 
 export type EthereumBroadcasterEventBroadcastRetryScheduledArgs = z.output<
@@ -1677,10 +1707,7 @@ export type EthereumBroadcasterEventBroadcastRetryScheduledArgs = z.output<
 >;
 
 export const ethereumBroadcasterEventBroadcastAttemptTimeout = z.object({
-  broadcastAttemptId: z.object({
-    broadcastId: z.number(),
-    attemptCount: z.number(),
-  }),
+  broadcastAttemptId: palletCfBroadcastBroadcastAttemptId,
 });
 
 export type EthereumBroadcasterEventBroadcastAttemptTimeoutArgs = z.output<
@@ -1697,7 +1724,7 @@ export type EthereumBroadcasterEventBroadcastAbortedArgs = z.output<
 
 export const ethereumBroadcasterEventBroadcastSuccess = z.object({
   broadcastId: z.number(),
-  transactionOutId: z.object({ s: hexString, kTimesGAddress: hexString }),
+  transactionOutId: cfChainsEvmSchnorrVerificationComponents,
 });
 
 export type EthereumBroadcasterEventBroadcastSuccessArgs = z.output<
@@ -1738,13 +1765,14 @@ export type EthereumBroadcasterEventTransactionFeeDeficitRefusedArgs = z.output<
   typeof ethereumBroadcasterEventTransactionFeeDeficitRefused
 >;
 
+const cfChainsDotPolkadotTransactionData = z.object({
+  encodedExtrinsic: hexString,
+});
+
 export const polkadotBroadcasterEventTransactionBroadcastRequest = z.object({
-  broadcastAttemptId: z.object({
-    broadcastId: z.number(),
-    attemptCount: z.number(),
-  }),
+  broadcastAttemptId: palletCfBroadcastBroadcastAttemptId,
   nominee: accountId,
-  transactionPayload: z.object({ encodedExtrinsic: hexString }),
+  transactionPayload: cfChainsDotPolkadotTransactionData,
   transactionOutId: hexString,
 });
 
@@ -1753,10 +1781,7 @@ export type PolkadotBroadcasterEventTransactionBroadcastRequestArgs = z.output<
 >;
 
 export const polkadotBroadcasterEventBroadcastRetryScheduled = z.object({
-  broadcastAttemptId: z.object({
-    broadcastId: z.number(),
-    attemptCount: z.number(),
-  }),
+  broadcastAttemptId: palletCfBroadcastBroadcastAttemptId,
 });
 
 export type PolkadotBroadcasterEventBroadcastRetryScheduledArgs = z.output<
@@ -1764,10 +1789,7 @@ export type PolkadotBroadcasterEventBroadcastRetryScheduledArgs = z.output<
 >;
 
 export const polkadotBroadcasterEventBroadcastAttemptTimeout = z.object({
-  broadcastAttemptId: z.object({
-    broadcastId: z.number(),
-    attemptCount: z.number(),
-  }),
+  broadcastAttemptId: palletCfBroadcastBroadcastAttemptId,
 });
 
 export type PolkadotBroadcasterEventBroadcastAttemptTimeoutArgs = z.output<
@@ -1825,13 +1847,14 @@ export type PolkadotBroadcasterEventTransactionFeeDeficitRefusedArgs = z.output<
   typeof polkadotBroadcasterEventTransactionFeeDeficitRefused
 >;
 
+const cfChainsBtcBitcoinTransactionData = z.object({
+  encodedTransaction: hexString,
+});
+
 export const bitcoinBroadcasterEventTransactionBroadcastRequest = z.object({
-  broadcastAttemptId: z.object({
-    broadcastId: z.number(),
-    attemptCount: z.number(),
-  }),
+  broadcastAttemptId: palletCfBroadcastBroadcastAttemptId,
   nominee: accountId,
-  transactionPayload: z.object({ encodedTransaction: hexString }),
+  transactionPayload: cfChainsBtcBitcoinTransactionData,
   transactionOutId: hexString,
 });
 
@@ -1840,10 +1863,7 @@ export type BitcoinBroadcasterEventTransactionBroadcastRequestArgs = z.output<
 >;
 
 export const bitcoinBroadcasterEventBroadcastRetryScheduled = z.object({
-  broadcastAttemptId: z.object({
-    broadcastId: z.number(),
-    attemptCount: z.number(),
-  }),
+  broadcastAttemptId: palletCfBroadcastBroadcastAttemptId,
 });
 
 export type BitcoinBroadcasterEventBroadcastRetryScheduledArgs = z.output<
@@ -1851,10 +1871,7 @@ export type BitcoinBroadcasterEventBroadcastRetryScheduledArgs = z.output<
 >;
 
 export const bitcoinBroadcasterEventBroadcastAttemptTimeout = z.object({
-  broadcastAttemptId: z.object({
-    broadcastId: z.number(),
-    attemptCount: z.number(),
-  }),
+  broadcastAttemptId: palletCfBroadcastBroadcastAttemptId,
 });
 
 export type BitcoinBroadcasterEventBroadcastAttemptTimeoutArgs = z.output<
@@ -1939,6 +1956,12 @@ const cfPrimitivesChainsAssetsAnyAsset = simpleEnum([
   'Btc',
 ]);
 
+const cfChainsCcmChannelMetadata = z.object({
+  message: hexString,
+  gasBudget: numberOrHex,
+  cfParameters: hexString,
+});
+
 export const swappingEventSwapDepositAddressReady = z.object({
   depositAddress: cfChainsAddressEncodedAddress,
   destinationAddress: cfChainsAddressEncodedAddress,
@@ -1946,13 +1969,7 @@ export const swappingEventSwapDepositAddressReady = z.object({
   destinationAsset: cfPrimitivesChainsAssetsAnyAsset,
   channelId: numberOrHex,
   brokerCommissionRate: z.number(),
-  channelMetadata: z
-    .object({
-      message: hexString,
-      gasBudget: numberOrHex,
-      cfParameters: hexString,
-    })
-    .nullish(),
+  channelMetadata: cfChainsCcmChannelMetadata.nullish(),
   sourceChainExpiryBlock: numberOrHex,
 });
 
@@ -2060,21 +2077,19 @@ export type SwappingEventCcmEgressScheduledArgs = z.output<
   typeof swappingEventCcmEgressScheduled
 >;
 
+const cfChainsCcmDepositMetadata = z.object({
+  sourceChain: cfPrimitivesChainsForeignChain,
+  sourceAddress: cfChainsAddressForeignChainAddress.nullish(),
+  channelMetadata: cfChainsCcmChannelMetadata,
+});
+
 export const swappingEventCcmDepositReceived = z.object({
   ccmId: numberOrHex,
   principalSwapId: numberOrHex.nullish(),
   gasSwapId: numberOrHex.nullish(),
   depositAmount: numberOrHex,
   destinationAddress: cfChainsAddressEncodedAddress,
-  depositMetadata: z.object({
-    sourceChain: cfPrimitivesChainsForeignChain,
-    sourceAddress: cfChainsAddressForeignChainAddress.nullish(),
-    channelMetadata: z.object({
-      message: hexString,
-      gasBudget: numberOrHex,
-      cfParameters: hexString,
-    }),
-  }),
+  depositMetadata: cfChainsCcmDepositMetadata,
 });
 
 export type SwappingEventCcmDepositReceivedArgs = z.output<
@@ -2110,15 +2125,7 @@ const palletCfSwappingCcmFailReason = simpleEnum([
 export const swappingEventCcmFailed = z.object({
   reason: palletCfSwappingCcmFailReason,
   destinationAddress: cfChainsAddressEncodedAddress,
-  depositMetadata: z.object({
-    sourceChain: cfPrimitivesChainsForeignChain,
-    sourceAddress: cfChainsAddressForeignChainAddress.nullish(),
-    channelMetadata: z.object({
-      message: hexString,
-      gasBudget: numberOrHex,
-      cfParameters: hexString,
-    }),
-  }),
+  depositMetadata: cfChainsCcmDepositMetadata,
 });
 
 export type SwappingEventCcmFailedArgs = z.output<
@@ -2272,13 +2279,15 @@ export type EthereumIngressEgressEventVaultTransferFailedArgs = z.output<
   typeof ethereumIngressEgressEventVaultTransferFailed
 >;
 
+const palletCfIngressEgressDepositWitnessEthereum = z.object({
+  depositAddress: hexString,
+  asset: cfPrimitivesChainsAssetsEthAsset,
+  amount: numberOrHex,
+});
+
 export const ethereumIngressEgressEventDepositWitnessRejected = z.object({
   reason: spRuntimeDispatchError,
-  depositWitness: z.object({
-    depositAddress: hexString,
-    asset: cfPrimitivesChainsAssetsEthAsset,
-    amount: numberOrHex,
-  }),
+  depositWitness: palletCfIngressEgressDepositWitnessEthereum,
 });
 
 export type EthereumIngressEgressEventDepositWitnessRejectedArgs = z.output<
@@ -2382,13 +2391,15 @@ export type PolkadotIngressEgressEventVaultTransferFailedArgs = z.output<
   typeof polkadotIngressEgressEventVaultTransferFailed
 >;
 
+const palletCfIngressEgressDepositWitnessPolkadot = z.object({
+  depositAddress: hexString,
+  asset: cfPrimitivesChainsAssetsDotAsset,
+  amount: numberOrHex,
+});
+
 export const polkadotIngressEgressEventDepositWitnessRejected = z.object({
   reason: spRuntimeDispatchError,
-  depositWitness: z.object({
-    depositAddress: hexString,
-    asset: cfPrimitivesChainsAssetsDotAsset,
-    amount: numberOrHex,
-  }),
+  depositWitness: palletCfIngressEgressDepositWitnessPolkadot,
 });
 
 export type PolkadotIngressEgressEventDepositWitnessRejectedArgs = z.output<
@@ -2397,11 +2408,13 @@ export type PolkadotIngressEgressEventDepositWitnessRejectedArgs = z.output<
 
 const cfPrimitivesChainsAssetsBtcAsset = simpleEnum(['Btc']);
 
+const cfChainsBtcUtxoId = z.object({ txId: hexString, vout: z.number() });
+
 export const bitcoinIngressEgressEventDepositReceived = z.object({
   depositAddress: cfChainsBtcScriptPubkey,
   asset: cfPrimitivesChainsAssetsBtcAsset,
   amount: numberOrHex,
-  depositDetails: z.object({ txId: hexString, vout: z.number() }),
+  depositDetails: cfChainsBtcUtxoId,
 });
 
 export type BitcoinIngressEgressEventDepositReceivedArgs = z.output<
@@ -2477,7 +2490,7 @@ export const bitcoinIngressEgressEventDepositIgnored = z.object({
   depositAddress: cfChainsBtcScriptPubkey,
   asset: cfPrimitivesChainsAssetsBtcAsset,
   amount: numberOrHex,
-  depositDetails: z.object({ txId: hexString, vout: z.number() }),
+  depositDetails: cfChainsBtcUtxoId,
 });
 
 export type BitcoinIngressEgressEventDepositIgnoredArgs = z.output<
@@ -2494,14 +2507,16 @@ export type BitcoinIngressEgressEventVaultTransferFailedArgs = z.output<
   typeof bitcoinIngressEgressEventVaultTransferFailed
 >;
 
+const palletCfIngressEgressDepositWitnessBitcoin = z.object({
+  depositAddress: cfChainsBtcScriptPubkey,
+  asset: cfPrimitivesChainsAssetsBtcAsset,
+  amount: numberOrHex,
+  depositDetails: cfChainsBtcUtxoId,
+});
+
 export const bitcoinIngressEgressEventDepositWitnessRejected = z.object({
   reason: spRuntimeDispatchError,
-  depositWitness: z.object({
-    depositAddress: cfChainsBtcScriptPubkey,
-    asset: cfPrimitivesChainsAssetsBtcAsset,
-    amount: numberOrHex,
-    depositDetails: z.object({ txId: hexString, vout: z.number() }),
-  }),
+  depositWitness: palletCfIngressEgressDepositWitnessBitcoin,
 });
 
 export type BitcoinIngressEgressEventDepositWitnessRejectedArgs = z.output<
@@ -2537,9 +2552,25 @@ export type LiquidityPoolsEventNewPoolCreatedArgs = z.output<
   typeof liquidityPoolsEventNewPoolCreated
 >;
 
+const palletCfPoolsAssetsMap = z.object({
+  base: numberOrHex,
+  pair: numberOrHex,
+});
+
+const palletCfPoolsRangeOrderChange = z.object({
+  liquidity: numberOrHex,
+  amounts: palletCfPoolsAssetsMap,
+});
+
 const palletCfPoolsPalletIncreaseOrDecrease = z.union([
-  z.object({ __kind: z.literal('Increase'), value: numberOrHex }),
-  z.object({ __kind: z.literal('Decrease'), value: numberOrHex }),
+  z.object({
+    __kind: z.literal('Increase'),
+    value: palletCfPoolsRangeOrderChange,
+  }),
+  z.object({
+    __kind: z.literal('Decrease'),
+    value: palletCfPoolsRangeOrderChange,
+  }),
 ]);
 
 export const liquidityPoolsEventRangeOrderUpdated = z.object({
@@ -2550,7 +2581,7 @@ export const liquidityPoolsEventRangeOrderUpdated = z.object({
   tickRange: z.object({ start: z.number(), end: z.number() }),
   sizeChange: palletCfPoolsPalletIncreaseOrDecrease.nullish(),
   liquidityTotal: numberOrHex,
-  collectedFees: z.object({ base: numberOrHex, pair: numberOrHex }),
+  collectedFees: palletCfPoolsAssetsMap,
 });
 
 export type LiquidityPoolsEventRangeOrderUpdatedArgs = z.output<

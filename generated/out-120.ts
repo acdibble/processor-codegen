@@ -205,13 +205,36 @@ const palletCfReputationPalletSafeMode = z.object({
 
 const palletCfVaultsPalletSafeMode = z.object({ slashingEnabled: z.boolean() });
 
-const palletCfWitnesserPalletSafeMode = z.object({
-  witnessCallsEnabled: z.boolean(),
-});
-
 const palletCfBroadcastPalletSafeMode = z.object({ retryEnabled: z.boolean() });
 
-const stateChainRuntimeChainflipInnerRuntimeSafeMode = z.object({
+const stateChainRuntimeSafeModeWitnesserCallPermission = z.object({
+  governance: z.boolean(),
+  funding: z.boolean(),
+  swapping: z.boolean(),
+  ethereumBroadcast: z.boolean(),
+  ethereumChainTracking: z.boolean(),
+  ethereumIngressEgress: z.boolean(),
+  ethereumVault: z.boolean(),
+  polkadotBroadcast: z.boolean(),
+  polkadotChainTracking: z.boolean(),
+  polkadotIngressEgress: z.boolean(),
+  polkadotVault: z.boolean(),
+  bitcoinBroadcast: z.boolean(),
+  bitcoinChainTracking: z.boolean(),
+  bitcoinIngressEgress: z.boolean(),
+  bitcoinVault: z.boolean(),
+});
+
+const palletCfWitnesserPalletSafeMode = z.union([
+  z.object({ __kind: z.literal('CodeGreen') }),
+  z.object({ __kind: z.literal('CodeRed') }),
+  z.object({
+    __kind: z.literal('CodeAmber'),
+    value: stateChainRuntimeSafeModeWitnesserCallPermission,
+  }),
+]);
+
+const stateChainRuntimeSafeModeInnerRuntimeSafeMode = z.object({
   emissions: palletCfEmissionsPalletSafeMode,
   funding: palletCfFundingPalletSafeMode,
   swapping: palletCfSwappingPalletSafeMode,
@@ -219,9 +242,13 @@ const stateChainRuntimeChainflipInnerRuntimeSafeMode = z.object({
   validator: palletCfValidatorPalletSafeMode,
   pools: palletCfPoolsPalletSafeMode,
   reputation: palletCfReputationPalletSafeMode,
-  vault: palletCfVaultsPalletSafeMode,
+  vaultEthereum: palletCfVaultsPalletSafeMode,
+  vaultBitcoin: palletCfVaultsPalletSafeMode,
+  vaultPolkadot: palletCfVaultsPalletSafeMode,
+  broadcastEthereum: palletCfBroadcastPalletSafeMode,
+  broadcastBitcoin: palletCfBroadcastPalletSafeMode,
+  broadcastPolkadot: palletCfBroadcastPalletSafeMode,
   witnesser: palletCfWitnesserPalletSafeMode,
-  broadcast: palletCfBroadcastPalletSafeMode,
 });
 
 const palletCfEnvironmentSafeModeUpdate = z.union([
@@ -229,7 +256,7 @@ const palletCfEnvironmentSafeModeUpdate = z.union([
   z.object({ __kind: z.literal('CodeGreen') }),
   z.object({
     __kind: z.literal('CodeAmber'),
-    value: stateChainRuntimeChainflipInnerRuntimeSafeMode,
+    value: stateChainRuntimeSafeModeInnerRuntimeSafeMode,
   }),
 ]);
 
@@ -241,18 +268,17 @@ export type EnvironmentEventRuntimeSafeModeUpdatedArgs = z.output<
   typeof environmentEventRuntimeSafeModeUpdated
 >;
 
-const cfPrimitivesSemVer = z.object({
-  major: z.number(),
-  minor: z.number(),
-  patch: z.number(),
+const cfChainsBtcConsolidationParameters = z.object({
+  consolidationThreshold: z.number(),
+  consolidationSize: z.number(),
 });
 
-export const environmentEventNextCompatibilityVersionSet = z.object({
-  version: cfPrimitivesSemVer.nullish(),
+export const environmentEventUtxoConsolidationParametersUpdated = z.object({
+  params: cfChainsBtcConsolidationParameters,
 });
 
-export type EnvironmentEventNextCompatibilityVersionSetArgs = z.output<
-  typeof environmentEventNextCompatibilityVersionSet
+export type EnvironmentEventUtxoConsolidationParametersUpdatedArgs = z.output<
+  typeof environmentEventUtxoConsolidationParametersUpdated
 >;
 
 const palletCfFlipImbalancesInternalSource = z.union([
@@ -327,6 +353,38 @@ export const emissionsEventSupplyUpdateIntervalUpdated = z.number();
 
 export type EmissionsEventSupplyUpdateIntervalUpdatedArgs = z.output<
   typeof emissionsEventSupplyUpdateIntervalUpdated
+>;
+
+export const emissionsEventBackupRewardsDistributed = z.object({
+  accountId,
+  amount: numberOrHex,
+});
+
+export type EmissionsEventBackupRewardsDistributedArgs = z.output<
+  typeof emissionsEventBackupRewardsDistributed
+>;
+
+const cfPrimitivesChainsForeignChain = simpleEnum([
+  'Ethereum',
+  'Polkadot',
+  'Bitcoin',
+]);
+
+export const emissionsEventNetworkFeeBurned = z.object({
+  amount: numberOrHex,
+  egressId: z.tuple([cfPrimitivesChainsForeignChain, numberOrHex]),
+});
+
+export type EmissionsEventNetworkFeeBurnedArgs = z.output<
+  typeof emissionsEventNetworkFeeBurned
+>;
+
+export const emissionsEventFlipBurnSkipped = z.object({
+  reason: spRuntimeDispatchError,
+});
+
+export type EmissionsEventFlipBurnSkippedArgs = z.output<
+  typeof emissionsEventFlipBurnSkipped
 >;
 
 export const fundingEventFunded = z.object({
@@ -430,8 +488,17 @@ export type FundingEventBoundRedeemAddressArgs = z.output<
   typeof fundingEventBoundRedeemAddress
 >;
 
+export const fundingEventBoundExecutorAddress = z.object({
+  accountId,
+  address: hexString,
+});
+
+export type FundingEventBoundExecutorAddressArgs = z.output<
+  typeof fundingEventBoundExecutorAddress
+>;
+
 const cfPrimitivesAccountRole = simpleEnum([
-  'None',
+  'Unregistered',
   'Validator',
   'LiquidityProvider',
   'Broker',
@@ -463,6 +530,12 @@ export const witnesserEventWitnessExecutionFailed = z.object({
 
 export type WitnesserEventWitnessExecutionFailedArgs = z.output<
   typeof witnesserEventWitnessExecutionFailed
+>;
+
+export const witnesserEventPrewitnessed = z.object({ call: z.unknown() });
+
+export type WitnesserEventPrewitnessedArgs = z.output<
+  typeof witnesserEventPrewitnessed
 >;
 
 export const validatorEventRotationAborted = z.null();
@@ -516,6 +589,12 @@ export const validatorEventRotationPhaseUpdated = z.object({
 export type ValidatorEventRotationPhaseUpdatedArgs = z.output<
   typeof validatorEventRotationPhaseUpdated
 >;
+
+const cfPrimitivesSemVer = z.object({
+  major: z.number(),
+  minor: z.number(),
+  patch: z.number(),
+});
 
 export const validatorEventCFEVersionUpdated = z.object({
   accountId,
@@ -596,6 +675,14 @@ const palletCfValidatorPalletConfigUpdate = z.union([
       parameters: palletCfValidatorAuctionResolverSetSizeParameters,
     }),
   }),
+  z.object({
+    __kind: z.literal('MinimumReportedCfeVersion'),
+    value: z.object({ version: cfPrimitivesSemVer }),
+  }),
+  z.object({
+    __kind: z.literal('MaxAuthoritySetContractionPercentage'),
+    value: z.object({ percentage: z.number() }),
+  }),
 ]);
 
 export const validatorEventPalletConfigUpdated = z.object({
@@ -664,12 +751,6 @@ export type GovernanceEventDecodeOfCallFailedArgs = z.output<
   typeof governanceEventDecodeOfCallFailed
 >;
 
-export const governanceEventUpgradeConditionsSatisfied = z.null();
-
-export type GovernanceEventUpgradeConditionsSatisfiedArgs = z.output<
-  typeof governanceEventUpgradeConditionsSatisfied
->;
-
 export const governanceEventGovKeyCallExecuted = z.object({
   callHash: hexString,
 });
@@ -694,12 +775,6 @@ export const governanceEventGovKeyCallExecutionFailed = z.object({
 export type GovernanceEventGovKeyCallExecutionFailedArgs = z.output<
   typeof governanceEventGovKeyCallExecutionFailed
 >;
-
-const cfPrimitivesChainsForeignChain = simpleEnum([
-  'Ethereum',
-  'Polkadot',
-  'Bitcoin',
-]);
 
 const palletCfTokenholderGovernanceProposal = z.union([
   z.object({
@@ -781,7 +856,7 @@ export type ReputationEventOffencePenaltyArgs = z.output<
 
 export const reputationEventAccrualRateUpdated = z.object({
   reputationPoints: z.number(),
-  onlineCredits: z.number(),
+  numberOfBlocks: z.number(),
 });
 
 export type ReputationEventAccrualRateUpdatedArgs = z.output<
@@ -852,11 +927,7 @@ export type PolkadotChainTrackingEventChainStateUpdatedArgs = z.output<
   typeof polkadotChainTrackingEventChainStateUpdated
 >;
 
-const cfChainsBtcBitcoinFeeInfo = z.object({
-  feePerInputUtxo: numberOrHex,
-  feePerOutputUtxo: numberOrHex,
-  minFeeRequiredPerTx: numberOrHex,
-});
+const cfChainsBtcBitcoinFeeInfo = z.object({ satsPerKilobyte: numberOrHex });
 
 const cfChainsBtcBitcoinTrackedData = z.object({
   btcFeeInfo: cfChainsBtcBitcoinFeeInfo,
@@ -1445,15 +1516,6 @@ export type EthereumThresholdSignerEventSignersUnavailableArgs = z.output<
   typeof ethereumThresholdSignerEventSignersUnavailable
 >;
 
-export const ethereumThresholdSignerEventCurrentKeyUnavailable = z.object({
-  requestId: z.number(),
-  attemptCount: z.number(),
-});
-
-export type EthereumThresholdSignerEventCurrentKeyUnavailableArgs = z.output<
-  typeof ethereumThresholdSignerEventCurrentKeyUnavailable
->;
-
 export const ethereumThresholdSignerEventThresholdSignatureResponseTimeoutUpdated =
   z.object({ newTimeout: z.number() });
 
@@ -1527,15 +1589,6 @@ export const polkadotThresholdSignerEventSignersUnavailable = z.object({
 
 export type PolkadotThresholdSignerEventSignersUnavailableArgs = z.output<
   typeof polkadotThresholdSignerEventSignersUnavailable
->;
-
-export const polkadotThresholdSignerEventCurrentKeyUnavailable = z.object({
-  requestId: z.number(),
-  attemptCount: z.number(),
-});
-
-export type PolkadotThresholdSignerEventCurrentKeyUnavailableArgs = z.output<
-  typeof polkadotThresholdSignerEventCurrentKeyUnavailable
 >;
 
 export const polkadotThresholdSignerEventThresholdSignatureResponseTimeoutUpdated =
@@ -1618,15 +1671,6 @@ export type BitcoinThresholdSignerEventSignersUnavailableArgs = z.output<
   typeof bitcoinThresholdSignerEventSignersUnavailable
 >;
 
-export const bitcoinThresholdSignerEventCurrentKeyUnavailable = z.object({
-  requestId: z.number(),
-  attemptCount: z.number(),
-});
-
-export type BitcoinThresholdSignerEventCurrentKeyUnavailableArgs = z.output<
-  typeof bitcoinThresholdSignerEventCurrentKeyUnavailable
->;
-
 export const bitcoinThresholdSignerEventThresholdSignatureResponseTimeoutUpdated =
   z.object({ newTimeout: z.number() });
 
@@ -1634,11 +1678,6 @@ export type BitcoinThresholdSignerEventThresholdSignatureResponseTimeoutUpdatedA
   z.output<
     typeof bitcoinThresholdSignerEventThresholdSignatureResponseTimeoutUpdated
   >;
-
-const palletCfBroadcastBroadcastAttemptId = z.object({
-  broadcastId: z.number(),
-  attemptCount: z.number(),
-});
 
 const cfChainsEvmTransaction = z.object({
   chainId: numberOrHex,
@@ -1656,7 +1695,7 @@ const cfChainsEvmSchnorrVerificationComponents = z.object({
 });
 
 export const ethereumBroadcasterEventTransactionBroadcastRequest = z.object({
-  broadcastAttemptId: palletCfBroadcastBroadcastAttemptId,
+  broadcastId: z.number(),
   nominee: accountId,
   transactionPayload: cfChainsEvmTransaction,
   transactionOutId: cfChainsEvmSchnorrVerificationComponents,
@@ -1667,19 +1706,20 @@ export type EthereumBroadcasterEventTransactionBroadcastRequestArgs = z.output<
 >;
 
 export const ethereumBroadcasterEventBroadcastRetryScheduled = z.object({
-  broadcastAttemptId: palletCfBroadcastBroadcastAttemptId,
+  broadcastId: z.number(),
+  retryBlock: z.number(),
 });
 
 export type EthereumBroadcasterEventBroadcastRetryScheduledArgs = z.output<
   typeof ethereumBroadcasterEventBroadcastRetryScheduled
 >;
 
-export const ethereumBroadcasterEventBroadcastAttemptTimeout = z.object({
-  broadcastAttemptId: palletCfBroadcastBroadcastAttemptId,
+export const ethereumBroadcasterEventBroadcastTimeout = z.object({
+  broadcastId: z.number(),
 });
 
-export type EthereumBroadcasterEventBroadcastAttemptTimeoutArgs = z.output<
-  typeof ethereumBroadcasterEventBroadcastAttemptTimeout
+export type EthereumBroadcasterEventBroadcastTimeoutArgs = z.output<
+  typeof ethereumBroadcasterEventBroadcastTimeout
 >;
 
 export const ethereumBroadcasterEventBroadcastAborted = z.object({
@@ -1716,12 +1756,36 @@ export type EthereumBroadcasterEventBroadcastCallbackExecutedArgs = z.output<
   typeof ethereumBroadcasterEventBroadcastCallbackExecuted
 >;
 
+export const ethereumBroadcasterEventTransactionFeeDeficitRecorded = z.object({
+  beneficiary: hexString,
+  amount: numberOrHex,
+});
+
+export type EthereumBroadcasterEventTransactionFeeDeficitRecordedArgs =
+  z.output<typeof ethereumBroadcasterEventTransactionFeeDeficitRecorded>;
+
+export const ethereumBroadcasterEventTransactionFeeDeficitRefused = z.object({
+  beneficiary: hexString,
+});
+
+export type EthereumBroadcasterEventTransactionFeeDeficitRefusedArgs = z.output<
+  typeof ethereumBroadcasterEventTransactionFeeDeficitRefused
+>;
+
+export const ethereumBroadcasterEventCallResigned = z.object({
+  broadcastId: z.number(),
+});
+
+export type EthereumBroadcasterEventCallResignedArgs = z.output<
+  typeof ethereumBroadcasterEventCallResigned
+>;
+
 const cfChainsDotPolkadotTransactionData = z.object({
   encodedExtrinsic: hexString,
 });
 
 export const polkadotBroadcasterEventTransactionBroadcastRequest = z.object({
-  broadcastAttemptId: palletCfBroadcastBroadcastAttemptId,
+  broadcastId: z.number(),
   nominee: accountId,
   transactionPayload: cfChainsDotPolkadotTransactionData,
   transactionOutId: hexString,
@@ -1732,19 +1796,20 @@ export type PolkadotBroadcasterEventTransactionBroadcastRequestArgs = z.output<
 >;
 
 export const polkadotBroadcasterEventBroadcastRetryScheduled = z.object({
-  broadcastAttemptId: palletCfBroadcastBroadcastAttemptId,
+  broadcastId: z.number(),
+  retryBlock: z.number(),
 });
 
 export type PolkadotBroadcasterEventBroadcastRetryScheduledArgs = z.output<
   typeof polkadotBroadcasterEventBroadcastRetryScheduled
 >;
 
-export const polkadotBroadcasterEventBroadcastAttemptTimeout = z.object({
-  broadcastAttemptId: palletCfBroadcastBroadcastAttemptId,
+export const polkadotBroadcasterEventBroadcastTimeout = z.object({
+  broadcastId: z.number(),
 });
 
-export type PolkadotBroadcasterEventBroadcastAttemptTimeoutArgs = z.output<
-  typeof polkadotBroadcasterEventBroadcastAttemptTimeout
+export type PolkadotBroadcasterEventBroadcastTimeoutArgs = z.output<
+  typeof polkadotBroadcasterEventBroadcastTimeout
 >;
 
 export const polkadotBroadcasterEventBroadcastAborted = z.object({
@@ -1781,12 +1846,36 @@ export type PolkadotBroadcasterEventBroadcastCallbackExecutedArgs = z.output<
   typeof polkadotBroadcasterEventBroadcastCallbackExecuted
 >;
 
+export const polkadotBroadcasterEventTransactionFeeDeficitRecorded = z.object({
+  beneficiary: hexString,
+  amount: numberOrHex,
+});
+
+export type PolkadotBroadcasterEventTransactionFeeDeficitRecordedArgs =
+  z.output<typeof polkadotBroadcasterEventTransactionFeeDeficitRecorded>;
+
+export const polkadotBroadcasterEventTransactionFeeDeficitRefused = z.object({
+  beneficiary: hexString,
+});
+
+export type PolkadotBroadcasterEventTransactionFeeDeficitRefusedArgs = z.output<
+  typeof polkadotBroadcasterEventTransactionFeeDeficitRefused
+>;
+
+export const polkadotBroadcasterEventCallResigned = z.object({
+  broadcastId: z.number(),
+});
+
+export type PolkadotBroadcasterEventCallResignedArgs = z.output<
+  typeof polkadotBroadcasterEventCallResigned
+>;
+
 const cfChainsBtcBitcoinTransactionData = z.object({
   encodedTransaction: hexString,
 });
 
 export const bitcoinBroadcasterEventTransactionBroadcastRequest = z.object({
-  broadcastAttemptId: palletCfBroadcastBroadcastAttemptId,
+  broadcastId: z.number(),
   nominee: accountId,
   transactionPayload: cfChainsBtcBitcoinTransactionData,
   transactionOutId: hexString,
@@ -1797,19 +1886,20 @@ export type BitcoinBroadcasterEventTransactionBroadcastRequestArgs = z.output<
 >;
 
 export const bitcoinBroadcasterEventBroadcastRetryScheduled = z.object({
-  broadcastAttemptId: palletCfBroadcastBroadcastAttemptId,
+  broadcastId: z.number(),
+  retryBlock: z.number(),
 });
 
 export type BitcoinBroadcasterEventBroadcastRetryScheduledArgs = z.output<
   typeof bitcoinBroadcasterEventBroadcastRetryScheduled
 >;
 
-export const bitcoinBroadcasterEventBroadcastAttemptTimeout = z.object({
-  broadcastAttemptId: palletCfBroadcastBroadcastAttemptId,
+export const bitcoinBroadcasterEventBroadcastTimeout = z.object({
+  broadcastId: z.number(),
 });
 
-export type BitcoinBroadcasterEventBroadcastAttemptTimeoutArgs = z.output<
-  typeof bitcoinBroadcasterEventBroadcastAttemptTimeout
+export type BitcoinBroadcasterEventBroadcastTimeoutArgs = z.output<
+  typeof bitcoinBroadcasterEventBroadcastTimeout
 >;
 
 export const bitcoinBroadcasterEventBroadcastAborted = z.object({
@@ -1846,6 +1936,43 @@ export type BitcoinBroadcasterEventBroadcastCallbackExecutedArgs = z.output<
   typeof bitcoinBroadcasterEventBroadcastCallbackExecuted
 >;
 
+const cfChainsBtcScriptPubkey = z.union([
+  z.object({ __kind: z.literal('P2PKH'), value: hexString }),
+  z.object({ __kind: z.literal('P2SH'), value: hexString }),
+  z.object({ __kind: z.literal('P2WPKH'), value: hexString }),
+  z.object({ __kind: z.literal('P2WSH'), value: hexString }),
+  z.object({ __kind: z.literal('Taproot'), value: hexString }),
+  z.object({
+    __kind: z.literal('OtherSegwit'),
+    value: z.object({ version: z.number(), program: hexString }),
+  }),
+]);
+
+export const bitcoinBroadcasterEventTransactionFeeDeficitRecorded = z.object({
+  beneficiary: cfChainsBtcScriptPubkey,
+  amount: numberOrHex,
+});
+
+export type BitcoinBroadcasterEventTransactionFeeDeficitRecordedArgs = z.output<
+  typeof bitcoinBroadcasterEventTransactionFeeDeficitRecorded
+>;
+
+export const bitcoinBroadcasterEventTransactionFeeDeficitRefused = z.object({
+  beneficiary: cfChainsBtcScriptPubkey,
+});
+
+export type BitcoinBroadcasterEventTransactionFeeDeficitRefusedArgs = z.output<
+  typeof bitcoinBroadcasterEventTransactionFeeDeficitRefused
+>;
+
+export const bitcoinBroadcasterEventCallResigned = z.object({
+  broadcastId: z.number(),
+});
+
+export type BitcoinBroadcasterEventCallResignedArgs = z.output<
+  typeof bitcoinBroadcasterEventCallResigned
+>;
+
 const cfChainsAddressEncodedAddress = z.union([
   z.object({ __kind: z.literal('Eth'), value: hexString }),
   z.object({ __kind: z.literal('Dot'), value: hexString }),
@@ -1869,12 +1996,12 @@ const cfChainsCcmChannelMetadata = z.object({
 export const swappingEventSwapDepositAddressReady = z.object({
   depositAddress: cfChainsAddressEncodedAddress,
   destinationAddress: cfChainsAddressEncodedAddress,
-  expiryBlock: z.number(),
   sourceAsset: cfPrimitivesChainsAssetsAnyAsset,
   destinationAsset: cfPrimitivesChainsAssetsAnyAsset,
   channelId: numberOrHex,
   brokerCommissionRate: z.number(),
   channelMetadata: cfChainsCcmChannelMetadata.nullish(),
+  sourceChainExpiryBlock: numberOrHex,
 });
 
 export type SwappingEventSwapDepositAddressReadyArgs = z.output<
@@ -1893,18 +2020,6 @@ const cfChainsSwapOrigin = z.union([
   z.object({
     __kind: z.literal('Vault'),
     value: z.object({ txHash: hexString }),
-  }),
-]);
-
-const cfChainsBtcScriptPubkey = z.union([
-  z.object({ __kind: z.literal('P2PKH'), value: hexString }),
-  z.object({ __kind: z.literal('P2SH'), value: hexString }),
-  z.object({ __kind: z.literal('P2WPKH'), value: hexString }),
-  z.object({ __kind: z.literal('P2WSH'), value: hexString }),
-  z.object({ __kind: z.literal('Taproot'), value: hexString }),
-  z.object({
-    __kind: z.literal('OtherSegwit'),
-    value: z.object({ version: z.number(), program: hexString }),
   }),
 ]);
 
@@ -1942,8 +2057,10 @@ export const swappingEventSwapExecuted = z.object({
   swapId: numberOrHex,
   sourceAsset: cfPrimitivesChainsAssetsAnyAsset,
   depositAmount: numberOrHex,
+  swapInput: numberOrHex,
   destinationAsset: cfPrimitivesChainsAssetsAnyAsset,
   egressAmount: numberOrHex,
+  swapOutput: numberOrHex,
   intermediateAmount: numberOrHex.nullish(),
 });
 
@@ -1956,6 +2073,7 @@ export const swappingEventSwapEgressScheduled = z.object({
   egressId: z.tuple([cfPrimitivesChainsForeignChain, numberOrHex]),
   asset: cfPrimitivesChainsAssetsAnyAsset,
   amount: numberOrHex,
+  fee: numberOrHex,
 });
 
 export type SwappingEventSwapEgressScheduledArgs = z.output<
@@ -1965,6 +2083,7 @@ export type SwappingEventSwapEgressScheduledArgs = z.output<
 export const swappingEventWithdrawalRequested = z.object({
   egressId: z.tuple([cfPrimitivesChainsForeignChain, numberOrHex]),
   egressAmount: numberOrHex,
+  egressFee: numberOrHex,
   destinationAddress: cfChainsAddressEncodedAddress,
 });
 
@@ -1993,21 +2112,6 @@ export type SwappingEventCcmEgressScheduledArgs = z.output<
   typeof swappingEventCcmEgressScheduled
 >;
 
-export const swappingEventSwapDepositAddressExpired = z.object({
-  depositAddress: cfChainsAddressEncodedAddress,
-  channelId: numberOrHex,
-});
-
-export type SwappingEventSwapDepositAddressExpiredArgs = z.output<
-  typeof swappingEventSwapDepositAddressExpired
->;
-
-export const swappingEventSwapTtlSet = z.object({ ttl: z.number() });
-
-export type SwappingEventSwapTtlSetArgs = z.output<
-  typeof swappingEventSwapTtlSet
->;
-
 const cfChainsCcmDepositMetadata = z.object({
   sourceChain: cfPrimitivesChainsForeignChain,
   sourceAddress: cfChainsAddressForeignChainAddress.nullish(),
@@ -2027,30 +2131,9 @@ export type SwappingEventCcmDepositReceivedArgs = z.output<
   typeof swappingEventCcmDepositReceived
 >;
 
-export const swappingEventMinimumSwapAmountSet = z.object({
-  asset: cfPrimitivesChainsAssetsAnyAsset,
-  amount: numberOrHex,
-});
-
-export type SwappingEventMinimumSwapAmountSetArgs = z.output<
-  typeof swappingEventMinimumSwapAmountSet
->;
-
-export const swappingEventSwapAmountTooLow = z.object({
-  asset: cfPrimitivesChainsAssetsAnyAsset,
-  amount: numberOrHex,
-  destinationAddress: cfChainsAddressEncodedAddress,
-  origin: cfChainsSwapOrigin,
-});
-
-export type SwappingEventSwapAmountTooLowArgs = z.output<
-  typeof swappingEventSwapAmountTooLow
->;
-
 const palletCfSwappingCcmFailReason = simpleEnum([
   'UnsupportedForTargetChain',
   'InsufficientDepositAmount',
-  'PrincipalSwapAmountTooLow',
 ]);
 
 export const swappingEventCcmFailed = z.object({
@@ -2061,6 +2144,38 @@ export const swappingEventCcmFailed = z.object({
 
 export type SwappingEventCcmFailedArgs = z.output<
   typeof swappingEventCcmFailed
+>;
+
+export const swappingEventMaximumSwapAmountSet = z.object({
+  asset: cfPrimitivesChainsAssetsAnyAsset,
+  amount: numberOrHex.nullish(),
+});
+
+export type SwappingEventMaximumSwapAmountSetArgs = z.output<
+  typeof swappingEventMaximumSwapAmountSet
+>;
+
+export const swappingEventSwapAmountConfiscated = z.object({
+  swapId: numberOrHex,
+  sourceAsset: cfPrimitivesChainsAssetsAnyAsset,
+  destinationAsset: cfPrimitivesChainsAssetsAnyAsset,
+  totalAmount: numberOrHex,
+  confiscatedAmount: numberOrHex,
+});
+
+export type SwappingEventSwapAmountConfiscatedArgs = z.output<
+  typeof swappingEventSwapAmountConfiscated
+>;
+
+export const swappingEventSwapEgressIgnored = z.object({
+  swapId: numberOrHex,
+  asset: cfPrimitivesChainsAssetsAnyAsset,
+  amount: numberOrHex,
+  reason: spRuntimeDispatchError,
+});
+
+export type SwappingEventSwapEgressIgnoredArgs = z.output<
+  typeof swappingEventSwapEgressIgnored
 >;
 
 export const liquidityProviderEventAccountDebited = z.object({
@@ -2085,20 +2200,14 @@ export type LiquidityProviderEventAccountCreditedArgs = z.output<
 
 export const liquidityProviderEventLiquidityDepositAddressReady = z.object({
   channelId: numberOrHex,
+  asset: cfPrimitivesChainsAssetsAnyAsset,
   depositAddress: cfChainsAddressEncodedAddress,
-  expiryBlock: z.number(),
+  accountId,
+  depositChainExpiryBlock: numberOrHex,
 });
 
 export type LiquidityProviderEventLiquidityDepositAddressReadyArgs = z.output<
   typeof liquidityProviderEventLiquidityDepositAddressReady
->;
-
-export const liquidityProviderEventLiquidityDepositAddressExpired = z.object({
-  address: cfChainsAddressEncodedAddress,
-});
-
-export type LiquidityProviderEventLiquidityDepositAddressExpiredArgs = z.output<
-  typeof liquidityProviderEventLiquidityDepositAddressExpired
 >;
 
 export const liquidityProviderEventWithdrawalEgressScheduled = z.object({
@@ -2106,51 +2215,57 @@ export const liquidityProviderEventWithdrawalEgressScheduled = z.object({
   asset: cfPrimitivesChainsAssetsAnyAsset,
   amount: numberOrHex,
   destinationAddress: cfChainsAddressEncodedAddress,
+  fee: numberOrHex,
 });
 
 export type LiquidityProviderEventWithdrawalEgressScheduledArgs = z.output<
   typeof liquidityProviderEventWithdrawalEgressScheduled
 >;
 
-export const liquidityProviderEventLpTtlSet = z.object({ ttl: z.number() });
+export const liquidityProviderEventLiquidityRefundAddressRegistered = z.object({
+  accountId,
+  chain: cfPrimitivesChainsForeignChain,
+  address: cfChainsAddressForeignChainAddress,
+});
 
-export type LiquidityProviderEventLpTtlSetArgs = z.output<
-  typeof liquidityProviderEventLpTtlSet
+export type LiquidityProviderEventLiquidityRefundAddressRegisteredArgs =
+  z.output<typeof liquidityProviderEventLiquidityRefundAddressRegistered>;
+
+export const liquidityProviderEventLiquidityDepositCredited = z.object({
+  accountId,
+  asset: cfPrimitivesChainsAssetsAnyAsset,
+  amountCredited: numberOrHex,
+});
+
+export type LiquidityProviderEventLiquidityDepositCreditedArgs = z.output<
+  typeof liquidityProviderEventLiquidityDepositCredited
 >;
 
-export const liquidityProviderEventEmergencyWithdrawalAddressRegistered =
+const palletCfEthereumIngressEgressPalletDepositAction = z.union([
   z.object({
-    accountId,
-    chain: cfPrimitivesChainsForeignChain,
-    address: cfChainsAddressForeignChainAddress,
-  });
-
-export type LiquidityProviderEventEmergencyWithdrawalAddressRegisteredArgs =
-  z.output<typeof liquidityProviderEventEmergencyWithdrawalAddressRegistered>;
-
-export const ethereumIngressEgressEventStartWitnessing = z.object({
-  depositAddress: hexString,
-  sourceAsset: cfPrimitivesChainsAssetsEthAsset,
-  openedAt: numberOrHex,
-});
-
-export type EthereumIngressEgressEventStartWitnessingArgs = z.output<
-  typeof ethereumIngressEgressEventStartWitnessing
->;
-
-export const ethereumIngressEgressEventStopWitnessing = z.object({
-  depositAddress: hexString,
-  sourceAsset: cfPrimitivesChainsAssetsEthAsset,
-});
-
-export type EthereumIngressEgressEventStopWitnessingArgs = z.output<
-  typeof ethereumIngressEgressEventStopWitnessing
->;
+    __kind: z.literal('Swap'),
+    value: z.object({ swapId: numberOrHex }),
+  }),
+  z.object({
+    __kind: z.literal('LiquidityProvision'),
+    value: z.object({ lpAccount: accountId }),
+  }),
+  z.object({
+    __kind: z.literal('CcmTransfer'),
+    value: z.object({
+      principalSwapId: numberOrHex.nullish(),
+      gasSwapId: numberOrHex.nullish(),
+    }),
+  }),
+  z.object({ __kind: z.literal('NoAction') }),
+]);
 
 export const ethereumIngressEgressEventDepositReceived = z.object({
   depositAddress: hexString,
   asset: cfPrimitivesChainsAssetsEthAsset,
   amount: numberOrHex,
+  ingressFee: numberOrHex,
+  action: palletCfEthereumIngressEgressPalletDepositAction,
 });
 
 export type EthereumIngressEgressEventDepositReceivedArgs = z.output<
@@ -2164,17 +2279,6 @@ export const ethereumIngressEgressEventAssetEgressStatusChanged = z.object({
 
 export type EthereumIngressEgressEventAssetEgressStatusChangedArgs = z.output<
   typeof ethereumIngressEgressEventAssetEgressStatusChanged
->;
-
-export const ethereumIngressEgressEventEgressScheduled = z.object({
-  id: z.tuple([cfPrimitivesChainsForeignChain, numberOrHex]),
-  asset: cfPrimitivesChainsAssetsEthAsset,
-  amount: numberOrHex,
-  destinationAddress: hexString,
-});
-
-export type EthereumIngressEgressEventEgressScheduledArgs = z.output<
-  typeof ethereumIngressEgressEventEgressScheduled
 >;
 
 export const ethereumIngressEgressEventCcmBroadcastRequested = z.object({
@@ -2222,51 +2326,104 @@ export type EthereumIngressEgressEventMinimumDepositSetArgs = z.output<
   typeof ethereumIngressEgressEventMinimumDepositSet
 >;
 
+const palletCfEthereumIngressEgressDepositIgnoredReason = simpleEnum([
+  'BelowMinimumDeposit',
+  'NotEnoughToPayFees',
+]);
+
 export const ethereumIngressEgressEventDepositIgnored = z.object({
   depositAddress: hexString,
   asset: cfPrimitivesChainsAssetsEthAsset,
   amount: numberOrHex,
+  reason: palletCfEthereumIngressEgressDepositIgnoredReason,
 });
 
 export type EthereumIngressEgressEventDepositIgnoredArgs = z.output<
   typeof ethereumIngressEgressEventDepositIgnored
 >;
 
-export const ethereumIngressEgressEventVaultTransferFailed = z.object({
+export const ethereumIngressEgressEventTransferFallbackRequested = z.object({
   asset: cfPrimitivesChainsAssetsEthAsset,
   amount: numberOrHex,
   destinationAddress: hexString,
+  broadcastId: z.number(),
 });
 
-export type EthereumIngressEgressEventVaultTransferFailedArgs = z.output<
-  typeof ethereumIngressEgressEventVaultTransferFailed
+export type EthereumIngressEgressEventTransferFallbackRequestedArgs = z.output<
+  typeof ethereumIngressEgressEventTransferFallbackRequested
+>;
+
+const palletCfIngressEgressDepositWitnessEthereum = z.object({
+  depositAddress: hexString,
+  asset: cfPrimitivesChainsAssetsEthAsset,
+  amount: numberOrHex,
+});
+
+export const ethereumIngressEgressEventDepositWitnessRejected = z.object({
+  reason: spRuntimeDispatchError,
+  depositWitness: palletCfIngressEgressDepositWitnessEthereum,
+});
+
+export type EthereumIngressEgressEventDepositWitnessRejectedArgs = z.output<
+  typeof ethereumIngressEgressEventDepositWitnessRejected
+>;
+
+export const ethereumIngressEgressEventCcmBroadcastFailed = z.object({
+  broadcastId: z.number(),
+});
+
+export type EthereumIngressEgressEventCcmBroadcastFailedArgs = z.output<
+  typeof ethereumIngressEgressEventCcmBroadcastFailed
+>;
+
+export const ethereumIngressEgressEventFailedForeignChainCallResigned =
+  z.object({ broadcastId: z.number(), thresholdSignatureId: z.number() });
+
+export type EthereumIngressEgressEventFailedForeignChainCallResignedArgs =
+  z.output<typeof ethereumIngressEgressEventFailedForeignChainCallResigned>;
+
+export const ethereumIngressEgressEventFailedForeignChainCallExpired = z.object(
+  { broadcastId: z.number() },
+);
+
+export type EthereumIngressEgressEventFailedForeignChainCallExpiredArgs =
+  z.output<typeof ethereumIngressEgressEventFailedForeignChainCallExpired>;
+
+export const ethereumIngressEgressEventUtxoConsolidation = z.object({
+  broadcastId: z.number(),
+});
+
+export type EthereumIngressEgressEventUtxoConsolidationArgs = z.output<
+  typeof ethereumIngressEgressEventUtxoConsolidation
 >;
 
 const cfPrimitivesChainsAssetsDotAsset = simpleEnum(['Dot']);
 
-export const polkadotIngressEgressEventStartWitnessing = z.object({
-  depositAddress: hexString,
-  sourceAsset: cfPrimitivesChainsAssetsDotAsset,
-  openedAt: z.number(),
-});
-
-export type PolkadotIngressEgressEventStartWitnessingArgs = z.output<
-  typeof polkadotIngressEgressEventStartWitnessing
->;
-
-export const polkadotIngressEgressEventStopWitnessing = z.object({
-  depositAddress: hexString,
-  sourceAsset: cfPrimitivesChainsAssetsDotAsset,
-});
-
-export type PolkadotIngressEgressEventStopWitnessingArgs = z.output<
-  typeof polkadotIngressEgressEventStopWitnessing
->;
+const palletCfPolkadotIngressEgressPalletDepositAction = z.union([
+  z.object({
+    __kind: z.literal('Swap'),
+    value: z.object({ swapId: numberOrHex }),
+  }),
+  z.object({
+    __kind: z.literal('LiquidityProvision'),
+    value: z.object({ lpAccount: accountId }),
+  }),
+  z.object({
+    __kind: z.literal('CcmTransfer'),
+    value: z.object({
+      principalSwapId: numberOrHex.nullish(),
+      gasSwapId: numberOrHex.nullish(),
+    }),
+  }),
+  z.object({ __kind: z.literal('NoAction') }),
+]);
 
 export const polkadotIngressEgressEventDepositReceived = z.object({
   depositAddress: hexString,
   asset: cfPrimitivesChainsAssetsDotAsset,
   amount: numberOrHex,
+  ingressFee: numberOrHex,
+  action: palletCfPolkadotIngressEgressPalletDepositAction,
 });
 
 export type PolkadotIngressEgressEventDepositReceivedArgs = z.output<
@@ -2280,17 +2437,6 @@ export const polkadotIngressEgressEventAssetEgressStatusChanged = z.object({
 
 export type PolkadotIngressEgressEventAssetEgressStatusChangedArgs = z.output<
   typeof polkadotIngressEgressEventAssetEgressStatusChanged
->;
-
-export const polkadotIngressEgressEventEgressScheduled = z.object({
-  id: z.tuple([cfPrimitivesChainsForeignChain, numberOrHex]),
-  asset: cfPrimitivesChainsAssetsDotAsset,
-  amount: numberOrHex,
-  destinationAddress: hexString,
-});
-
-export type PolkadotIngressEgressEventEgressScheduledArgs = z.output<
-  typeof polkadotIngressEgressEventEgressScheduled
 >;
 
 export const polkadotIngressEgressEventCcmBroadcastRequested = z.object({
@@ -2338,54 +2484,107 @@ export type PolkadotIngressEgressEventMinimumDepositSetArgs = z.output<
   typeof polkadotIngressEgressEventMinimumDepositSet
 >;
 
+const palletCfPolkadotIngressEgressDepositIgnoredReason = simpleEnum([
+  'BelowMinimumDeposit',
+  'NotEnoughToPayFees',
+]);
+
 export const polkadotIngressEgressEventDepositIgnored = z.object({
   depositAddress: hexString,
   asset: cfPrimitivesChainsAssetsDotAsset,
   amount: numberOrHex,
+  reason: palletCfPolkadotIngressEgressDepositIgnoredReason,
 });
 
 export type PolkadotIngressEgressEventDepositIgnoredArgs = z.output<
   typeof polkadotIngressEgressEventDepositIgnored
 >;
 
-export const polkadotIngressEgressEventVaultTransferFailed = z.object({
+export const polkadotIngressEgressEventTransferFallbackRequested = z.object({
   asset: cfPrimitivesChainsAssetsDotAsset,
   amount: numberOrHex,
   destinationAddress: hexString,
+  broadcastId: z.number(),
 });
 
-export type PolkadotIngressEgressEventVaultTransferFailedArgs = z.output<
-  typeof polkadotIngressEgressEventVaultTransferFailed
+export type PolkadotIngressEgressEventTransferFallbackRequestedArgs = z.output<
+  typeof polkadotIngressEgressEventTransferFallbackRequested
+>;
+
+const palletCfIngressEgressDepositWitnessPolkadot = z.object({
+  depositAddress: hexString,
+  asset: cfPrimitivesChainsAssetsDotAsset,
+  amount: numberOrHex,
+});
+
+export const polkadotIngressEgressEventDepositWitnessRejected = z.object({
+  reason: spRuntimeDispatchError,
+  depositWitness: palletCfIngressEgressDepositWitnessPolkadot,
+});
+
+export type PolkadotIngressEgressEventDepositWitnessRejectedArgs = z.output<
+  typeof polkadotIngressEgressEventDepositWitnessRejected
+>;
+
+export const polkadotIngressEgressEventCcmBroadcastFailed = z.object({
+  broadcastId: z.number(),
+});
+
+export type PolkadotIngressEgressEventCcmBroadcastFailedArgs = z.output<
+  typeof polkadotIngressEgressEventCcmBroadcastFailed
+>;
+
+export const polkadotIngressEgressEventFailedForeignChainCallResigned =
+  z.object({ broadcastId: z.number(), thresholdSignatureId: z.number() });
+
+export type PolkadotIngressEgressEventFailedForeignChainCallResignedArgs =
+  z.output<typeof polkadotIngressEgressEventFailedForeignChainCallResigned>;
+
+export const polkadotIngressEgressEventFailedForeignChainCallExpired = z.object(
+  { broadcastId: z.number() },
+);
+
+export type PolkadotIngressEgressEventFailedForeignChainCallExpiredArgs =
+  z.output<typeof polkadotIngressEgressEventFailedForeignChainCallExpired>;
+
+export const polkadotIngressEgressEventUtxoConsolidation = z.object({
+  broadcastId: z.number(),
+});
+
+export type PolkadotIngressEgressEventUtxoConsolidationArgs = z.output<
+  typeof polkadotIngressEgressEventUtxoConsolidation
 >;
 
 const cfPrimitivesChainsAssetsBtcAsset = simpleEnum(['Btc']);
 
-export const bitcoinIngressEgressEventStartWitnessing = z.object({
-  depositAddress: cfChainsBtcScriptPubkey,
-  sourceAsset: cfPrimitivesChainsAssetsBtcAsset,
-  openedAt: numberOrHex,
-});
-
-export type BitcoinIngressEgressEventStartWitnessingArgs = z.output<
-  typeof bitcoinIngressEgressEventStartWitnessing
->;
-
-export const bitcoinIngressEgressEventStopWitnessing = z.object({
-  depositAddress: cfChainsBtcScriptPubkey,
-  sourceAsset: cfPrimitivesChainsAssetsBtcAsset,
-});
-
-export type BitcoinIngressEgressEventStopWitnessingArgs = z.output<
-  typeof bitcoinIngressEgressEventStopWitnessing
->;
-
 const cfChainsBtcUtxoId = z.object({ txId: hexString, vout: z.number() });
+
+const palletCfBitcoinIngressEgressPalletDepositAction = z.union([
+  z.object({
+    __kind: z.literal('Swap'),
+    value: z.object({ swapId: numberOrHex }),
+  }),
+  z.object({
+    __kind: z.literal('LiquidityProvision'),
+    value: z.object({ lpAccount: accountId }),
+  }),
+  z.object({
+    __kind: z.literal('CcmTransfer'),
+    value: z.object({
+      principalSwapId: numberOrHex.nullish(),
+      gasSwapId: numberOrHex.nullish(),
+    }),
+  }),
+  z.object({ __kind: z.literal('NoAction') }),
+]);
 
 export const bitcoinIngressEgressEventDepositReceived = z.object({
   depositAddress: cfChainsBtcScriptPubkey,
   asset: cfPrimitivesChainsAssetsBtcAsset,
   amount: numberOrHex,
   depositDetails: cfChainsBtcUtxoId,
+  ingressFee: numberOrHex,
+  action: palletCfBitcoinIngressEgressPalletDepositAction,
 });
 
 export type BitcoinIngressEgressEventDepositReceivedArgs = z.output<
@@ -2399,17 +2598,6 @@ export const bitcoinIngressEgressEventAssetEgressStatusChanged = z.object({
 
 export type BitcoinIngressEgressEventAssetEgressStatusChangedArgs = z.output<
   typeof bitcoinIngressEgressEventAssetEgressStatusChanged
->;
-
-export const bitcoinIngressEgressEventEgressScheduled = z.object({
-  id: z.tuple([cfPrimitivesChainsForeignChain, numberOrHex]),
-  asset: cfPrimitivesChainsAssetsBtcAsset,
-  amount: numberOrHex,
-  destinationAddress: cfChainsBtcScriptPubkey,
-});
-
-export type BitcoinIngressEgressEventEgressScheduledArgs = z.output<
-  typeof bitcoinIngressEgressEventEgressScheduled
 >;
 
 export const bitcoinIngressEgressEventCcmBroadcastRequested = z.object({
@@ -2457,25 +2645,78 @@ export type BitcoinIngressEgressEventMinimumDepositSetArgs = z.output<
   typeof bitcoinIngressEgressEventMinimumDepositSet
 >;
 
+const palletCfBitcoinIngressEgressDepositIgnoredReason = simpleEnum([
+  'BelowMinimumDeposit',
+  'NotEnoughToPayFees',
+]);
+
 export const bitcoinIngressEgressEventDepositIgnored = z.object({
   depositAddress: cfChainsBtcScriptPubkey,
   asset: cfPrimitivesChainsAssetsBtcAsset,
   amount: numberOrHex,
   depositDetails: cfChainsBtcUtxoId,
+  reason: palletCfBitcoinIngressEgressDepositIgnoredReason,
 });
 
 export type BitcoinIngressEgressEventDepositIgnoredArgs = z.output<
   typeof bitcoinIngressEgressEventDepositIgnored
 >;
 
-export const bitcoinIngressEgressEventVaultTransferFailed = z.object({
+export const bitcoinIngressEgressEventTransferFallbackRequested = z.object({
   asset: cfPrimitivesChainsAssetsBtcAsset,
   amount: numberOrHex,
   destinationAddress: cfChainsBtcScriptPubkey,
+  broadcastId: z.number(),
 });
 
-export type BitcoinIngressEgressEventVaultTransferFailedArgs = z.output<
-  typeof bitcoinIngressEgressEventVaultTransferFailed
+export type BitcoinIngressEgressEventTransferFallbackRequestedArgs = z.output<
+  typeof bitcoinIngressEgressEventTransferFallbackRequested
+>;
+
+const palletCfIngressEgressDepositWitnessBitcoin = z.object({
+  depositAddress: cfChainsBtcScriptPubkey,
+  asset: cfPrimitivesChainsAssetsBtcAsset,
+  amount: numberOrHex,
+  depositDetails: cfChainsBtcUtxoId,
+});
+
+export const bitcoinIngressEgressEventDepositWitnessRejected = z.object({
+  reason: spRuntimeDispatchError,
+  depositWitness: palletCfIngressEgressDepositWitnessBitcoin,
+});
+
+export type BitcoinIngressEgressEventDepositWitnessRejectedArgs = z.output<
+  typeof bitcoinIngressEgressEventDepositWitnessRejected
+>;
+
+export const bitcoinIngressEgressEventCcmBroadcastFailed = z.object({
+  broadcastId: z.number(),
+});
+
+export type BitcoinIngressEgressEventCcmBroadcastFailedArgs = z.output<
+  typeof bitcoinIngressEgressEventCcmBroadcastFailed
+>;
+
+export const bitcoinIngressEgressEventFailedForeignChainCallResigned = z.object(
+  { broadcastId: z.number(), thresholdSignatureId: z.number() },
+);
+
+export type BitcoinIngressEgressEventFailedForeignChainCallResignedArgs =
+  z.output<typeof bitcoinIngressEgressEventFailedForeignChainCallResigned>;
+
+export const bitcoinIngressEgressEventFailedForeignChainCallExpired = z.object({
+  broadcastId: z.number(),
+});
+
+export type BitcoinIngressEgressEventFailedForeignChainCallExpiredArgs =
+  z.output<typeof bitcoinIngressEgressEventFailedForeignChainCallExpired>;
+
+export const bitcoinIngressEgressEventUtxoConsolidation = z.object({
+  broadcastId: z.number(),
+});
+
+export type BitcoinIngressEgressEventUtxoConsolidationArgs = z.output<
+  typeof bitcoinIngressEgressEventUtxoConsolidation
 >;
 
 export const liquidityPoolsEventUpdatedBuyInterval = z.object({
@@ -2486,19 +2727,9 @@ export type LiquidityPoolsEventUpdatedBuyIntervalArgs = z.output<
   typeof liquidityPoolsEventUpdatedBuyInterval
 >;
 
-export const liquidityPoolsEventPoolStateUpdated = z.object({
-  baseAsset: cfPrimitivesChainsAssetsAnyAsset,
-  pairAsset: cfPrimitivesChainsAssetsAnyAsset,
-  enabled: z.boolean(),
-});
-
-export type LiquidityPoolsEventPoolStateUpdatedArgs = z.output<
-  typeof liquidityPoolsEventPoolStateUpdated
->;
-
 export const liquidityPoolsEventNewPoolCreated = z.object({
   baseAsset: cfPrimitivesChainsAssetsAnyAsset,
-  pairAsset: cfPrimitivesChainsAssetsAnyAsset,
+  quoteAsset: cfPrimitivesChainsAssetsAnyAsset,
   feeHundredthPips: z.number(),
   initialPrice: numberOrHex,
 });
@@ -2507,42 +2738,53 @@ export type LiquidityPoolsEventNewPoolCreatedArgs = z.output<
   typeof liquidityPoolsEventNewPoolCreated
 >;
 
-const palletCfPoolsPalletIncreaseOrDecrease = simpleEnum([
-  'Increase',
-  'Decrease',
-]);
-
-const palletCfPoolsAssetsMap = z.object({
+const palletCfPoolsAssetsMapU128 = z.object({
   base: numberOrHex,
-  pair: numberOrHex,
+  quote: numberOrHex,
 });
+
+const palletCfPoolsRangeOrderChange = z.object({
+  liquidity: numberOrHex,
+  amounts: palletCfPoolsAssetsMapU128,
+});
+
+const palletCfPoolsPalletIncreaseOrDecrease = z.union([
+  z.object({
+    __kind: z.literal('Increase'),
+    value: palletCfPoolsRangeOrderChange,
+  }),
+  z.object({
+    __kind: z.literal('Decrease'),
+    value: palletCfPoolsRangeOrderChange,
+  }),
+]);
 
 export const liquidityPoolsEventRangeOrderUpdated = z.object({
   lp: accountId,
   baseAsset: cfPrimitivesChainsAssetsAnyAsset,
-  pairAsset: cfPrimitivesChainsAssetsAnyAsset,
+  quoteAsset: cfPrimitivesChainsAssetsAnyAsset,
   id: numberOrHex,
   tickRange: z.object({ start: z.number(), end: z.number() }),
-  increaseOrDecrease: palletCfPoolsPalletIncreaseOrDecrease,
-  liquidityDelta: numberOrHex,
+  sizeChange: palletCfPoolsPalletIncreaseOrDecrease.nullish(),
   liquidityTotal: numberOrHex,
-  assetsDelta: palletCfPoolsAssetsMap,
-  collectedFees: palletCfPoolsAssetsMap,
+  collectedFees: palletCfPoolsAssetsMapU128,
 });
 
 export type LiquidityPoolsEventRangeOrderUpdatedArgs = z.output<
   typeof liquidityPoolsEventRangeOrderUpdated
 >;
 
+const cfAmmCommonOrder = simpleEnum(['Buy', 'Sell']);
+
 export const liquidityPoolsEventLimitOrderUpdated = z.object({
   lp: accountId,
-  sellAsset: cfPrimitivesChainsAssetsAnyAsset,
-  buyAsset: cfPrimitivesChainsAssetsAnyAsset,
+  baseAsset: cfPrimitivesChainsAssetsAnyAsset,
+  quoteAsset: cfPrimitivesChainsAssetsAnyAsset,
+  side: cfAmmCommonOrder,
   id: numberOrHex,
   tick: z.number(),
-  increaseOrDecrease: palletCfPoolsPalletIncreaseOrDecrease,
-  amountDelta: numberOrHex,
-  amountTotal: numberOrHex,
+  sellAmountChange: palletCfPoolsPalletIncreaseOrDecrease.nullish(),
+  sellAmountTotal: numberOrHex,
   collectedFees: numberOrHex,
   boughtAmount: numberOrHex,
 });
@@ -2568,4 +2810,40 @@ export const liquidityPoolsEventAssetSwapped = z.object({
 
 export type LiquidityPoolsEventAssetSwappedArgs = z.output<
   typeof liquidityPoolsEventAssetSwapped
+>;
+
+export const liquidityPoolsEventPoolFeeSet = z.object({
+  baseAsset: cfPrimitivesChainsAssetsAnyAsset,
+  quoteAsset: cfPrimitivesChainsAssetsAnyAsset,
+  feeHundredthPips: z.number(),
+});
+
+export type LiquidityPoolsEventPoolFeeSetArgs = z.output<
+  typeof liquidityPoolsEventPoolFeeSet
+>;
+
+export const liquidityPoolsEventScheduledLimitOrderUpdateDispatchSuccess =
+  z.object({ lp: accountId, orderId: numberOrHex });
+
+export type LiquidityPoolsEventScheduledLimitOrderUpdateDispatchSuccessArgs =
+  z.output<typeof liquidityPoolsEventScheduledLimitOrderUpdateDispatchSuccess>;
+
+export const liquidityPoolsEventScheduledLimitOrderUpdateDispatchFailure =
+  z.object({
+    lp: accountId,
+    orderId: numberOrHex,
+    error: spRuntimeDispatchError,
+  });
+
+export type LiquidityPoolsEventScheduledLimitOrderUpdateDispatchFailureArgs =
+  z.output<typeof liquidityPoolsEventScheduledLimitOrderUpdateDispatchFailure>;
+
+export const liquidityPoolsEventLimitOrderSetOrUpdateScheduled = z.object({
+  lp: accountId,
+  orderId: numberOrHex,
+  dispatchAt: z.number(),
+});
+
+export type LiquidityPoolsEventLimitOrderSetOrUpdateScheduledArgs = z.output<
+  typeof liquidityPoolsEventLimitOrderSetOrUpdateScheduled
 >;

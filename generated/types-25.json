@@ -5,9 +5,11 @@
       "fields": {
         "dispatchInfo": {
           "type": "struct",
+          "name": "FrameSupportDispatchDispatchInfo",
           "fields": {
             "weight": {
               "type": "struct",
+              "name": "SpWeightsWeightV2Weight",
               "fields": {
                 "refTime": {
                   "type": "primitive",
@@ -102,6 +104,7 @@
               "name": "Module",
               "value": {
                 "type": "struct",
+                "name": "SpRuntimeModuleError",
                 "fields": {
                   "index": {
                     "type": "primitive",
@@ -303,9 +306,11 @@
         },
         "dispatchInfo": {
           "type": "struct",
+          "name": "FrameSupportDispatchDispatchInfo",
           "fields": {
             "weight": {
               "type": "struct",
+              "name": "SpWeightsWeightV2Weight",
               "fields": {
                 "refTime": {
                   "type": "primitive",
@@ -524,9 +529,11 @@
               "name": "CodeAmber",
               "value": {
                 "type": "struct",
+                "name": "StateChainRuntimeSafeModeInnerRuntimeSafeMode",
                 "fields": {
                   "emissions": {
                     "type": "struct",
+                    "name": "PalletCfEmissionsPalletSafeMode",
                     "fields": {
                       "emissionsSyncEnabled": {
                         "type": "primitive",
@@ -536,6 +543,7 @@
                   },
                   "funding": {
                     "type": "struct",
+                    "name": "PalletCfFundingPalletSafeMode",
                     "fields": {
                       "redeemEnabled": {
                         "type": "primitive",
@@ -553,6 +561,7 @@
                   },
                   "swapping": {
                     "type": "struct",
+                    "name": "PalletCfSwappingPalletSafeMode",
                     "fields": {
                       "swapsEnabled": {
                         "type": "primitive",
@@ -574,6 +583,7 @@
                   },
                   "liquidityProvider": {
                     "type": "struct",
+                    "name": "PalletCfLpPalletSafeMode",
                     "fields": {
                       "depositEnabled": {
                         "type": "primitive",
@@ -587,6 +597,7 @@
                   },
                   "validator": {
                     "type": "struct",
+                    "name": "PalletCfValidatorPalletSafeMode",
                     "fields": {
                       "authorityRotationEnabled": {
                         "type": "primitive",
@@ -596,6 +607,7 @@
                   },
                   "pools": {
                     "type": "struct",
+                    "name": "PalletCfPoolsPalletSafeMode",
                     "fields": {
                       "rangeOrderUpdateEnabled": {
                         "type": "primitive",
@@ -609,6 +621,7 @@
                   },
                   "reputation": {
                     "type": "struct",
+                    "name": "PalletCfReputationPalletSafeMode",
                     "fields": {
                       "reportingEnabled": {
                         "type": "primitive",
@@ -618,6 +631,7 @@
                   },
                   "vault": {
                     "type": "struct",
+                    "name": "PalletCfVaultsPalletSafeMode",
                     "fields": {
                       "slashingEnabled": {
                         "type": "primitive",
@@ -647,6 +661,7 @@
                         "name": "CodeAmber",
                         "value": {
                           "type": "struct",
+                          "name": "StateChainRuntimeSafeModeWitnesserCallPermission",
                           "fields": {
                             "governance": {
                               "type": "primitive",
@@ -715,6 +730,7 @@
                   },
                   "broadcast": {
                     "type": "struct",
+                    "name": "PalletCfBroadcastPalletSafeMode",
                     "fields": {
                       "retryEnabled": {
                         "type": "primitive",
@@ -736,6 +752,7 @@
           "type": "option",
           "value": {
             "type": "struct",
+            "name": "CfPrimitivesSemVer",
             "fields": {
               "major": {
                 "type": "primitive",
@@ -1154,6 +1171,7 @@
               "name": "Module",
               "value": {
                 "type": "struct",
+                "name": "SpRuntimeModuleError",
                 "fields": {
                   "index": {
                     "type": "primitive",
@@ -1383,6 +1401,7 @@
               "name": "KeygensInProgress",
               "value": {
                 "type": "struct",
+                "name": "PalletCfValidatorRotationState",
                 "fields": {
                   "primaryCandidates": {
                     "type": "array",
@@ -1420,6 +1439,7 @@
               "name": "KeyHandoversInProgress",
               "value": {
                 "type": "struct",
+                "name": "PalletCfValidatorRotationState",
                 "fields": {
                   "primaryCandidates": {
                     "type": "array",
@@ -1457,6 +1477,7 @@
               "name": "ActivatingKeys",
               "value": {
                 "type": "struct",
+                "name": "PalletCfValidatorRotationState",
                 "fields": {
                   "primaryCandidates": {
                     "type": "array",
@@ -1494,6 +1515,7 @@
               "name": "NewKeysActivated",
               "value": {
                 "type": "struct",
+                "name": "PalletCfValidatorRotationState",
                 "fields": {
                   "primaryCandidates": {
                     "type": "array",
@@ -1531,6 +1553,7 @@
               "name": "SessionRotating",
               "value": {
                 "type": "struct",
+                "name": "PalletCfValidatorRotationState",
                 "fields": {
                   "primaryCandidates": {
                     "type": "array",
@@ -1577,6 +1600,7 @@
         },
         "oldVersion": {
           "type": "struct",
+          "name": "CfPrimitivesSemVer",
           "fields": {
             "major": {
               "type": "primitive",
@@ -1594,6 +1618,7 @@
         },
         "newVersion": {
           "type": "struct",
+          "name": "CfPrimitivesSemVer",
           "fields": {
             "major": {
               "type": "primitive",
@@ -1768,6 +1793,7 @@
                 "fields": {
                   "parameters": {
                     "type": "struct",
+                    "name": "PalletCfValidatorAuctionResolverSetSizeParameters",
                     "fields": {
                       "minSize": {
                         "type": "primitive",
@@ -1793,6 +1819,7 @@
                 "fields": {
                   "version": {
                     "type": "struct",
+                    "name": "CfPrimitivesSemVer",
                     "fields": {
                       "major": {
                         "type": "primitive",
@@ -1908,6 +1935,7 @@
           "name": "Module",
           "value": {
             "type": "struct",
+            "name": "SpRuntimeModuleError",
             "fields": {
               "index": {
                 "type": "primitive",
@@ -2181,6 +2209,7 @@
               "name": "Module",
               "value": {
                 "type": "struct",
+                "name": "SpRuntimeModuleError",
                 "fields": {
                   "index": {
                     "type": "primitive",
@@ -2878,6 +2907,7 @@
         },
         "oldPenalty": {
           "type": "struct",
+          "name": "PalletCfReputationPenalty",
           "fields": {
             "reputation": {
               "type": "primitive",
@@ -2891,6 +2921,7 @@
         },
         "newPenalty": {
           "type": "struct",
+          "name": "PalletCfReputationPenalty",
           "fields": {
             "reputation": {
               "type": "primitive",
@@ -2911,6 +2942,7 @@
       "fields": {
         "newChainState": {
           "type": "struct",
+          "name": "CfChainsChainStateEthereum",
           "fields": {
             "blockHeight": {
               "type": "primitive",
@@ -2918,6 +2950,7 @@
             },
             "trackedData": {
               "type": "struct",
+              "name": "CfChainsEthEthereumTrackedData",
               "fields": {
                 "baseFee": {
                   "type": "primitive",
@@ -2940,6 +2973,7 @@
       "fields": {
         "newChainState": {
           "type": "struct",
+          "name": "CfChainsChainStatePolkadot",
           "fields": {
             "blockHeight": {
               "type": "primitive",
@@ -2947,6 +2981,7 @@
             },
             "trackedData": {
               "type": "struct",
+              "name": "CfChainsDotPolkadotTrackedData",
               "fields": {
                 "medianTip": {
                   "type": "primitive",
@@ -2954,6 +2989,7 @@
                 },
                 "runtimeVersion": {
                   "type": "struct",
+                  "name": "CfChainsDotRuntimeVersion",
                   "fields": {
                     "specVersion": {
                       "type": "primitive",
@@ -2978,6 +3014,7 @@
       "fields": {
         "newChainState": {
           "type": "struct",
+          "name": "CfChainsChainStateBitcoin",
           "fields": {
             "blockHeight": {
               "type": "primitive",
@@ -2985,9 +3022,11 @@
             },
             "trackedData": {
               "type": "struct",
+              "name": "CfChainsBtcBitcoinTrackedData",
               "fields": {
                 "btcFeeInfo": {
                   "type": "struct",
+                  "name": "CfChainsBtcBitcoinFeeInfo",
                   "fields": {
                     "feePerInputUtxo": {
                       "type": "primitive",
@@ -3044,6 +3083,7 @@
         },
         "keyToShare": {
           "type": "struct",
+          "name": "CfChainsEvmAggKey",
           "fields": {
             "pubKeyX": {
               "type": "array",
@@ -3091,6 +3131,7 @@
         },
         "newKey": {
           "type": "struct",
+          "name": "CfChainsEvmAggKey",
           "fields": {
             "pubKeyX": {
               "type": "array",
@@ -3134,6 +3175,7 @@
     },
     "VaultRotatedExternally": {
       "type": "struct",
+      "name": "CfChainsEvmAggKey",
       "fields": {
         "pubKeyX": {
           "type": "array",
@@ -3203,6 +3245,7 @@
       "fields": {
         "aggKey": {
           "type": "struct",
+          "name": "CfChainsEvmAggKey",
           "fields": {
             "pubKeyX": {
               "type": "array",
@@ -3241,6 +3284,7 @@
       "fields": {
         "aggKey": {
           "type": "struct",
+          "name": "CfChainsEvmAggKey",
           "fields": {
             "pubKeyX": {
               "type": "array",
@@ -3323,6 +3367,7 @@
       "fields": {
         "newPublicKey": {
           "type": "struct",
+          "name": "CfChainsEvmAggKey",
           "fields": {
             "pubKeyX": {
               "type": "array",
@@ -3614,6 +3659,7 @@
         },
         "keyToShare": {
           "type": "struct",
+          "name": "CfChainsBtcAggKey",
           "fields": {
             "previous": {
               "type": "option",
@@ -3652,6 +3698,7 @@
         },
         "newKey": {
           "type": "struct",
+          "name": "CfChainsBtcAggKey",
           "fields": {
             "previous": {
               "type": "option",
@@ -3686,6 +3733,7 @@
     },
     "VaultRotatedExternally": {
       "type": "struct",
+      "name": "CfChainsBtcAggKey",
       "fields": {
         "previous": {
           "type": "option",
@@ -3746,6 +3794,7 @@
       "fields": {
         "aggKey": {
           "type": "struct",
+          "name": "CfChainsBtcAggKey",
           "fields": {
             "previous": {
               "type": "option",
@@ -3775,6 +3824,7 @@
       "fields": {
         "aggKey": {
           "type": "struct",
+          "name": "CfChainsBtcAggKey",
           "fields": {
             "previous": {
               "type": "option",
@@ -3848,6 +3898,7 @@
       "fields": {
         "newPublicKey": {
           "type": "struct",
+          "name": "CfChainsBtcAggKey",
           "fields": {
             "previous": {
               "type": "option",
@@ -3904,6 +3955,7 @@
         },
         "key": {
           "type": "struct",
+          "name": "CfChainsEvmAggKey",
           "fields": {
             "pubKeyX": {
               "type": "array",
@@ -4034,6 +4086,7 @@
                     "name": "Module",
                     "value": {
                       "type": "struct",
+                      "name": "SpRuntimeModuleError",
                       "fields": {
                         "index": {
                           "type": "primitive",
@@ -4427,6 +4480,7 @@
                     "name": "Module",
                     "value": {
                       "type": "struct",
+                      "name": "SpRuntimeModuleError",
                       "fields": {
                         "index": {
                           "type": "primitive",
@@ -4715,6 +4769,7 @@
         },
         "key": {
           "type": "struct",
+          "name": "CfChainsBtcAggKey",
           "fields": {
             "previous": {
               "type": "option",
@@ -4868,6 +4923,7 @@
                     "name": "Module",
                     "value": {
                       "type": "struct",
+                      "name": "SpRuntimeModuleError",
                       "fields": {
                         "index": {
                           "type": "primitive",
@@ -5144,6 +5200,7 @@
       "fields": {
         "broadcastAttemptId": {
           "type": "struct",
+          "name": "PalletCfBroadcastBroadcastAttemptId",
           "fields": {
             "broadcastId": {
               "type": "primitive",
@@ -5161,6 +5218,7 @@
         },
         "transactionPayload": {
           "type": "struct",
+          "name": "CfChainsEvmTransaction",
           "fields": {
             "chainId": {
               "type": "primitive",
@@ -5203,6 +5261,7 @@
         },
         "transactionOutId": {
           "type": "struct",
+          "name": "CfChainsEvmSchnorrVerificationComponents",
           "fields": {
             "s": {
               "type": "array",
@@ -5229,6 +5288,7 @@
       "fields": {
         "broadcastAttemptId": {
           "type": "struct",
+          "name": "PalletCfBroadcastBroadcastAttemptId",
           "fields": {
             "broadcastId": {
               "type": "primitive",
@@ -5247,6 +5307,7 @@
       "fields": {
         "broadcastAttemptId": {
           "type": "struct",
+          "name": "PalletCfBroadcastBroadcastAttemptId",
           "fields": {
             "broadcastId": {
               "type": "primitive",
@@ -5278,6 +5339,7 @@
         },
         "transactionOutId": {
           "type": "struct",
+          "name": "CfChainsEvmSchnorrVerificationComponents",
           "fields": {
             "s": {
               "type": "array",
@@ -5357,6 +5419,7 @@
                     "name": "Module",
                     "value": {
                       "type": "struct",
+                      "name": "SpRuntimeModuleError",
                       "fields": {
                         "index": {
                           "type": "primitive",
@@ -5568,6 +5631,7 @@
       "fields": {
         "broadcastAttemptId": {
           "type": "struct",
+          "name": "PalletCfBroadcastBroadcastAttemptId",
           "fields": {
             "broadcastId": {
               "type": "primitive",
@@ -5585,6 +5649,7 @@
         },
         "transactionPayload": {
           "type": "struct",
+          "name": "CfChainsDotPolkadotTransactionData",
           "fields": {
             "encodedExtrinsic": {
               "type": "primitive",
@@ -5607,6 +5672,7 @@
       "fields": {
         "broadcastAttemptId": {
           "type": "struct",
+          "name": "PalletCfBroadcastBroadcastAttemptId",
           "fields": {
             "broadcastId": {
               "type": "primitive",
@@ -5625,6 +5691,7 @@
       "fields": {
         "broadcastAttemptId": {
           "type": "struct",
+          "name": "PalletCfBroadcastBroadcastAttemptId",
           "fields": {
             "broadcastId": {
               "type": "primitive",
@@ -5722,6 +5789,7 @@
                     "name": "Module",
                     "value": {
                       "type": "struct",
+                      "name": "SpRuntimeModuleError",
                       "fields": {
                         "index": {
                           "type": "primitive",
@@ -5933,6 +6001,7 @@
       "fields": {
         "broadcastAttemptId": {
           "type": "struct",
+          "name": "PalletCfBroadcastBroadcastAttemptId",
           "fields": {
             "broadcastId": {
               "type": "primitive",
@@ -5950,6 +6019,7 @@
         },
         "transactionPayload": {
           "type": "struct",
+          "name": "CfChainsBtcBitcoinTransactionData",
           "fields": {
             "encodedTransaction": {
               "type": "primitive",
@@ -5972,6 +6042,7 @@
       "fields": {
         "broadcastAttemptId": {
           "type": "struct",
+          "name": "PalletCfBroadcastBroadcastAttemptId",
           "fields": {
             "broadcastId": {
               "type": "primitive",
@@ -5990,6 +6061,7 @@
       "fields": {
         "broadcastAttemptId": {
           "type": "struct",
+          "name": "PalletCfBroadcastBroadcastAttemptId",
           "fields": {
             "broadcastId": {
               "type": "primitive",
@@ -6087,6 +6159,7 @@
                     "name": "Module",
                     "value": {
                       "type": "struct",
+                      "name": "SpRuntimeModuleError",
                       "fields": {
                         "index": {
                           "type": "primitive",
@@ -6478,6 +6551,7 @@
           "type": "option",
           "value": {
             "type": "struct",
+            "name": "CfChainsCcmChannelMetadata",
             "fields": {
               "message": {
                 "type": "primitive",
@@ -7402,6 +7476,7 @@
         },
         "depositMetadata": {
           "type": "struct",
+          "name": "CfChainsCcmDepositMetadata",
           "fields": {
             "sourceChain": {
               "type": "enum",
@@ -7546,6 +7621,7 @@
             },
             "channelMetadata": {
               "type": "struct",
+              "name": "CfChainsCcmChannelMetadata",
               "fields": {
                 "message": {
                   "type": "primitive",
@@ -7854,6 +7930,7 @@
         },
         "depositMetadata": {
           "type": "struct",
+          "name": "CfChainsCcmDepositMetadata",
           "fields": {
             "sourceChain": {
               "type": "enum",
@@ -7998,6 +8075,7 @@
             },
             "channelMetadata": {
               "type": "struct",
+              "name": "CfChainsCcmChannelMetadata",
               "fields": {
                 "message": {
                   "type": "primitive",
@@ -8864,6 +8942,7 @@
               "name": "Module",
               "value": {
                 "type": "struct",
+                "name": "SpRuntimeModuleError",
                 "fields": {
                   "index": {
                     "type": "primitive",
@@ -9534,6 +9613,7 @@
               "name": "Module",
               "value": {
                 "type": "struct",
+                "name": "SpRuntimeModuleError",
                 "fields": {
                   "index": {
                     "type": "primitive",
@@ -9999,6 +10079,7 @@
         },
         "depositDetails": {
           "type": "struct",
+          "name": "CfChainsBtcUtxoId",
           "fields": {
             "txId": {
               "type": "array",
@@ -10307,6 +10388,7 @@
               "name": "Module",
               "value": {
                 "type": "struct",
+                "name": "SpRuntimeModuleError",
                 "fields": {
                   "index": {
                     "type": "primitive",
@@ -10706,6 +10788,7 @@
         },
         "depositDetails": {
           "type": "struct",
+          "name": "CfChainsBtcUtxoId",
           "fields": {
             "txId": {
               "type": "array",
@@ -11191,6 +11274,7 @@
         },
         "assetsDelta": {
           "type": "struct",
+          "name": "PalletCfPoolsAssetsMap",
           "fields": {
             "base": {
               "type": "primitive",
@@ -11204,6 +11288,7 @@
         },
         "collectedFees": {
           "type": "struct",
+          "name": "PalletCfPoolsAssetsMap",
           "fields": {
             "base": {
               "type": "primitive",

@@ -1,13 +1,13 @@
 import * as fs from 'fs/promises';
 import * as path from 'path';
 import * as url from 'url';
-import { MetadataOpts, parseMetadata } from './parser';
+import { MetadataOpts, fetchSpecVersion, parseMetadata } from './parser';
 import CodeGenerator from './codegen';
 
 const __dirname = path.dirname(url.fileURLToPath(import.meta.url));
 
 const generate = async (opts?: MetadataOpts) => {
-  const { parsedMetadata, specVersion } = await parseMetadata(opts);
+  const specVersion = await fetchSpecVersion(opts);
 
   const outfile = path.join(
     __dirname,
@@ -16,14 +16,23 @@ const generate = async (opts?: MetadataOpts) => {
     `types-${specVersion}.json`,
   );
 
-  await fs.mkdir(path.dirname(outfile), { recursive: true });
-  await fs.writeFile(outfile, JSON.stringify(parsedMetadata, null, 2));
+  let parsedMetadata = await fs
+    .readFile(outfile, 'utf8')
+    .then((data) => JSON.parse(data))
+    .catch(() => null);
 
-  // const generator = new CodeGenerator();
+  if (!parsedMetadata) {
+    parsedMetadata = await parseMetadata(specVersion, opts);
 
-  // const result = await generator.generate(parsedMetadata);
+    await fs.mkdir(path.dirname(outfile), { recursive: true });
+    await fs.writeFile(outfile, JSON.stringify(parsedMetadata, null, 2));
+  }
 
-  // await fs.writeFile(`./generated/out-${specVersion}.ts`, result, 'utf8');
+  const generator = new CodeGenerator();
+
+  const result = await generator.generate(parsedMetadata);
+
+  await fs.writeFile(`./generated/out-${specVersion}.ts`, result, 'utf8');
 };
 
 const hashes = [
@@ -43,6 +52,7 @@ const hashes = [
   '0xe43aa5ff4d9420e356873572d12169ed8f0c634ef3b28070bf30805d62c9e25e',
   '0x263f89fda776740cf845f463152c3957e2dbcc14d8828b56e1b3bf70e52ffc9e',
   '0x7196f59297d6650e9dd288291ca15b0b1af2a749db12c0a3ffcc5c8ccb48f615',
+  '0x4a65c68a7ebf2fba576bd50902882dc4be1be0b6a1fdc5d75471cdfb17864eff',
 ];
 
 for (const hash of hashes) {

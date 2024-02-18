@@ -13,7 +13,7 @@ export type MetadataOpts = {
   hash?: string;
 };
 
-const fetchMetadata = async ({
+export const fetchSpecVersion = async ({
   rpcUrl = 'https://backspin-rpc.staging/',
   hash,
 }: MetadataOpts = {}) => {
@@ -24,8 +24,13 @@ const fetchMetadata = async ({
     params: [hash],
   });
 
-  const specVersion = runtimeVersionRes.data.result.specVersion as number;
+  return runtimeVersionRes.data.result.specVersion as number;
+};
 
+const fetchMetadata = async (
+  specVersion: number,
+  { rpcUrl = 'https://backspin-rpc.staging/', hash }: MetadataOpts = {},
+) => {
   const filePath = path.join(
     __dirname,
     '..',
@@ -52,7 +57,7 @@ const fetchMetadata = async ({
   const registry = new TypeRegistry();
   const metadata = new Metadata(registry, bytes);
   registry.setMetadata(metadata);
-  return { specVersion, metadata };
+  return metadata;
 };
 
 const hasSubs = <T extends TypeDef>(type: T): type is T & { sub: TypeDef[] } =>
@@ -79,6 +84,7 @@ export type EnumType = {
 
 export type StructType = {
   type: 'struct';
+  name?: string;
   fields: Record<string, ResolvedType>;
 };
 
@@ -147,6 +153,7 @@ const resolveType = (
 
         const result: StructType = {
           type: 'struct',
+          name: type.lookupName ?? genericNamespace(type.namespace, palletName),
           fields: {},
         };
 
@@ -232,42 +239,40 @@ const hasName = <T extends { name?: string }>(
 
 export type ParsedMetadata = Record<string, Record<string, ResolvedType>>;
 
-export const parseMetadata = async (opts?: MetadataOpts) => {
-  const { metadata, specVersion } = await fetchMetadata(opts);
+export const parseMetadata = async (
+  specVersion: number,
+  opts?: MetadataOpts,
+) => {
+  const metadata = await fetchMetadata(specVersion, opts);
 
-  return {
-    specVersion,
-    parsedMetadata: Object.fromEntries(
-      metadata.asV14.pallets
-        .filter((pallet) => pallet.events.isSome)
-        .map((pallet) => {
-          const palletMetadata = pallet.events.unwrap();
-          const events = metadata.registry.lookup.getTypeDef(
-            palletMetadata.type,
-          );
-          const palletName = pallet.name.toString();
+  return Object.fromEntries(
+    metadata.asV14.pallets
+      .filter((pallet) => pallet.events.isSome)
+      .map((pallet) => {
+        const palletMetadata = pallet.events.unwrap();
+        const events = metadata.registry.lookup.getTypeDef(palletMetadata.type);
+        const palletName = pallet.name.toString();
 
-          assert(hasSubs(events));
+        assert(hasSubs(events));
 
-          return [palletName, events] as const;
-        })
-        .map(
-          ([palletName, events]) =>
-            [
-              palletName,
-              Object.fromEntries(
-                events.sub
-                  .filter(hasName)
-                  .map(
-                    (event) =>
-                      [
-                        event.name,
-                        resolveType(metadata, event, palletName),
-                      ] as const,
-                  ),
-              ),
-            ] as const,
-        ),
-    ),
-  };
+        return [palletName, events] as const;
+      })
+      .map(
+        ([palletName, events]) =>
+          [
+            palletName,
+            Object.fromEntries(
+              events.sub
+                .filter(hasName)
+                .map(
+                  (event) =>
+                    [
+                      event.name,
+                      resolveType(metadata, event, palletName),
+                    ] as const,
+                ),
+            ),
+          ] as const,
+      ),
+  );
 };

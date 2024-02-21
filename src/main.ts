@@ -30,7 +30,7 @@ const generate = async (opts?: MetadataOpts) => {
 
   const generator = new CodeGenerator();
 
-  await generator.generate(specVersion, parsedMetadata);
+  await generator.generate({ specVersion, def: parsedMetadata });
 };
 
 const hashes = [

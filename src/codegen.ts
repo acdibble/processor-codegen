@@ -289,10 +289,66 @@ export default class CodeGenerator {
     return unreachable(def, `Unsupported type: ${(def as any).type}`);
   }
 
-  async generate(
-    specVersion: number,
-    def: Record<PalletName, Record<EventName, ResolvedType>>,
-  ): Promise<void> {
+  private async hasChanged({
+    currentVersion,
+    generatedDir,
+    palletName,
+    eventName,
+    content,
+  }: {
+    currentVersion: number;
+    generatedDir: string;
+    palletName: string;
+    eventName: string;
+    content: string;
+  }): Promise<boolean> {
+    /* find all the versions in generated directory,
+     * traverse them descending and until we find the first match for palletName and eventName,
+     * then compare the content
+     */
+    const readVersions = await fs.readdir(generatedDir);
+    const versions = (await fs.readdir(generatedDir)).filter(
+      (v) => Number.isSafeInteger(Number(v)) && Number(v) !== currentVersion,
+    );
+    if (versions.length === 0) return true;
+
+    versions.sort((a, b) => Number(b) - Number(a));
+    for (const version of versions) {
+      try {
+        await fs.access(
+          path.join(
+            generatedDir,
+            version,
+            uncapitalize(palletName),
+            `${uncapitalize(eventName)}.ts`,
+          ),
+        );
+      } catch (err) {
+        // File does not exist in this version, continue until we find the first match
+        continue;
+      }
+      const lastContent = await fs.readFile(
+        path.join(
+          generatedDir,
+          version,
+          uncapitalize(palletName),
+          `${uncapitalize(eventName)}.ts`,
+        ),
+        'utf8',
+      );
+      if (lastContent === content) return false;
+    }
+
+    return true;
+  }
+
+  async generate({
+    specVersion,
+    def,
+  }: {
+    specVersion: number;
+    def: Record<PalletName, Record<EventName, ResolvedType>>;
+  }): Promise<void> {
     const __dirname = getDirname(import.meta.url);
     const generatedDir = path.join(__dirname, '..', 'generated');
     await fs.mkdir(generatedDir, { recursive: true });
@@ -302,7 +358,7 @@ export default class CodeGenerator {
     for (const [palletName, events] of Object.entries(def)) {
       await fs.mkdir(specDir, { recursive: true });
       const palletDir = path.join(specDir, uncapitalize(palletName));
-      await fs.mkdir(palletDir, { recursive: true });
+      // await fs.mkdir(palletDir, { recursive: true });
 
       for (const [eventName, event] of Object.entries(events)) {
         const name = `${palletName}.${eventName}`;
@@ -326,6 +382,19 @@ export default class CodeGenerator {
             ].join('\n'),
           );
 
+          const changed = await this.hasChanged({
+            currentVersion: specVersion,
+            generatedDir,
+            palletName,
+            eventName,
+            content: generated,
+          });
+          if (!changed) {
+            // console.log(`No changes for version ${specVersion} - ${name}`);
+            continue;
+          }
+
+          await fs.mkdir(palletDir, { recursive: true });
           await fs.writeFile(
             path.join(palletDir, uncapitalize(`${eventName}.ts`)),
             generated,

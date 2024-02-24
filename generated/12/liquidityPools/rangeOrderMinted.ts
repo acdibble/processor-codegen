@@ -15,6 +15,4 @@ export const liquidityPoolsRangeOrderMinted = z.object({
   collectedFees: cfAmmCommonSideMap,
 });
 
-export type LiquidityPoolsRangeOrderMintedArgs = z.output<
-  typeof liquidityPoolsRangeOrderMinted
->;
+export type LiquidityPoolsRangeOrderMintedArgs = z.output<typeof liquidityPoolsRangeOrderMinted>;

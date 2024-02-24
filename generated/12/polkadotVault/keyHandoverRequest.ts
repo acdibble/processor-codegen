@@ -11,6 +11,4 @@ export const polkadotVaultKeyHandoverRequest = z.object({
   toEpoch: z.number(),
 });
 
-export type PolkadotVaultKeyHandoverRequestArgs = z.output<
-  typeof polkadotVaultKeyHandoverRequest
->;
+export type PolkadotVaultKeyHandoverRequestArgs = z.output<typeof polkadotVaultKeyHandoverRequest>;

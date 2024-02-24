@@ -12,6 +12,4 @@ export const swappingSwapEgressScheduled = z.object({
   amount: numberOrHex,
 });
 
-export type SwappingSwapEgressScheduledArgs = z.output<
-  typeof swappingSwapEgressScheduled
->;
+export type SwappingSwapEgressScheduledArgs = z.output<typeof swappingSwapEgressScheduled>;

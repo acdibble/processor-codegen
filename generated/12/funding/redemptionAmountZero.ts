@@ -3,6 +3,4 @@ import { accountId } from '../common';
 
 export const fundingRedemptionAmountZero = z.object({ accountId });
 
-export type FundingRedemptionAmountZeroArgs = z.output<
-  typeof fundingRedemptionAmountZero
->;
+export type FundingRedemptionAmountZeroArgs = z.output<typeof fundingRedemptionAmountZero>;

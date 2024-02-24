@@ -1,10 +1,5 @@
 import { z } from 'zod';
-import {
-  accountId,
-  cfChainsEvmAggKey,
-  hexString,
-  numberOrHex,
-} from '../common';
+import { accountId, cfChainsEvmAggKey, hexString, numberOrHex } from '../common';
 
 export const ethereumThresholdSignerThresholdSignatureRequest = z.object({
   requestId: z.number(),

@@ -1,9 +1,5 @@
 import { z } from 'zod';
-import {
-  cfPrimitivesChainsAssetsEthAsset,
-  hexString,
-  numberOrHex,
-} from '../common';
+import { cfPrimitivesChainsAssetsEthAsset, hexString, numberOrHex } from '../common';
 
 export const ethereumIngressEgressTransferFallbackRequested = z.object({
   asset: cfPrimitivesChainsAssetsEthAsset,

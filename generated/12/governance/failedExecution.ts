@@ -3,6 +3,4 @@ import { spRuntimeDispatchError } from '../common';
 
 export const governanceFailedExecution = spRuntimeDispatchError;
 
-export type GovernanceFailedExecutionArgs = z.output<
-  typeof governanceFailedExecution
->;
+export type GovernanceFailedExecutionArgs = z.output<typeof governanceFailedExecution>;

@@ -11,6 +11,4 @@ export const bitcoinVaultKeyHandoverRequest = z.object({
   toEpoch: z.number(),
 });
 
-export type BitcoinVaultKeyHandoverRequestArgs = z.output<
-  typeof bitcoinVaultKeyHandoverRequest
->;
+export type BitcoinVaultKeyHandoverRequestArgs = z.output<typeof bitcoinVaultKeyHandoverRequest>;

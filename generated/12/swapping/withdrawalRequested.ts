@@ -11,6 +11,4 @@ export const swappingWithdrawalRequested = z.object({
   destinationAddress: cfChainsAddressEncodedAddress,
 });
 
-export type SwappingWithdrawalRequestedArgs = z.output<
-  typeof swappingWithdrawalRequested
->;
+export type SwappingWithdrawalRequestedArgs = z.output<typeof swappingWithdrawalRequested>;

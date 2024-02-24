@@ -7,6 +7,4 @@ export const polkadotVaultKeygenRequest = z.object({
   epochIndex: z.number(),
 });
 
-export type PolkadotVaultKeygenRequestArgs = z.output<
-  typeof polkadotVaultKeygenRequest
->;
+export type PolkadotVaultKeygenRequestArgs = z.output<typeof polkadotVaultKeygenRequest>;

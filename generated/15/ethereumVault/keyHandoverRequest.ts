@@ -11,6 +11,4 @@ export const ethereumVaultKeyHandoverRequest = z.object({
   toEpoch: z.number(),
 });
 
-export type EthereumVaultKeyHandoverRequestArgs = z.output<
-  typeof ethereumVaultKeyHandoverRequest
->;
+export type EthereumVaultKeyHandoverRequestArgs = z.output<typeof ethereumVaultKeyHandoverRequest>;

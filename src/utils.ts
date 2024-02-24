@@ -1,6 +1,7 @@
 import * as path from 'path';
 import * as prettier from 'prettier';
 import * as url from 'url';
+import { ParsedMetadata } from './parser';
 
 export const capitalize = <const T extends string>(str: T): Capitalize<T> =>
   (str.charAt(0).toUpperCase() + str.slice(1)) as Capitalize<T>;
@@ -9,7 +10,7 @@ export const uncapitalize = <const T extends string>(str: T): Uncapitalize<T> =>
   (str.charAt(0).toLowerCase() + str.slice(1)) as Uncapitalize<T>;
 
 // a function to deep diff two metadata objects
-export function* diff(
+function* diff(
   a: any,
   b: any,
   path: string[] = [],
@@ -35,16 +36,33 @@ export function* diff(
   }
 }
 
+export const diffSpecs = (a: ParsedMetadata, b: ParsedMetadata) => {
+  const seenEvents = new Set<string>();
+
+  for (const change of diff(a, b)) {
+    const [pallet, event] = change.path;
+    if (event) {
+      seenEvents.add(`${pallet}.${event}`);
+    } else if (change.type === 'added') {
+      Object.keys(b[pallet])
+        .map((e) => `${pallet}.${e}`)
+        .forEach(seenEvents.add, seenEvents);
+    }
+  }
+
+  return seenEvents;
+};
+
 export const unreachable = (x: never, message = 'unreachable'): never => {
   throw new Error(message);
 };
 
-export const getDirname = (filename: string) =>
-  path.dirname(url.fileURLToPath(filename));
+export const getDirname = (filename: string) => path.dirname(url.fileURLToPath(filename));
 
 export const formatCode = (code: string) =>
   prettier.format(code, {
     parser: 'typescript',
     singleQuote: true,
     trailingComma: 'all',
+    printWidth: 100,
   });

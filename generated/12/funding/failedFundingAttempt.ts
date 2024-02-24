@@ -7,6 +7,4 @@ export const fundingFailedFundingAttempt = z.object({
   amount: numberOrHex,
 });
 
-export type FundingFailedFundingAttemptArgs = z.output<
-  typeof fundingFailedFundingAttempt
->;
+export type FundingFailedFundingAttemptArgs = z.output<typeof fundingFailedFundingAttempt>;

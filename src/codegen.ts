@@ -11,24 +11,15 @@ import {
   type StructType,
   type TupleType,
 } from './parser';
-import {
-  capitalize,
-  formatCode,
-  getDirname,
-  uncapitalize,
-  unreachable,
-} from './utils';
+import { capitalize, formatCode, getDirname, uncapitalize, unreachable } from './utils';
 
 type PalletName = string;
 type EventName = string;
 
 const nameToIdentifier = (name: string): string =>
-  name
-    .replace(/(?:::|_)(.)/g, (_, c) => c.toUpperCase())
-    .replace(/^./, (c) => c.toLowerCase());
+  name.replace(/(?:::|_)(.)/g, (_, c) => c.toUpperCase()).replace(/^./, (c) => c.toLowerCase());
 
-const isNull = (type: ResolvedType) =>
-  type.type === 'primitive' && type.name === 'null';
+const isNull = (type: ResolvedType) => type.type === 'primitive' && type.name === 'null';
 
 abstract class CodegenResult {
   constructor(
@@ -113,7 +104,7 @@ export default class CodeGenerator {
   constructor({
     ignoredEvents,
     trackedEvents,
-  }: { ignoredEvents?: string[]; trackedEvents?: string[] } = {}) {
+  }: { ignoredEvents?: Set<string>; trackedEvents?: Set<string> } = {}) {
     if (ignoredEvents) this.ignoredEvents = new Set(ignoredEvents);
     if (trackedEvents) this.trackedEvents = new Set(trackedEvents);
   }
@@ -240,19 +231,14 @@ export default class CodeGenerator {
 
       const resolvedType = this.generateResolvedType(def.value);
 
-      const dependencies = Array.from(
-        { length: def.length },
-        () => resolvedType,
-      );
+      const dependencies = Array.from({ length: def.length }, () => resolvedType);
 
       return new Code(`z.tuple([${dependencies.join(', ')}])`, [resolvedType]);
     }
 
     const resolvedType = this.generateResolvedType(def.value);
     const dependencies =
-      resolvedType instanceof Identifier
-        ? [resolvedType]
-        : [...resolvedType.dependencies];
+      resolvedType instanceof Identifier ? [resolvedType] : [...resolvedType.dependencies];
     return new Code(`z.array(${resolvedType})`, dependencies);
   }
 
@@ -272,10 +258,7 @@ export default class CodeGenerator {
 
   private generateRange(def: RangeType): Code {
     const resolvedType = this.generateResolvedType(def.value);
-    return new Code(
-      `z.object({ start: ${resolvedType}, end: ${resolvedType} })`,
-      [resolvedType],
-    );
+    return new Code(`z.object({ start: ${resolvedType}, end: ${resolvedType} })`, [resolvedType]);
   }
 
   private generateResolvedType(def: ResolvedType): CodegenResult {
@@ -300,42 +283,42 @@ export default class CodeGenerator {
     await fs.rm(specDir, { recursive: true }).catch(() => null);
 
     for (const [palletName, events] of Object.entries(def)) {
-      await fs.mkdir(specDir, { recursive: true });
       const palletDir = path.join(specDir, uncapitalize(palletName));
-      await fs.mkdir(palletDir, { recursive: true });
 
       for (const [eventName, event] of Object.entries(events)) {
         const name = `${palletName}.${eventName}`;
         if (this.ignoredEvents?.has(name)) continue;
         if (this.trackedEvents && !this.trackedEvents.delete(name)) continue;
 
+        await fs.mkdir(specDir, { recursive: true });
+        await fs.mkdir(palletDir, { recursive: true });
+
+        let generatedEvent;
+
         try {
-          const generatedEvent = this.generateResolvedType(event);
-
-          const parserName = nameToIdentifier(`${palletName}::${eventName}`);
-
-          const generated = await formatCode(
-            [
-              "import { z } from 'zod';",
-              ...generatedEvent.getDirectDependencies(),
-              '',
-              `export const ${parserName} = ${generatedEvent};`,
-              '',
-              `export type ${capitalize(parserName)}Args = z.output<typeof ${parserName}>;`,
-              '',
-            ].join('\n'),
-          );
-
-          await fs.writeFile(
-            path.join(palletDir, uncapitalize(`${eventName}.ts`)),
-            generated,
-          );
+          generatedEvent = this.generateResolvedType(event);
         } catch (e) {
           console.error(`failed to parse: ${name}`);
           console.error(JSON.stringify(event, null, 2));
           console.error(e);
           throw e;
         }
+
+        const parserName = nameToIdentifier(`${palletName}::${eventName}`);
+
+        const generated = await formatCode(
+          [
+            "import { z } from 'zod';",
+            ...generatedEvent.getDirectDependencies(),
+            '',
+            `export const ${parserName} = ${generatedEvent};`,
+            '',
+            `export type ${capitalize(parserName)}Args = z.output<typeof ${parserName}>;`,
+            '',
+          ].join('\n'),
+        );
+
+        await fs.writeFile(path.join(palletDir, uncapitalize(`${eventName}.ts`)), generated);
       }
     }
 
@@ -348,14 +331,12 @@ export default class CodeGenerator {
     const generated: string[] = [];
 
     for (const [identifier, type] of this.registry.types.entries()) {
-      prelude.push(
-        ...type
-          .getDirectDependencies()
-          .filter((dep) => !dep.includes('../common')),
-      );
+      prelude.push(...type.getDirectDependencies().filter((dep) => !dep.includes('../common')));
       generated.push(`export const ${identifier} = ${type};`);
       generated.push('');
     }
+
+    if (generated.length === 0) return;
 
     const common = await formatCode([...prelude, '', ...generated].join('\n'));
 

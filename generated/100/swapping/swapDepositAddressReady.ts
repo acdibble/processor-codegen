@@ -17,6 +17,4 @@ export const swappingSwapDepositAddressReady = z.object({
   sourceChainExpiryBlock: numberOrHex,
 });
 
-export type SwappingSwapDepositAddressReadyArgs = z.output<
-  typeof swappingSwapDepositAddressReady
->;
+export type SwappingSwapDepositAddressReadyArgs = z.output<typeof swappingSwapDepositAddressReady>;

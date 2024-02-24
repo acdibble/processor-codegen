@@ -1,9 +1,5 @@
 import { z } from 'zod';
-import {
-  accountId,
-  cfPrimitivesChainsAssetsAnyAsset,
-  numberOrHex,
-} from '../common';
+import { accountId, cfPrimitivesChainsAssetsAnyAsset, numberOrHex } from '../common';
 
 export const liquidityProviderAccountDebited = z.object({
   accountId,
@@ -11,6 +7,4 @@ export const liquidityProviderAccountDebited = z.object({
   amountDebited: numberOrHex,
 });
 
-export type LiquidityProviderAccountDebitedArgs = z.output<
-  typeof liquidityProviderAccountDebited
->;
+export type LiquidityProviderAccountDebitedArgs = z.output<typeof liquidityProviderAccountDebited>;

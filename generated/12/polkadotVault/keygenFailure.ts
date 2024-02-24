@@ -3,6 +3,4 @@ import { numberOrHex } from '../common';
 
 export const polkadotVaultKeygenFailure = numberOrHex;
 
-export type PolkadotVaultKeygenFailureArgs = z.output<
-  typeof polkadotVaultKeygenFailure
->;
+export type PolkadotVaultKeygenFailureArgs = z.output<typeof polkadotVaultKeygenFailure>;

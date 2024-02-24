@@ -1,9 +1,5 @@
 import { z } from 'zod';
-import {
-  accountId,
-  cfChainsBtcBitcoinTransactionData,
-  hexString,
-} from '../common';
+import { accountId, cfChainsBtcBitcoinTransactionData, hexString } from '../common';
 
 export const bitcoinBroadcasterTransactionBroadcastRequest = z.object({
   broadcastId: z.number(),

@@ -6,6 +6,4 @@ export const witnesserWitnessExecutionFailed = z.object({
   error: spRuntimeDispatchError,
 });
 
-export type WitnesserWitnessExecutionFailedArgs = z.output<
-  typeof witnesserWitnessExecutionFailed
->;
+export type WitnesserWitnessExecutionFailedArgs = z.output<typeof witnesserWitnessExecutionFailed>;

@@ -17,6 +17,4 @@ export const swappingSwapDepositAddressReady = z.object({
   channelMetadata: cfChainsCcmChannelMetadata.nullish(),
 });
 
-export type SwappingSwapDepositAddressReadyArgs = z.output<
-  typeof swappingSwapDepositAddressReady
->;
+export type SwappingSwapDepositAddressReadyArgs = z.output<typeof swappingSwapDepositAddressReady>;

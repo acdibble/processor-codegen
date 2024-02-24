@@ -15,6 +15,4 @@ export const liquidityPoolsRangeOrderBurned = z.object({
   collectedFees: cfAmmCommonSideMap,
 });
 
-export type LiquidityPoolsRangeOrderBurnedArgs = z.output<
-  typeof liquidityPoolsRangeOrderBurned
->;
+export type LiquidityPoolsRangeOrderBurnedArgs = z.output<typeof liquidityPoolsRangeOrderBurned>;

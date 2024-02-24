@@ -13,20 +13,12 @@ export const numberOrHex = z
   .union([z.number(), hexString, numericString])
   .transform((n) => BigInt(n));
 
-export const spWeightsWeightV2Weight = z.object({
-  refTime: numberOrHex,
-  proofSize: numberOrHex,
-});
+export const spWeightsWeightV2Weight = z.object({ refTime: numberOrHex, proofSize: numberOrHex });
 
-export const simpleEnum = <U extends string, T extends readonly [U, ...U[]]>(
-  values: T,
-) => z.object({ __kind: z.enum(values) }).transform(({ __kind }) => __kind!);
+export const simpleEnum = <U extends string, T extends readonly [U, ...U[]]>(values: T) =>
+  z.object({ __kind: z.enum(values) }).transform(({ __kind }) => __kind!);
 
-export const frameSupportDispatchDispatchClass = simpleEnum([
-  'Normal',
-  'Operational',
-  'Mandatory',
-]);
+export const frameSupportDispatchDispatchClass = simpleEnum(['Normal', 'Operational', 'Mandatory']);
 
 export const frameSupportDispatchPays = simpleEnum(['Yes', 'No']);
 
@@ -36,10 +28,7 @@ export const frameSupportDispatchDispatchInfo = z.object({
   paysFee: frameSupportDispatchPays,
 });
 
-export const spRuntimeModuleError = z.object({
-  index: z.number(),
-  error: hexString,
-});
+export const spRuntimeModuleError = z.object({ index: z.number(), error: hexString });
 
 export const spRuntimeTokenError = simpleEnum([
   'FundsUnavailable',
@@ -54,16 +43,9 @@ export const spRuntimeTokenError = simpleEnum([
   'Blocked',
 ]);
 
-export const spArithmeticArithmeticError = simpleEnum([
-  'Underflow',
-  'Overflow',
-  'DivisionByZero',
-]);
+export const spArithmeticArithmeticError = simpleEnum(['Underflow', 'Overflow', 'DivisionByZero']);
 
-export const spRuntimeTransactionalError = simpleEnum([
-  'LimitReached',
-  'NoLayer',
-]);
+export const spRuntimeTransactionalError = simpleEnum(['LimitReached', 'NoLayer']);
 
 export const spRuntimeDispatchError = z.union([
   z.object({ __kind: z.literal('Other') }),
@@ -74,14 +56,8 @@ export const spRuntimeDispatchError = z.union([
   z.object({ __kind: z.literal('NoProviders') }),
   z.object({ __kind: z.literal('TooManyConsumers') }),
   z.object({ __kind: z.literal('Token'), value: spRuntimeTokenError }),
-  z.object({
-    __kind: z.literal('Arithmetic'),
-    value: spArithmeticArithmeticError,
-  }),
-  z.object({
-    __kind: z.literal('Transactional'),
-    value: spRuntimeTransactionalError,
-  }),
+  z.object({ __kind: z.literal('Arithmetic'), value: spArithmeticArithmeticError }),
+  z.object({ __kind: z.literal('Transactional'), value: spRuntimeTransactionalError }),
   z.object({ __kind: z.literal('Exhausted') }),
   z.object({ __kind: z.literal('Corruption') }),
   z.object({ __kind: z.literal('Unavailable') }),
@@ -98,15 +74,9 @@ export const accountId = z
   ])
   .transform((value) => encodeAddress(value, 2112));
 
-export const cfPrimitivesChainsAssetsEthAsset = simpleEnum([
-  'Eth',
-  'Flip',
-  'Usdc',
-]);
+export const cfPrimitivesChainsAssetsEthAsset = simpleEnum(['Eth', 'Flip', 'Usdc']);
 
-export const palletCfEmissionsPalletSafeMode = z.object({
-  emissionsSyncEnabled: z.boolean(),
-});
+export const palletCfEmissionsPalletSafeMode = z.object({ emissionsSyncEnabled: z.boolean() });
 
 export const palletCfFundingPalletSafeMode = z.object({
   redeemEnabled: z.boolean(),
@@ -126,9 +96,7 @@ export const palletCfLpPalletSafeMode = z.object({
   withdrawalEnabled: z.boolean(),
 });
 
-export const palletCfValidatorPalletSafeMode = z.object({
-  authorityRotationEnabled: z.boolean(),
-});
+export const palletCfValidatorPalletSafeMode = z.object({ authorityRotationEnabled: z.boolean() });
 
 export const palletCfPoolsPalletSafeMode = z.object({
   mintingRangeOrderEnabled: z.boolean(),
@@ -137,17 +105,11 @@ export const palletCfPoolsPalletSafeMode = z.object({
   burningLimitOrderEnabled: z.boolean(),
 });
 
-export const palletCfReputationPalletSafeMode = z.object({
-  reportingEnabled: z.boolean(),
-});
+export const palletCfReputationPalletSafeMode = z.object({ reportingEnabled: z.boolean() });
 
-export const palletCfVaultsPalletSafeMode = z.object({
-  slashingEnabled: z.boolean(),
-});
+export const palletCfVaultsPalletSafeMode = z.object({ slashingEnabled: z.boolean() });
 
-export const palletCfWitnesserPalletSafeMode = z.object({
-  witnessCallsEnabled: z.boolean(),
-});
+export const palletCfWitnesserPalletSafeMode = z.object({ witnessCallsEnabled: z.boolean() });
 
 export const stateChainRuntimeChainflipInnerRuntimeSafeMode = z.object({
   emissions: palletCfEmissionsPalletSafeMode,
@@ -184,10 +146,7 @@ export const palletCfFlipImbalancesInternalSource = z.union([
 
 export const palletCfFlipImbalancesImbalanceSource = z.union([
   z.object({ __kind: z.literal('External') }),
-  z.object({
-    __kind: z.literal('Internal'),
-    value: palletCfFlipImbalancesInternalSource,
-  }),
+  z.object({ __kind: z.literal('Internal'), value: palletCfFlipImbalancesInternalSource }),
   z.object({ __kind: z.literal('Emissions') }),
 ]);
 
@@ -208,26 +167,11 @@ export const palletCfValidatorRotationState = z.object({
 
 export const palletCfValidatorRotationPhase = z.union([
   z.object({ __kind: z.literal('Idle') }),
-  z.object({
-    __kind: z.literal('KeygensInProgress'),
-    value: palletCfValidatorRotationState,
-  }),
-  z.object({
-    __kind: z.literal('KeyHandoversInProgress'),
-    value: palletCfValidatorRotationState,
-  }),
-  z.object({
-    __kind: z.literal('ActivatingKeys'),
-    value: palletCfValidatorRotationState,
-  }),
-  z.object({
-    __kind: z.literal('NewKeysActivated'),
-    value: palletCfValidatorRotationState,
-  }),
-  z.object({
-    __kind: z.literal('SessionRotating'),
-    value: palletCfValidatorRotationState,
-  }),
+  z.object({ __kind: z.literal('KeygensInProgress'), value: palletCfValidatorRotationState }),
+  z.object({ __kind: z.literal('KeyHandoversInProgress'), value: palletCfValidatorRotationState }),
+  z.object({ __kind: z.literal('ActivatingKeys'), value: palletCfValidatorRotationState }),
+  z.object({ __kind: z.literal('NewKeysActivated'), value: palletCfValidatorRotationState }),
+  z.object({ __kind: z.literal('SessionRotating'), value: palletCfValidatorRotationState }),
 ]);
 
 export const palletCfValidatorAuctionResolverSetSizeParameters = z.object({
@@ -253,27 +197,15 @@ export const palletCfValidatorPalletConfigUpdate = z.union([
     __kind: z.literal('BackupRewardNodePercentage'),
     value: z.object({ percentage: z.number() }),
   }),
-  z.object({
-    __kind: z.literal('EpochDuration'),
-    value: z.object({ blocks: z.number() }),
-  }),
-  z.object({
-    __kind: z.literal('AuthoritySetMinSize'),
-    value: z.object({ minSize: z.number() }),
-  }),
+  z.object({ __kind: z.literal('EpochDuration'), value: z.object({ blocks: z.number() }) }),
+  z.object({ __kind: z.literal('AuthoritySetMinSize'), value: z.object({ minSize: z.number() }) }),
   z.object({
     __kind: z.literal('AuctionParameters'),
-    value: z.object({
-      parameters: palletCfValidatorAuctionResolverSetSizeParameters,
-    }),
+    value: z.object({ parameters: palletCfValidatorAuctionResolverSetSizeParameters }),
   }),
 ]);
 
-export const cfPrimitivesChainsForeignChain = simpleEnum([
-  'Ethereum',
-  'Polkadot',
-  'Bitcoin',
-]);
+export const cfPrimitivesChainsForeignChain = simpleEnum(['Ethereum', 'Polkadot', 'Bitcoin']);
 
 export const palletCfTokenholderGovernanceProposal = z.union([
   z.object({
@@ -329,9 +261,7 @@ export const cfChainsBtcBitcoinFeeInfo = z.object({
   minFeeRequiredPerTx: numberOrHex,
 });
 
-export const cfChainsBtcBitcoinTrackedData = z.object({
-  btcFeeInfo: cfChainsBtcBitcoinFeeInfo,
-});
+export const cfChainsBtcBitcoinTrackedData = z.object({ btcFeeInfo: cfChainsBtcBitcoinFeeInfo });
 
 export const cfChainsChainStateBitcoin = z.object({
   blockHeight: numberOrHex,
@@ -345,10 +275,7 @@ export const cfChainsEthAggKey = z.object({
   pubKeyYParity: cfChainsEthParityBit,
 });
 
-export const cfChainsBtcAggKey = z.object({
-  previous: hexString.nullish(),
-  current: hexString,
-});
+export const cfChainsBtcAggKey = z.object({ previous: hexString.nullish(), current: hexString });
 
 export const dispatchResult = z.union([
   z.object({ __kind: z.literal('Ok') }),
@@ -377,13 +304,9 @@ export const cfChainsEthSchnorrVerificationComponents = z.object({
   kTimesGAddress: hexString,
 });
 
-export const cfChainsDotPolkadotTransactionData = z.object({
-  encodedExtrinsic: hexString,
-});
+export const cfChainsDotPolkadotTransactionData = z.object({ encodedExtrinsic: hexString });
 
-export const cfChainsBtcBitcoinTransactionData = z.object({
-  encodedTransaction: hexString,
-});
+export const cfChainsBtcBitcoinTransactionData = z.object({ encodedTransaction: hexString });
 
 export const cfChainsAddressEncodedAddress = z.union([
   z.object({ __kind: z.literal('Eth'), value: hexString }),
@@ -391,13 +314,7 @@ export const cfChainsAddressEncodedAddress = z.union([
   z.object({ __kind: z.literal('Btc'), value: hexString }),
 ]);
 
-export const cfPrimitivesChainsAssetsAnyAsset = simpleEnum([
-  'Eth',
-  'Flip',
-  'Usdc',
-  'Dot',
-  'Btc',
-]);
+export const cfPrimitivesChainsAssetsAnyAsset = simpleEnum(['Eth', 'Flip', 'Usdc', 'Dot', 'Btc']);
 
 export const cfChainsCcmChannelMetadata = z.object({
   message: hexString,
@@ -414,10 +331,7 @@ export const cfChainsSwapOrigin = z.union([
       depositBlockHeight: numberOrHex,
     }),
   }),
-  z.object({
-    __kind: z.literal('Vault'),
-    value: z.object({ txHash: hexString }),
-  }),
+  z.object({ __kind: z.literal('Vault'), value: z.object({ txHash: hexString }) }),
 ]);
 
 export const cfChainsBtcScriptPubkey = z.union([
@@ -439,10 +353,7 @@ export const cfChainsAddressForeignChainAddress = z.union([
 ]);
 
 export const palletCfSwappingSwapType = z.union([
-  z.object({
-    __kind: z.literal('Swap'),
-    value: cfChainsAddressForeignChainAddress,
-  }),
+  z.object({ __kind: z.literal('Swap'), value: cfChainsAddressForeignChainAddress }),
   z.object({ __kind: z.literal('CcmPrincipal'), value: numberOrHex }),
   z.object({ __kind: z.literal('CcmGas'), value: numberOrHex }),
 ]);
@@ -465,14 +376,8 @@ export const cfPrimitivesChainsAssetsDotAsset = simpleEnum(['Dot']);
 
 export const cfPrimitivesChainsAssetsBtcAsset = simpleEnum(['Btc']);
 
-export const cfChainsBtcUtxoId = z.object({
-  txId: hexString,
-  vout: z.number(),
-});
+export const cfChainsBtcUtxoId = z.object({ txId: hexString, vout: z.number() });
 
-export const cfAmmCommonSideMap = z.object({
-  zero: numberOrHex,
-  one: numberOrHex,
-});
+export const cfAmmCommonSideMap = z.object({ zero: numberOrHex, one: numberOrHex });
 
 export const palletCfPoolsPalletOrder = simpleEnum(['Buy', 'Sell']);

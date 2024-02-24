@@ -3,6 +3,4 @@ import { numberOrHex } from '../common';
 
 export const ethereumVaultKeygenFailure = numberOrHex;
 
-export type EthereumVaultKeygenFailureArgs = z.output<
-  typeof ethereumVaultKeygenFailure
->;
+export type EthereumVaultKeygenFailureArgs = z.output<typeof ethereumVaultKeygenFailure>;

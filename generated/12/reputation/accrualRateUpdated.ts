@@ -5,6 +5,4 @@ export const reputationAccrualRateUpdated = z.object({
   onlineCredits: z.number(),
 });
 
-export type ReputationAccrualRateUpdatedArgs = z.output<
-  typeof reputationAccrualRateUpdated
->;
+export type ReputationAccrualRateUpdatedArgs = z.output<typeof reputationAccrualRateUpdated>;

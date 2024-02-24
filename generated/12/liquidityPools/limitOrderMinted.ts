@@ -16,6 +16,4 @@ export const liquidityPoolsLimitOrderMinted = z.object({
   swappedLiquidity: numberOrHex,
 });
 
-export type LiquidityPoolsLimitOrderMintedArgs = z.output<
-  typeof liquidityPoolsLimitOrderMinted
->;
+export type LiquidityPoolsLimitOrderMintedArgs = z.output<typeof liquidityPoolsLimitOrderMinted>;

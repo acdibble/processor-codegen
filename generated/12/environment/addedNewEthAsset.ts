@@ -1,11 +1,6 @@
 import { z } from 'zod';
 import { cfPrimitivesChainsAssetsEthAsset, hexString } from '../common';
 
-export const environmentAddedNewEthAsset = z.tuple([
-  cfPrimitivesChainsAssetsEthAsset,
-  hexString,
-]);
+export const environmentAddedNewEthAsset = z.tuple([cfPrimitivesChainsAssetsEthAsset, hexString]);
 
-export type EnvironmentAddedNewEthAssetArgs = z.output<
-  typeof environmentAddedNewEthAsset
->;
+export type EnvironmentAddedNewEthAssetArgs = z.output<typeof environmentAddedNewEthAsset>;

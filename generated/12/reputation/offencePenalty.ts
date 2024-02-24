@@ -1,8 +1,5 @@
 import { z } from 'zod';
-import {
-  accountId,
-  stateChainRuntimeChainflipOffencesOffence,
-} from '../common';
+import { accountId, stateChainRuntimeChainflipOffencesOffence } from '../common';
 
 export const reputationOffencePenalty = z.object({
   offender: accountId,
@@ -10,6 +7,4 @@ export const reputationOffencePenalty = z.object({
   penalty: z.number(),
 });
 
-export type ReputationOffencePenaltyArgs = z.output<
-  typeof reputationOffencePenalty
->;
+export type ReputationOffencePenaltyArgs = z.output<typeof reputationOffencePenalty>;

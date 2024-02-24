@@ -13,6 +13,4 @@ export const swappingSwapAmountTooLow = z.object({
   origin: cfChainsSwapOrigin,
 });
 
-export type SwappingSwapAmountTooLowArgs = z.output<
-  typeof swappingSwapAmountTooLow
->;
+export type SwappingSwapAmountTooLowArgs = z.output<typeof swappingSwapAmountTooLow>;

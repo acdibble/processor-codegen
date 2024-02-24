@@ -7,6 +7,4 @@ export const liquidityPoolsNewPoolCreated = z.object({
   initialSqrtPrice: numberOrHex,
 });
 
-export type LiquidityPoolsNewPoolCreatedArgs = z.output<
-  typeof liquidityPoolsNewPoolCreated
->;
+export type LiquidityPoolsNewPoolCreatedArgs = z.output<typeof liquidityPoolsNewPoolCreated>;

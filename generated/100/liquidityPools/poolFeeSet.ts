@@ -7,6 +7,4 @@ export const liquidityPoolsPoolFeeSet = z.object({
   feeHundredthPips: z.number(),
 });
 
-export type LiquidityPoolsPoolFeeSetArgs = z.output<
-  typeof liquidityPoolsPoolFeeSet
->;
+export type LiquidityPoolsPoolFeeSetArgs = z.output<typeof liquidityPoolsPoolFeeSet>;

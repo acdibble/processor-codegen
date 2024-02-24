@@ -1,9 +1,5 @@
 import { z } from 'zod';
-import {
-  cfChainsBtcScriptPubkey,
-  cfPrimitivesChainsAssetsBtcAsset,
-  numberOrHex,
-} from '../common';
+import { cfChainsBtcScriptPubkey, cfPrimitivesChainsAssetsBtcAsset, numberOrHex } from '../common';
 
 export const bitcoinIngressEgressTransferFallbackRequested = z.object({
   asset: cfPrimitivesChainsAssetsBtcAsset,

@@ -1,8 +1,5 @@
 import { z } from 'zod';
-import {
-  palletCfReputationPenalty,
-  stateChainRuntimeChainflipOffencesOffence,
-} from '../common';
+import { palletCfReputationPenalty, stateChainRuntimeChainflipOffencesOffence } from '../common';
 
 export const reputationPenaltyUpdated = z.object({
   offence: stateChainRuntimeChainflipOffencesOffence,
@@ -10,6 +7,4 @@ export const reputationPenaltyUpdated = z.object({
   newPenalty: palletCfReputationPenalty,
 });
 
-export type ReputationPenaltyUpdatedArgs = z.output<
-  typeof reputationPenaltyUpdated
->;
+export type ReputationPenaltyUpdatedArgs = z.output<typeof reputationPenaltyUpdated>;

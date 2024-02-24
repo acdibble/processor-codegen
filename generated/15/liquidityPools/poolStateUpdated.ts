@@ -7,6 +7,4 @@ export const liquidityPoolsPoolStateUpdated = z.object({
   enabled: z.boolean(),
 });
 
-export type LiquidityPoolsPoolStateUpdatedArgs = z.output<
-  typeof liquidityPoolsPoolStateUpdated
->;
+export type LiquidityPoolsPoolStateUpdatedArgs = z.output<typeof liquidityPoolsPoolStateUpdated>;

@@ -9,6 +9,4 @@ export const swappingSwapAmountConfiscated = z.object({
   confiscatedAmount: numberOrHex,
 });
 
-export type SwappingSwapAmountConfiscatedArgs = z.output<
-  typeof swappingSwapAmountConfiscated
->;
+export type SwappingSwapAmountConfiscatedArgs = z.output<typeof swappingSwapAmountConfiscated>;

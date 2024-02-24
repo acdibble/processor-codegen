@@ -8,6 +8,4 @@ export const fundingRedemptionRequested = z.object({
   expiryTime: numberOrHex,
 });
 
-export type FundingRedemptionRequestedArgs = z.output<
-  typeof fundingRedemptionRequested
->;
+export type FundingRedemptionRequestedArgs = z.output<typeof fundingRedemptionRequested>;

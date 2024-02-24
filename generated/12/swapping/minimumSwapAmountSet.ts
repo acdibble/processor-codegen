@@ -6,6 +6,4 @@ export const swappingMinimumSwapAmountSet = z.object({
   amount: numberOrHex,
 });
 
-export type SwappingMinimumSwapAmountSetArgs = z.output<
-  typeof swappingMinimumSwapAmountSet
->;
+export type SwappingMinimumSwapAmountSetArgs = z.output<typeof swappingMinimumSwapAmountSet>;

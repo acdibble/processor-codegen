@@ -6,6 +6,4 @@ export const swappingCcmEgressScheduled = z.object({
   egressId: z.tuple([cfPrimitivesChainsForeignChain, numberOrHex]),
 });
 
-export type SwappingCcmEgressScheduledArgs = z.output<
-  typeof swappingCcmEgressScheduled
->;
+export type SwappingCcmEgressScheduledArgs = z.output<typeof swappingCcmEgressScheduled>;

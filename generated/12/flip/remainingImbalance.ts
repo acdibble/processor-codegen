@@ -6,6 +6,4 @@ export const flipRemainingImbalance = z.object({
   remainingImbalance: numberOrHex,
 });
 
-export type FlipRemainingImbalanceArgs = z.output<
-  typeof flipRemainingImbalance
->;
+export type FlipRemainingImbalanceArgs = z.output<typeof flipRemainingImbalance>;

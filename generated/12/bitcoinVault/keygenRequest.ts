@@ -7,6 +7,4 @@ export const bitcoinVaultKeygenRequest = z.object({
   epochIndex: z.number(),
 });
 
-export type BitcoinVaultKeygenRequestArgs = z.output<
-  typeof bitcoinVaultKeygenRequest
->;
+export type BitcoinVaultKeygenRequestArgs = z.output<typeof bitcoinVaultKeygenRequest>;

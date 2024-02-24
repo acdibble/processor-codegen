@@ -3,6 +3,4 @@ import { hexString } from '../common';
 
 export const fundingAddedRestrictedAddress = z.object({ address: hexString });
 
-export type FundingAddedRestrictedAddressArgs = z.output<
-  typeof fundingAddedRestrictedAddress
->;
+export type FundingAddedRestrictedAddressArgs = z.output<typeof fundingAddedRestrictedAddress>;

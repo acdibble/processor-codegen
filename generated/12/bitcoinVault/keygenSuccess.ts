@@ -3,6 +3,4 @@ import { numberOrHex } from '../common';
 
 export const bitcoinVaultKeygenSuccess = numberOrHex;
 
-export type BitcoinVaultKeygenSuccessArgs = z.output<
-  typeof bitcoinVaultKeygenSuccess
->;
+export type BitcoinVaultKeygenSuccessArgs = z.output<typeof bitcoinVaultKeygenSuccess>;

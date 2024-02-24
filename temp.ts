@@ -1,6 +1,6 @@
 import * as fs from 'node:fs/promises';
 import * as path from 'node:path';
-import { diff, getDirname } from './src/utils';
+import { getDirname } from './src/utils';
 
 const __dirname = getDirname(import.meta.url);
 const generated = path.join(__dirname, 'generated');
@@ -11,9 +11,7 @@ const types = (
       .filter((file) => file.startsWith('types-'))
       .map(async (file) => ({
         specVersion: Number(/\d+/.exec(file)?.[0]),
-        contents: JSON.parse(
-          await fs.readFile(path.join(generated, file), 'utf8'),
-        ),
+        contents: JSON.parse(await fs.readFile(path.join(generated, file), 'utf8')),
       })),
   )
 ).sort((a, b) => a.specVersion - b.specVersion);
@@ -22,9 +20,7 @@ for (let i = 1; i < types.length; i++) {
   const a = types[i - 1].contents;
   const b = types[i].contents;
 
-  console.log(
-    `diff between types-${types[i - 1].specVersion} and types-${types[i].specVersion}`,
-  );
+  console.log(`diff between types-${types[i - 1].specVersion} and types-${types[i].specVersion}`);
 
   const seenEvents = new Set();
 

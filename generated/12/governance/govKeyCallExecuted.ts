@@ -3,6 +3,4 @@ import { hexString } from '../common';
 
 export const governanceGovKeyCallExecuted = z.object({ callHash: hexString });
 
-export type GovernanceGovKeyCallExecutedArgs = z.output<
-  typeof governanceGovKeyCallExecuted
->;
+export type GovernanceGovKeyCallExecutedArgs = z.output<typeof governanceGovKeyCallExecuted>;

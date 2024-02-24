@@ -1,9 +1,5 @@
 import { z } from 'zod';
-import {
-  cfChainsAddressEncodedAddress,
-  cfChainsCcmDepositMetadata,
-  numberOrHex,
-} from '../common';
+import { cfChainsAddressEncodedAddress, cfChainsCcmDepositMetadata, numberOrHex } from '../common';
 
 export const swappingCcmDepositReceived = z.object({
   ccmId: numberOrHex,
@@ -14,6 +10,4 @@ export const swappingCcmDepositReceived = z.object({
   depositMetadata: cfChainsCcmDepositMetadata,
 });
 
-export type SwappingCcmDepositReceivedArgs = z.output<
-  typeof swappingCcmDepositReceived
->;
+export type SwappingCcmDepositReceivedArgs = z.output<typeof swappingCcmDepositReceived>;

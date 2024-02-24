@@ -7,6 +7,4 @@ export const ethereumVaultKeygenRequest = z.object({
   epochIndex: z.number(),
 });
 
-export type EthereumVaultKeygenRequestArgs = z.output<
-  typeof ethereumVaultKeygenRequest
->;
+export type EthereumVaultKeygenRequestArgs = z.output<typeof ethereumVaultKeygenRequest>;

@@ -7,5 +7,6 @@ export const liquidityPoolsScheduledLimitOrderUpdateDispatchFailure = z.object({
   error: spRuntimeDispatchError,
 });
 
-export type LiquidityPoolsScheduledLimitOrderUpdateDispatchFailureArgs =
-  z.output<typeof liquidityPoolsScheduledLimitOrderUpdateDispatchFailure>;
+export type LiquidityPoolsScheduledLimitOrderUpdateDispatchFailureArgs = z.output<
+  typeof liquidityPoolsScheduledLimitOrderUpdateDispatchFailure
+>;

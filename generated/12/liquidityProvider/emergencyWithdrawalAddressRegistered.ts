@@ -11,5 +11,6 @@ export const liquidityProviderEmergencyWithdrawalAddressRegistered = z.object({
   address: cfChainsAddressForeignChainAddress,
 });
 
-export type LiquidityProviderEmergencyWithdrawalAddressRegisteredArgs =
-  z.output<typeof liquidityProviderEmergencyWithdrawalAddressRegistered>;
+export type LiquidityProviderEmergencyWithdrawalAddressRegisteredArgs = z.output<
+  typeof liquidityProviderEmergencyWithdrawalAddressRegistered
+>;

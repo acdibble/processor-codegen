@@ -1,9 +1,5 @@
 import { z } from 'zod';
-import {
-  cfPrimitivesChainsAssetsAnyAsset,
-  cfPrimitivesSwapLeg,
-  numberOrHex,
-} from '../common';
+import { cfPrimitivesChainsAssetsAnyAsset, cfPrimitivesSwapLeg, numberOrHex } from '../common';
 
 export const swappingBatchSwapFailed = z.object({
   asset: cfPrimitivesChainsAssetsAnyAsset,
@@ -11,6 +7,4 @@ export const swappingBatchSwapFailed = z.object({
   amount: numberOrHex,
 });
 
-export type SwappingBatchSwapFailedArgs = z.output<
-  typeof swappingBatchSwapFailed
->;
+export type SwappingBatchSwapFailedArgs = z.output<typeof swappingBatchSwapFailed>;

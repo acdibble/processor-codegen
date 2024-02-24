@@ -6,6 +6,4 @@ export const swappingMaximumSwapAmountSet = z.object({
   amount: numberOrHex.nullish(),
 });
 
-export type SwappingMaximumSwapAmountSetArgs = z.output<
-  typeof swappingMaximumSwapAmountSet
->;
+export type SwappingMaximumSwapAmountSetArgs = z.output<typeof swappingMaximumSwapAmountSet>;

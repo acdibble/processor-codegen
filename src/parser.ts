@@ -8,15 +8,31 @@ import { TypeDef } from '@polkadot/types/types';
 
 const __dirname = path.dirname(url.fileURLToPath(import.meta.url));
 
+const metadataDir = path.join(__dirname, '..', 'metadata');
+const specVersionCache = path.join(metadataDir, 'specVersion.json');
+
 export type MetadataOpts = {
   rpcUrl?: string;
   hash?: string;
 };
 
-export const fetchSpecVersion = async ({
+let fileQueue = Promise.resolve();
+
+const fetchSpecVersion = async ({
   rpcUrl = 'https://backspin-rpc.staging/',
   hash,
 }: MetadataOpts = {}) => {
+  let specVersion =
+    hash &&
+    (await fileQueue.then(async () => {
+      return JSON.parse(await fs.readFile(specVersionCache, 'utf8').catch(() => '{}'))[hash] as
+        | number
+        | undefined
+        | null;
+    }));
+
+  if (specVersion) return specVersion;
+
   const runtimeVersionRes = await axios.post(rpcUrl, {
     id: 1,
     jsonrpc: '2.0',
@@ -24,19 +40,26 @@ export const fetchSpecVersion = async ({
     params: [hash],
   });
 
-  return runtimeVersionRes.data.result.specVersion as number;
+  specVersion = runtimeVersionRes.data.result.specVersion as number;
+
+  if (hash) {
+    await fileQueue.then(async () => {
+      const contents = JSON.parse(await fs.readFile(specVersionCache, 'utf8').catch(() => '{}'));
+
+      contents[hash] = specVersion;
+
+      await fs.writeFile(specVersionCache, JSON.stringify(contents, null, 2));
+    });
+  }
+
+  return specVersion;
 };
 
 const fetchMetadata = async (
   specVersion: number,
   { rpcUrl = 'https://backspin-rpc.staging/', hash }: MetadataOpts = {},
 ) => {
-  const filePath = path.join(
-    __dirname,
-    '..',
-    'metadata',
-    `${specVersion}.scale`,
-  );
+  const filePath = path.join(metadataDir, `${specVersion}.scale`);
 
   let bytes = await fs.readFile(filePath).catch(() => null);
 
@@ -106,10 +129,7 @@ export type ResolvedType =
   | RangeType;
 
 function genericNamespace(namespace: string, palletName: string): string;
-function genericNamespace(
-  namespace: string | undefined,
-  palletName: string,
-): string | undefined;
+function genericNamespace(namespace: string | undefined, palletName: string): string | undefined;
 function genericNamespace(namespace: string | undefined, palletName: string) {
   if (!namespace) return namespace;
 
@@ -123,11 +143,7 @@ function genericNamespace(namespace: string | undefined, palletName: string) {
   return namespace;
 }
 
-const resolveType = (
-  metadata: Metadata,
-  type: TypeDef,
-  palletName: string,
-): ResolvedType => {
+const resolveType = (metadata: Metadata, type: TypeDef, palletName: string): ResolvedType => {
   try {
     switch (type.info) {
       case TypeDefInfo.Enum: {
@@ -165,11 +181,7 @@ const resolveType = (
       }
       case TypeDefInfo.Si:
         assert(isSi(type));
-        return resolveType(
-          metadata,
-          metadata.registry.lookup.getTypeDef(type.type),
-          palletName,
-        );
+        return resolveType(metadata, metadata.registry.lookup.getTypeDef(type.type), palletName);
       case TypeDefInfo.Compact:
         assert(hasSub(type));
         return resolveType(metadata, type.sub, palletName);
@@ -233,16 +245,15 @@ const resolveType = (
   throw new Error(`Unhandled type: ${type.info}`);
 };
 
-const hasName = <T extends { name?: string }>(
-  obj: T,
-): obj is T & { name: string } => obj.name !== undefined;
+const hasName = <T extends { name?: string }>(obj: T): obj is T & { name: string } =>
+  obj.name !== undefined;
 
 export type ParsedMetadata = Record<string, Record<string, ResolvedType>>;
 
 export const parseMetadata = async (
   specVersion: number,
   opts?: MetadataOpts,
-) => {
+): Promise<ParsedMetadata> => {
   const metadata = await fetchMetadata(specVersion, opts);
 
   return Object.fromEntries(
@@ -264,15 +275,29 @@ export const parseMetadata = async (
             Object.fromEntries(
               events.sub
                 .filter(hasName)
-                .map(
-                  (event) =>
-                    [
-                      event.name,
-                      resolveType(metadata, event, palletName),
-                    ] as const,
-                ),
+                .map((event) => [event.name, resolveType(metadata, event, palletName)] as const),
             ),
           ] as const,
       ),
   );
+};
+
+export const fetchAndParseSpec = async (opts?: MetadataOpts) => {
+  const specVersion = await fetchSpecVersion(opts);
+
+  const outfile = path.join(__dirname, '..', 'generated', `types-${specVersion}.json`);
+
+  let metadata = await fs
+    .readFile(outfile, 'utf8')
+    .then((data) => JSON.parse(data))
+    .catch(() => null);
+
+  if (!metadata) {
+    metadata = await parseMetadata(specVersion, opts);
+
+    await fs.mkdir(path.dirname(outfile), { recursive: true });
+    await fs.writeFile(outfile, JSON.stringify(metadata, null, 2));
+  }
+
+  return { metadata, specVersion };
 };

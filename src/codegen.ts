@@ -281,6 +281,8 @@ export default class CodeGenerator {
     await fs.mkdir(generatedDir, { recursive: true });
     const specDir = path.join(generatedDir, String(specVersion));
     await fs.rm(specDir, { recursive: true }).catch(() => null);
+    const unhandledEvents = new Set(this.trackedEvents);
+    const generatedEvents = new Set<string>();
 
     for (const [palletName, events] of Object.entries(def)) {
       const palletDir = path.join(specDir, uncapitalize(palletName));
@@ -288,12 +290,13 @@ export default class CodeGenerator {
       for (const [eventName, event] of Object.entries(events)) {
         const name = `${palletName}.${eventName}`;
         if (this.ignoredEvents?.has(name)) continue;
-        if (this.trackedEvents && !this.trackedEvents.delete(name)) continue;
+        if (this.trackedEvents && !unhandledEvents.delete(name)) continue;
+        generatedEvents.add(name);
 
         await fs.mkdir(specDir, { recursive: true });
         await fs.mkdir(palletDir, { recursive: true });
 
-        let generatedEvent;
+        let generatedEvent: CodegenResult;
 
         try {
           generatedEvent = this.generateResolvedType(event);
@@ -322,24 +325,83 @@ export default class CodeGenerator {
       }
     }
 
-    if (this.trackedEvents && this.trackedEvents.size !== 0) {
+    if (unhandledEvents.size !== 0) {
       console.warn('Not all events were generated:');
-      console.warn([...this.trackedEvents].join('\n'));
+      console.warn([...unhandledEvents].join('\n'));
     }
 
-    const prelude: string[] = ["import { z } from 'zod';"];
+    if (generatedEvents.size === 0) return;
+
+    await this.generateCommon(specDir);
+
+    await this.generateIndex(specDir, generatedEvents, specVersion);
+  }
+
+  private async generateCommon(specDir: string) {
+    const imports: string[] = ["import { z } from 'zod';"];
     const generated: string[] = [];
 
     for (const [identifier, type] of this.registry.types.entries()) {
-      prelude.push(...type.getDirectDependencies().filter((dep) => !dep.includes('../common')));
+      imports.push(...type.getDirectDependencies().filter((dep) => !dep.includes('../common')));
       generated.push(`export const ${identifier} = ${type};`);
       generated.push('');
     }
 
     if (generated.length === 0) return;
 
-    const common = await formatCode([...prelude, '', ...generated].join('\n'));
+    const common = await formatCode([...imports, '', ...generated].join('\n'));
 
     await fs.writeFile(path.join(specDir, 'common.ts'), common);
+  }
+
+  private async generateIndex(specDir: string, generatedEvents: Set<string>, specVersion: number) {
+    const palletsAndEvents = [...generatedEvents]
+      .map((name) => name.split('.'))
+      .reduce(
+        (acc, [pallet, event]) => {
+          acc[pallet] ??= [];
+          acc[pallet].push(event);
+          return acc;
+        },
+        {} as Record<string, string[]>,
+      );
+
+    const generated = `export type EventHandler = (args: {
+      // todo: fix \`any\`s
+      prisma: any;
+      event: any;
+      block: any;
+      eventId: bigint;
+      submitterId?: number;
+    }) => Promise<void>;
+
+    type HandlerMap = {
+      ${Object.entries(palletsAndEvents)
+        .map(([pallet, events]) => {
+          return `${pallet}?: {
+            ${events.map((event) => `${event}?: EventHandler;`).join('\n')}
+          };`;
+        })
+        .join('\n')}
+    };
+
+    export const handleEvents = (map: HandlerMap) => ({
+      spec: ${specVersion},
+      handlers: [
+        ${Object.entries(palletsAndEvents)
+          .flatMap(([pallet, events]) =>
+            events.map(
+              (event) => `({
+            name: '${pallet}.${event}',
+            handler: map.${pallet}?.${event},
+          })`,
+            ),
+          )
+          .join(',\n')}
+      ].filter((h): h is { name: string; handler: EventHandler } => h.handler !== undefined),
+    })
+    `;
+
+    await fs.writeFile(path.join(specDir, 'index.ts'), await formatCode(generated));
   }
 }

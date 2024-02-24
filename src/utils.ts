@@ -40,10 +40,12 @@ export const diffSpecs = (a: ParsedMetadata, b: ParsedMetadata) => {
   const seenEvents = new Set<string>();
 
   for (const change of diff(a, b)) {
-    const [pallet, event] = change.path;
-    if (event) {
+    const [pallet, event, field] = change.path;
+    if (event && (field || change.type === 'added')) {
+      // if a field changed or a new event was added
       seenEvents.add(`${pallet}.${event}`);
     } else if (change.type === 'added') {
+      // if a new pallet was added
       Object.keys(b[pallet])
         .map((e) => `${pallet}.${e}`)
         .forEach(seenEvents.add, seenEvents);

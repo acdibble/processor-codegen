@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { InternalEventHandler, EventHandler, wrapHandler } from '../utils';
 import { environmentUtxoConsolidationParametersUpdated } from './environment/utxoConsolidationParametersUpdated';
 import { emissionsBackupRewardsDistributed } from './emissions/backupRewardsDistributed';
 import { emissionsNetworkFeeBurned } from './emissions/networkFeeBurned';
@@ -32,21 +33,6 @@ import { polkadotIngressEgressUtxoConsolidation } from './polkadotIngressEgress/
 import { bitcoinIngressEgressDepositReceived } from './bitcoinIngressEgress/depositReceived';
 import { bitcoinIngressEgressDepositIgnored } from './bitcoinIngressEgress/depositIgnored';
 import { bitcoinIngressEgressUtxoConsolidation } from './bitcoinIngressEgress/utxoConsolidation';
-
-type EventHandlerArgs = {
-  // todo: fix `any`s
-  prisma: any;
-  event: any;
-  block: any;
-  eventId: bigint;
-  submitterId?: number;
-};
-
-type ParsedEventHandlerArgs<T> = EventHandlerArgs & { args: T };
-
-type InternalEventHandler = (args: EventHandlerArgs) => Promise<void>;
-
-export type EventHandler<T> = (args: ParsedEventHandlerArgs<T>) => Promise<void>;
 
 export type EnvironmentUtxoConsolidationParametersUpdated = EventHandler<
   z.output<typeof environmentUtxoConsolidationParametersUpdated>
@@ -194,15 +180,6 @@ type HandlerMap = {
     DepositIgnored?: BitcoinIngressEgressDepositIgnored;
     UtxoConsolidation?: BitcoinIngressEgressUtxoConsolidation;
   };
-};
-
-const wrapHandler = <T extends z.ZodTypeAny>(
-  handler: EventHandler<z.output<T>> | undefined,
-  schema: T,
-): InternalEventHandler | undefined => {
-  if (!handler) return undefined;
-
-  return async ({ event, ...rest }) => handler({ ...rest, event, args: schema.parse(event.args) });
 };
 
 export const handleEvents = (map: HandlerMap) => ({

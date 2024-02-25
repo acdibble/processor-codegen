@@ -352,7 +352,44 @@ export default class CodeGenerator {
     await fs.writeFile(path.join(specDir, 'common.ts'), common);
   }
 
+  private async generateUtils(specDir: string) {
+    const utils = path.join(path.dirname(specDir), 'utils.ts');
+
+    await fs.writeFile(
+      utils,
+      await formatCode(
+        `import { z } from 'zod';
+
+type EventHandlerArgs = {
+  // todo: fix \`any\`s
+  prisma: any;
+  event: any;
+  block: any;
+  eventId: bigint;
+  submitterId?: number;
+};
+
+type ParsedEventHandlerArgs<T> = EventHandlerArgs & { args: T };
+
+export type InternalEventHandler = (args: EventHandlerArgs) => Promise<void>;
+
+export type EventHandler<T> = (args: ParsedEventHandlerArgs<T>) => Promise<void>;
+
+export const wrapHandler = <T extends z.ZodTypeAny>(
+  handler: EventHandler<z.output<T>> | undefined,
+  schema: T,
+): InternalEventHandler | undefined => {
+  if (!handler) return undefined;
+
+  return async ({ event, ...rest }) => handler({ ...rest, event, args: schema.parse(event.args) });
+}`,
+      ),
+    );
+  }
+
   private async generateIndex(specDir: string, generatedEvents: Set<string>, specVersion: number) {
+    await this.generateUtils(specDir);
+
     const palletsAndEvents = [...generatedEvents]
       .map((name) => name.split('.'))
       .reduce(
@@ -372,22 +409,8 @@ export default class CodeGenerator {
     );
 
     const generated = `import { z } from 'zod';
+    import { InternalEventHandler, EventHandler, wrapHandler } from '../utils';
     ${imports.join('\n')}
-
-    type EventHandlerArgs = {
-      // todo: fix \`any\`s
-      prisma: any;
-      event: any;
-      block: any;
-      eventId: bigint;
-      submitterId?: number;
-    };
-
-    type ParsedEventHandlerArgs<T> = EventHandlerArgs & { args: T };
-
-    type InternalEventHandler = (args: EventHandlerArgs) => Promise<void>;
-
-    export type EventHandler<T> = (args: ParsedEventHandlerArgs<T>) => Promise<void>;
 
     ${Object.entries(palletsAndEvents)
       .flatMap(([pallet, events]) =>
@@ -407,15 +430,6 @@ export default class CodeGenerator {
         })
         .join('\n')}
     };
-
-    const wrapHandler = <T extends z.ZodTypeAny>(
-      handler: EventHandler<z.output<T>> | undefined,
-      schema: T,
-    ): InternalEventHandler | undefined => {
-      if (!handler) return undefined;
-
-      return async ({ event, ...rest }) => handler({ ...rest, event, args: schema.parse(event.args) });
-    }
 
     export const handleEvents = (map: HandlerMap) => ({
       spec: ${specVersion},

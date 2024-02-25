@@ -1,24 +1,10 @@
 import { z } from 'zod';
+import { InternalEventHandler, EventHandler, wrapHandler } from '../utils';
 import { environmentRuntimeSafeModeUpdated } from './environment/runtimeSafeModeUpdated';
 import { fundingBoundExecutorAddress } from './funding/boundExecutorAddress';
 import { validatorPalletConfigUpdated } from './validator/palletConfigUpdated';
 import { liquidityProviderLiquidityDepositAddressReady } from './liquidityProvider/liquidityDepositAddressReady';
 import { liquidityProviderLiquidityRefundAddressRegistered } from './liquidityProvider/liquidityRefundAddressRegistered';
-
-type EventHandlerArgs = {
-  // todo: fix `any`s
-  prisma: any;
-  event: any;
-  block: any;
-  eventId: bigint;
-  submitterId?: number;
-};
-
-type ParsedEventHandlerArgs<T> = EventHandlerArgs & { args: T };
-
-type InternalEventHandler = (args: EventHandlerArgs) => Promise<void>;
-
-export type EventHandler<T> = (args: ParsedEventHandlerArgs<T>) => Promise<void>;
 
 export type EnvironmentRuntimeSafeModeUpdated = EventHandler<
   z.output<typeof environmentRuntimeSafeModeUpdated>
@@ -50,15 +36,6 @@ type HandlerMap = {
     LiquidityDepositAddressReady?: LiquidityProviderLiquidityDepositAddressReady;
     LiquidityRefundAddressRegistered?: LiquidityProviderLiquidityRefundAddressRegistered;
   };
-};
-
-const wrapHandler = <T extends z.ZodTypeAny>(
-  handler: EventHandler<z.output<T>> | undefined,
-  schema: T,
-): InternalEventHandler | undefined => {
-  if (!handler) return undefined;
-
-  return async ({ event, ...rest }) => handler({ ...rest, event, args: schema.parse(event.args) });
 };
 
 export const handleEvents = (map: HandlerMap) => ({

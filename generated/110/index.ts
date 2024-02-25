@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { InternalEventHandler, EventHandler, wrapHandler } from '../utils';
 import { ethereumBroadcasterThresholdSignatureInvalid } from './ethereumBroadcaster/thresholdSignatureInvalid';
 import { ethereumBroadcasterCallResigned } from './ethereumBroadcaster/callResigned';
 import { polkadotBroadcasterThresholdSignatureInvalid } from './polkadotBroadcaster/thresholdSignatureInvalid';
@@ -24,21 +25,6 @@ import { liquidityPoolsPoolFeeSet } from './liquidityPools/poolFeeSet';
 import { liquidityPoolsScheduledLimitOrderUpdateDispatchSuccess } from './liquidityPools/scheduledLimitOrderUpdateDispatchSuccess';
 import { liquidityPoolsScheduledLimitOrderUpdateDispatchFailure } from './liquidityPools/scheduledLimitOrderUpdateDispatchFailure';
 import { liquidityPoolsLimitOrderSetOrUpdateScheduled } from './liquidityPools/limitOrderSetOrUpdateScheduled';
-
-type EventHandlerArgs = {
-  // todo: fix `any`s
-  prisma: any;
-  event: any;
-  block: any;
-  eventId: bigint;
-  submitterId?: number;
-};
-
-type ParsedEventHandlerArgs<T> = EventHandlerArgs & { args: T };
-
-type InternalEventHandler = (args: EventHandlerArgs) => Promise<void>;
-
-export type EventHandler<T> = (args: ParsedEventHandlerArgs<T>) => Promise<void>;
 
 export type EthereumBroadcasterThresholdSignatureInvalid = EventHandler<
   z.output<typeof ethereumBroadcasterThresholdSignatureInvalid>
@@ -154,15 +140,6 @@ type HandlerMap = {
     ScheduledLimitOrderUpdateDispatchFailure?: LiquidityPoolsScheduledLimitOrderUpdateDispatchFailure;
     LimitOrderSetOrUpdateScheduled?: LiquidityPoolsLimitOrderSetOrUpdateScheduled;
   };
-};
-
-const wrapHandler = <T extends z.ZodTypeAny>(
-  handler: EventHandler<z.output<T>> | undefined,
-  schema: T,
-): InternalEventHandler | undefined => {
-  if (!handler) return undefined;
-
-  return async ({ event, ...rest }) => handler({ ...rest, event, args: schema.parse(event.args) });
 };
 
 export const handleEvents = (map: HandlerMap) => ({

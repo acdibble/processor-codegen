@@ -6,7 +6,3 @@ export const ethereumIngressEgressDepositReceived = z.object({
   asset: cfPrimitivesChainsAssetsEthAsset,
   amount: numberOrHex,
 });
-
-export type EthereumIngressEgressDepositReceivedArgs = z.output<
-  typeof ethereumIngressEgressDepositReceived
->;

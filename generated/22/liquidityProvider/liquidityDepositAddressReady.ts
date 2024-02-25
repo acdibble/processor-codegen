@@ -13,7 +13,3 @@ export const liquidityProviderLiquidityDepositAddressReady = z.object({
   expiryBlock: z.number(),
   accountId,
 });
-
-export type LiquidityProviderLiquidityDepositAddressReadyArgs = z.output<
-  typeof liquidityProviderLiquidityDepositAddressReady
->;

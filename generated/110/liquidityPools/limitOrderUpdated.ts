@@ -19,5 +19,3 @@ export const liquidityPoolsLimitOrderUpdated = z.object({
   collectedFees: numberOrHex,
   boughtAmount: numberOrHex,
 });
-
-export type LiquidityPoolsLimitOrderUpdatedArgs = z.output<typeof liquidityPoolsLimitOrderUpdated>;

@@ -6,5 +6,3 @@ export const reputationOffencePenalty = z.object({
   offence: stateChainRuntimeChainflipOffencesOffence,
   penalty: z.number(),
 });
-
-export type ReputationOffencePenaltyArgs = z.output<typeof reputationOffencePenalty>;

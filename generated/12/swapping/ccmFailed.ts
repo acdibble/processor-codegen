@@ -10,5 +10,3 @@ export const swappingCcmFailed = z.object({
   destinationAddress: cfChainsAddressEncodedAddress,
   depositMetadata: cfChainsCcmDepositMetadata,
 });
-
-export type SwappingCcmFailedArgs = z.output<typeof swappingCcmFailed>;

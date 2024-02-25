@@ -5,7 +5,3 @@ export const polkadotIngressEgressBatchBroadcastRequested = z.object({
   broadcastId: z.number(),
   egressIds: z.array(z.tuple([cfPrimitivesChainsForeignChain, numberOrHex])),
 });
-
-export type PolkadotIngressEgressBatchBroadcastRequestedArgs = z.output<
-  typeof polkadotIngressEgressBatchBroadcastRequested
->;

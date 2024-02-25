@@ -5,5 +5,3 @@ export const liquidityPoolsPoolStateUpdated = z.object({
   unstableAsset: cfPrimitivesChainsAssetsAnyAsset,
   enabled: z.boolean(),
 });
-
-export type LiquidityPoolsPoolStateUpdatedArgs = z.output<typeof liquidityPoolsPoolStateUpdated>;

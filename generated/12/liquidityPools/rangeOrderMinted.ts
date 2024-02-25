@@ -14,5 +14,3 @@ export const liquidityPoolsRangeOrderMinted = z.object({
   assetsDebited: cfAmmCommonSideMap,
   collectedFees: cfAmmCommonSideMap,
 });
-
-export type LiquidityPoolsRangeOrderMintedArgs = z.output<typeof liquidityPoolsRangeOrderMinted>;

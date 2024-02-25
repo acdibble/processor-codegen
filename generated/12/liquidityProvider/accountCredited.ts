@@ -6,7 +6,3 @@ export const liquidityProviderAccountCredited = z.object({
   asset: cfPrimitivesChainsAssetsAnyAsset,
   amountCredited: numberOrHex,
 });
-
-export type LiquidityProviderAccountCreditedArgs = z.output<
-  typeof liquidityProviderAccountCredited
->;

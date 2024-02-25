@@ -17,5 +17,3 @@ export const liquidityPoolsRangeOrderUpdated = z.object({
   liquidityTotal: numberOrHex,
   collectedFees: palletCfPoolsAssetsMap,
 });
-
-export type LiquidityPoolsRangeOrderUpdatedArgs = z.output<typeof liquidityPoolsRangeOrderUpdated>;

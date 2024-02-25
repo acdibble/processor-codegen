@@ -7,5 +7,3 @@ export const fundingFunded = z.object({
   fundsAdded: numberOrHex,
   totalBalance: numberOrHex,
 });
-
-export type FundingFundedArgs = z.output<typeof fundingFunded>;

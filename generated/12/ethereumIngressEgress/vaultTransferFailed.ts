@@ -6,7 +6,3 @@ export const ethereumIngressEgressVaultTransferFailed = z.object({
   amount: numberOrHex,
   destinationAddress: hexString,
 });
-
-export type EthereumIngressEgressVaultTransferFailedArgs = z.output<
-  typeof ethereumIngressEgressVaultTransferFailed
->;

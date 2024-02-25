@@ -6,7 +6,3 @@ export const bitcoinIngressEgressVaultTransferFailed = z.object({
   amount: numberOrHex,
   destinationAddress: cfChainsBtcScriptPubkey,
 });
-
-export type BitcoinIngressEgressVaultTransferFailedArgs = z.output<
-  typeof bitcoinIngressEgressVaultTransferFailed
->;

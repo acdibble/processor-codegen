@@ -5,7 +5,3 @@ export const polkadotIngressEgressDepositFetchesScheduled = z.object({
   channelId: numberOrHex,
   asset: cfPrimitivesChainsAssetsDotAsset,
 });
-
-export type PolkadotIngressEgressDepositFetchesScheduledArgs = z.output<
-  typeof polkadotIngressEgressDepositFetchesScheduled
->;

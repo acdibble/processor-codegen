@@ -5,5 +5,3 @@ export const witnesserWitnessExecutionFailed = z.object({
   callHash: hexString,
   error: spRuntimeDispatchError,
 });
-
-export type WitnesserWitnessExecutionFailedArgs = z.output<typeof witnesserWitnessExecutionFailed>;

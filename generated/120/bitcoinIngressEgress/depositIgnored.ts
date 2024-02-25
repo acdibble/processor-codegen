@@ -14,7 +14,3 @@ export const bitcoinIngressEgressDepositIgnored = z.object({
   depositDetails: cfChainsBtcUtxoId,
   reason: palletCfBitcoinIngressEgressDepositIgnoredReason,
 });
-
-export type BitcoinIngressEgressDepositIgnoredArgs = z.output<
-  typeof bitcoinIngressEgressDepositIgnored
->;

@@ -6,7 +6,3 @@ export const liquidityProviderLiquidityDepositAddressReady = z.object({
   depositAddress: cfChainsAddressEncodedAddress,
   expiryBlock: z.number(),
 });
-
-export type LiquidityProviderLiquidityDepositAddressReadyArgs = z.output<
-  typeof liquidityProviderLiquidityDepositAddressReady
->;

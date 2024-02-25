@@ -12,5 +12,3 @@ export const swappingSwapAmountTooLow = z.object({
   destinationAddress: cfChainsAddressEncodedAddress,
   origin: cfChainsSwapOrigin,
 });
-
-export type SwappingSwapAmountTooLowArgs = z.output<typeof swappingSwapAmountTooLow>;

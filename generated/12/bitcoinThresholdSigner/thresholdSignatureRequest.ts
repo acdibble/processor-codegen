@@ -15,7 +15,3 @@ export const bitcoinThresholdSignerThresholdSignatureRequest = z.object({
   signatories: z.array(accountId),
   payload: z.array(z.tuple([cfChainsBtcPreviousOrCurrent, hexString])),
 });
-
-export type BitcoinThresholdSignerThresholdSignatureRequestArgs = z.output<
-  typeof bitcoinThresholdSignerThresholdSignatureRequest
->;

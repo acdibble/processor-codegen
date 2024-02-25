@@ -7,7 +7,3 @@ export const polkadotIngressEgressTransferFallbackRequested = z.object({
   destinationAddress: hexString,
   broadcastId: z.number(),
 });
-
-export type PolkadotIngressEgressTransferFallbackRequestedArgs = z.output<
-  typeof polkadotIngressEgressTransferFallbackRequested
->;

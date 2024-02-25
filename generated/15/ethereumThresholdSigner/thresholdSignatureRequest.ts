@@ -9,7 +9,3 @@ export const ethereumThresholdSignerThresholdSignatureRequest = z.object({
   signatories: z.array(accountId),
   payload: hexString,
 });
-
-export type EthereumThresholdSignerThresholdSignatureRequestArgs = z.output<
-  typeof ethereumThresholdSignerThresholdSignatureRequest
->;

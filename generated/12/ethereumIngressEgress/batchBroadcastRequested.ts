@@ -5,7 +5,3 @@ export const ethereumIngressEgressBatchBroadcastRequested = z.object({
   broadcastId: z.number(),
   egressIds: z.array(z.tuple([cfPrimitivesChainsForeignChain, numberOrHex])),
 });
-
-export type EthereumIngressEgressBatchBroadcastRequestedArgs = z.output<
-  typeof ethereumIngressEgressBatchBroadcastRequested
->;

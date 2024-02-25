@@ -16,5 +16,3 @@ export const swappingSwapDepositAddressReady = z.object({
   channelMetadata: cfChainsCcmChannelMetadata.nullish(),
   sourceChainExpiryBlock: numberOrHex,
 });
-
-export type SwappingSwapDepositAddressReadyArgs = z.output<typeof swappingSwapDepositAddressReady>;

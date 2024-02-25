@@ -6,7 +6,3 @@ export const ethereumIngressEgressStartWitnessing = z.object({
   sourceAsset: cfPrimitivesChainsAssetsEthAsset,
   openedAt: numberOrHex,
 });
-
-export type EthereumIngressEgressStartWitnessingArgs = z.output<
-  typeof ethereumIngressEgressStartWitnessing
->;

@@ -5,5 +5,3 @@ export const systemExtrinsicFailed = z.object({
   dispatchError: spRuntimeDispatchError,
   dispatchInfo: frameSupportDispatchDispatchInfo,
 });
-
-export type SystemExtrinsicFailedArgs = z.output<typeof systemExtrinsicFailed>;

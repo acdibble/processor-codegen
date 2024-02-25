@@ -7,5 +7,3 @@ export const fundingRedemptionRequested = z.object({
   broadcastId: z.number(),
   expiryTime: numberOrHex,
 });
-
-export type FundingRedemptionRequestedArgs = z.output<typeof fundingRedemptionRequested>;

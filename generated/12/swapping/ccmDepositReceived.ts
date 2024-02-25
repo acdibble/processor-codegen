@@ -9,5 +9,3 @@ export const swappingCcmDepositReceived = z.object({
   destinationAddress: cfChainsAddressEncodedAddress,
   depositMetadata: cfChainsCcmDepositMetadata,
 });
-
-export type SwappingCcmDepositReceivedArgs = z.output<typeof swappingCcmDepositReceived>;

@@ -6,5 +6,3 @@ export const bitcoinVaultKeygenRequest = z.object({
   participants: z.array(accountId),
   epochIndex: z.number(),
 });
-
-export type BitcoinVaultKeygenRequestArgs = z.output<typeof bitcoinVaultKeygenRequest>;

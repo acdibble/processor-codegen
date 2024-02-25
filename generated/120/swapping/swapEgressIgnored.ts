@@ -7,5 +7,3 @@ export const swappingSwapEgressIgnored = z.object({
   amount: numberOrHex,
   reason: spRuntimeDispatchError,
 });
-
-export type SwappingSwapEgressIgnoredArgs = z.output<typeof swappingSwapEgressIgnored>;

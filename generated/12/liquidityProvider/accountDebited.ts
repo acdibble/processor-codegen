@@ -6,5 +6,3 @@ export const liquidityProviderAccountDebited = z.object({
   asset: cfPrimitivesChainsAssetsAnyAsset,
   amountDebited: numberOrHex,
 });
-
-export type LiquidityProviderAccountDebitedArgs = z.output<typeof liquidityProviderAccountDebited>;

@@ -7,7 +7,3 @@ export const bitcoinBroadcasterTransactionBroadcastRequest = z.object({
   transactionPayload: cfChainsBtcBitcoinTransactionData,
   transactionOutId: hexString,
 });
-
-export type BitcoinBroadcasterTransactionBroadcastRequestArgs = z.output<
-  typeof bitcoinBroadcasterTransactionBroadcastRequest
->;

@@ -10,5 +10,3 @@ export const bitcoinVaultKeyHandoverRequest = z.object({
   newKey: cfChainsBtcAggKey,
   toEpoch: z.number(),
 });
-
-export type BitcoinVaultKeyHandoverRequestArgs = z.output<typeof bitcoinVaultKeyHandoverRequest>;

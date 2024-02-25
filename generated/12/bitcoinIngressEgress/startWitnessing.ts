@@ -6,7 +6,3 @@ export const bitcoinIngressEgressStartWitnessing = z.object({
   sourceAsset: cfPrimitivesChainsAssetsBtcAsset,
   openedAt: numberOrHex,
 });
-
-export type BitcoinIngressEgressStartWitnessingArgs = z.output<
-  typeof bitcoinIngressEgressStartWitnessing
->;

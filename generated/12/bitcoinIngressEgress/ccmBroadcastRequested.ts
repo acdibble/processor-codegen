@@ -5,7 +5,3 @@ export const bitcoinIngressEgressCcmBroadcastRequested = z.object({
   broadcastId: z.number(),
   egressId: z.tuple([cfPrimitivesChainsForeignChain, numberOrHex]),
 });
-
-export type BitcoinIngressEgressCcmBroadcastRequestedArgs = z.output<
-  typeof bitcoinIngressEgressCcmBroadcastRequested
->;

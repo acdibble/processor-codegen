@@ -6,5 +6,3 @@ export const validatorCFEVersionUpdated = z.object({
   oldVersion: cfPrimitivesSemVer,
   newVersion: cfPrimitivesSemVer,
 });
-
-export type ValidatorCFEVersionUpdatedArgs = z.output<typeof validatorCFEVersionUpdated>;

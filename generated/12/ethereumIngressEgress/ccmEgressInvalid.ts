@@ -5,7 +5,3 @@ export const ethereumIngressEgressCcmEgressInvalid = z.object({
   egressId: z.tuple([cfPrimitivesChainsForeignChain, numberOrHex]),
   error: spRuntimeDispatchError,
 });
-
-export type EthereumIngressEgressCcmEgressInvalidArgs = z.output<
-  typeof ethereumIngressEgressCcmEgressInvalid
->;

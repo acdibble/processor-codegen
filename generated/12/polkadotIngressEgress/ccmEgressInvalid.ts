@@ -5,7 +5,3 @@ export const polkadotIngressEgressCcmEgressInvalid = z.object({
   egressId: z.tuple([cfPrimitivesChainsForeignChain, numberOrHex]),
   error: spRuntimeDispatchError,
 });
-
-export type PolkadotIngressEgressCcmEgressInvalidArgs = z.output<
-  typeof polkadotIngressEgressCcmEgressInvalid
->;

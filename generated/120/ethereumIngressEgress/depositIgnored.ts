@@ -12,7 +12,3 @@ export const ethereumIngressEgressDepositIgnored = z.object({
   amount: numberOrHex,
   reason: palletCfEthereumIngressEgressDepositIgnoredReason,
 });
-
-export type EthereumIngressEgressDepositIgnoredArgs = z.output<
-  typeof ethereumIngressEgressDepositIgnored
->;

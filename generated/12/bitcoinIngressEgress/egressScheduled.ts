@@ -12,7 +12,3 @@ export const bitcoinIngressEgressEgressScheduled = z.object({
   amount: numberOrHex,
   destinationAddress: cfChainsBtcScriptPubkey,
 });
-
-export type BitcoinIngressEgressEgressScheduledArgs = z.output<
-  typeof bitcoinIngressEgressEgressScheduled
->;

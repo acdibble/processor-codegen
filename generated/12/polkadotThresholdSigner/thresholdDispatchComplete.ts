@@ -6,7 +6,3 @@ export const polkadotThresholdSignerThresholdDispatchComplete = z.object({
   ceremonyId: numberOrHex,
   result: dispatchResult,
 });
-
-export type PolkadotThresholdSignerThresholdDispatchCompleteArgs = z.output<
-  typeof polkadotThresholdSignerThresholdDispatchComplete
->;

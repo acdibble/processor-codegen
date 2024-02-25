@@ -12,7 +12,3 @@ export const polkadotIngressEgressDepositIgnored = z.object({
   amount: numberOrHex,
   reason: palletCfPolkadotIngressEgressDepositIgnoredReason,
 });
-
-export type PolkadotIngressEgressDepositIgnoredArgs = z.output<
-  typeof polkadotIngressEgressDepositIgnored
->;

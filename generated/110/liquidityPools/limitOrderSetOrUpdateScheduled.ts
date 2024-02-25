@@ -6,7 +6,3 @@ export const liquidityPoolsLimitOrderSetOrUpdateScheduled = z.object({
   orderId: numberOrHex,
   dispatchAt: z.number(),
 });
-
-export type LiquidityPoolsLimitOrderSetOrUpdateScheduledArgs = z.output<
-  typeof liquidityPoolsLimitOrderSetOrUpdateScheduled
->;

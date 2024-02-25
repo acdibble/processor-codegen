@@ -5,7 +5,3 @@ export const polkadotBroadcasterTransactionFeeDeficitRecorded = z.object({
   beneficiary: hexString,
   amount: numberOrHex,
 });
-
-export type PolkadotBroadcasterTransactionFeeDeficitRecordedArgs = z.output<
-  typeof polkadotBroadcasterTransactionFeeDeficitRecorded
->;

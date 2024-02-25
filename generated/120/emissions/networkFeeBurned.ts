@@ -5,5 +5,3 @@ export const emissionsNetworkFeeBurned = z.object({
   amount: numberOrHex,
   egressId: z.tuple([cfPrimitivesChainsForeignChain, numberOrHex]),
 });
-
-export type EmissionsNetworkFeeBurnedArgs = z.output<typeof emissionsNetworkFeeBurned>;

@@ -10,5 +10,3 @@ export const swappingWithdrawalRequested = z.object({
   egressAmount: numberOrHex,
   destinationAddress: cfChainsAddressEncodedAddress,
 });
-
-export type SwappingWithdrawalRequestedArgs = z.output<typeof swappingWithdrawalRequested>;

@@ -6,7 +6,3 @@ export const polkadotIngressEgressStartWitnessing = z.object({
   sourceAsset: cfPrimitivesChainsAssetsDotAsset,
   openedAt: z.number(),
 });
-
-export type PolkadotIngressEgressStartWitnessingArgs = z.output<
-  typeof polkadotIngressEgressStartWitnessing
->;

@@ -13,7 +13,3 @@ export const ethereumIngressEgressDepositReceived = z.object({
   ingressFee: numberOrHex,
   action: palletCfEthereumIngressEgressPalletDepositAction,
 });
-
-export type EthereumIngressEgressDepositReceivedArgs = z.output<
-  typeof ethereumIngressEgressDepositReceived
->;

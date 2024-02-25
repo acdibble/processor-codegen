@@ -5,7 +5,3 @@ export const ethereumThresholdSignerRetryRequested = z.object({
   requestId: z.number(),
   ceremonyId: numberOrHex,
 });
-
-export type EthereumThresholdSignerRetryRequestedArgs = z.output<
-  typeof ethereumThresholdSignerRetryRequested
->;

@@ -11,5 +11,3 @@ export const swappingSwapEgressScheduled = z.object({
   asset: cfPrimitivesChainsAssetsAnyAsset,
   amount: numberOrHex,
 });
-
-export type SwappingSwapEgressScheduledArgs = z.output<typeof swappingSwapEgressScheduled>;

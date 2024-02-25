@@ -4,7 +4,3 @@ import { palletCfTokenholderGovernanceProposal } from '../common';
 export const tokenholderGovernanceProposalPassed = z.object({
   proposal: palletCfTokenholderGovernanceProposal,
 });
-
-export type TokenholderGovernanceProposalPassedArgs = z.output<
-  typeof tokenholderGovernanceProposalPassed
->;

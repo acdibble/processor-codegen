@@ -7,7 +7,3 @@ export const ethereumIngressEgressTransferFallbackRequested = z.object({
   destinationAddress: hexString,
   broadcastId: z.number(),
 });
-
-export type EthereumIngressEgressTransferFallbackRequestedArgs = z.output<
-  typeof ethereumIngressEgressTransferFallbackRequested
->;

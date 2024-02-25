@@ -5,7 +5,3 @@ export const ethereumIngressEgressDepositWitnessRejected = z.object({
   reason: spRuntimeDispatchError,
   depositWitness: palletCfIngressEgressDepositWitnessEthereum,
 });
-
-export type EthereumIngressEgressDepositWitnessRejectedArgs = z.output<
-  typeof ethereumIngressEgressDepositWitnessRejected
->;

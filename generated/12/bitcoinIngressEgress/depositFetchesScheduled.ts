@@ -5,7 +5,3 @@ export const bitcoinIngressEgressDepositFetchesScheduled = z.object({
   channelId: numberOrHex,
   asset: cfPrimitivesChainsAssetsBtcAsset,
 });
-
-export type BitcoinIngressEgressDepositFetchesScheduledArgs = z.output<
-  typeof bitcoinIngressEgressDepositFetchesScheduled
->;

@@ -5,7 +5,3 @@ export const polkadotBroadcasterBroadcastSuccess = z.object({
   broadcastId: z.number(),
   transactionOutId: hexString,
 });
-
-export type PolkadotBroadcasterBroadcastSuccessArgs = z.output<
-  typeof polkadotBroadcasterBroadcastSuccess
->;

@@ -16,5 +16,3 @@ export const swappingSwapDepositAddressReady = z.object({
   brokerCommissionRate: z.number(),
   channelMetadata: cfChainsCcmChannelMetadata.nullish(),
 });
-
-export type SwappingSwapDepositAddressReadyArgs = z.output<typeof swappingSwapDepositAddressReady>;

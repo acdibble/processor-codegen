@@ -6,7 +6,3 @@ export const polkadotIngressEgressDepositIgnored = z.object({
   asset: cfPrimitivesChainsAssetsDotAsset,
   amount: numberOrHex,
 });
-
-export type PolkadotIngressEgressDepositIgnoredArgs = z.output<
-  typeof polkadotIngressEgressDepositIgnored
->;

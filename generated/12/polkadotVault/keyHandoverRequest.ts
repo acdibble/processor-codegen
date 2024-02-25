@@ -10,5 +10,3 @@ export const polkadotVaultKeyHandoverRequest = z.object({
   newKey: hexString,
   toEpoch: z.number(),
 });
-
-export type PolkadotVaultKeyHandoverRequestArgs = z.output<typeof polkadotVaultKeyHandoverRequest>;

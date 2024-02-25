@@ -316,8 +316,6 @@ export default class CodeGenerator {
             '',
             `export const ${parserName} = ${generatedEvent};`,
             '',
-            `export type ${capitalize(parserName)}Args = z.output<typeof ${parserName}>;`,
-            '',
           ].join('\n'),
         );
 
@@ -366,20 +364,40 @@ export default class CodeGenerator {
         {} as Record<string, string[]>,
       );
 
-    const generated = `export type EventHandler = (args: {
+    const imports = Object.entries(palletsAndEvents).flatMap(([pallet, events]) =>
+      events.map(
+        (event) =>
+          `import { ${uncapitalize(pallet)}${event} } from './${uncapitalize(pallet)}/${uncapitalize(event)}';`,
+      ),
+    );
+
+    const generated = `import { z } from 'zod';
+    ${imports.join('\n')}
+    
+    export type EventHandler<T> = (args: {
       // todo: fix \`any\`s
       prisma: any;
       event: any;
       block: any;
       eventId: bigint;
       submitterId?: number;
+      args: T;
     }) => Promise<void>;
+
+    ${Object.entries(palletsAndEvents)
+      .flatMap(([pallet, events]) =>
+        events.map(
+          (event) =>
+            `export type ${pallet}${event} = EventHandler<z.output<typeof ${uncapitalize(pallet)}${event}>>;`,
+        ),
+      )
+      .join('\n')}
 
     type HandlerMap = {
       ${Object.entries(palletsAndEvents)
         .map(([pallet, events]) => {
           return `${pallet}?: {
-            ${events.map((event) => `${event}?: EventHandler;`).join('\n')}
+            ${events.map((event) => `${event}?: ${pallet}${event}`).join('\n')}
           };`;
         })
         .join('\n')}
@@ -393,12 +411,13 @@ export default class CodeGenerator {
             events.map(
               (event) => `({
             name: '${pallet}.${event}',
-            handler: map.${pallet}?.${event},
+            handler: map.${pallet}?.${event}
+              && (async ({event, ...rest}) => map.${pallet}!.${event}!({...rest, event, args: ${uncapitalize(pallet)}${event}.parse(event.args) })) as ${pallet}${event},
           })`,
             ),
           )
           .join(',\n')}
-      ].filter((h): h is { name: string; handler: EventHandler } => h.handler !== undefined),
+      ].filter((h): h is { name: string; handler: EventHandler<any> } => h.handler !== undefined),
     })
     `;
 

@@ -17,5 +17,3 @@ export const swappingSwapScheduled = z.object({
   swapType: palletCfSwappingSwapType,
   brokerCommission: numberOrHex.nullish(),
 });
-
-export type SwappingSwapScheduledArgs = z.output<typeof swappingSwapScheduled>;

@@ -12,7 +12,3 @@ export const polkadotIngressEgressEgressScheduled = z.object({
   amount: numberOrHex,
   destinationAddress: hexString,
 });
-
-export type PolkadotIngressEgressEgressScheduledArgs = z.output<
-  typeof polkadotIngressEgressEgressScheduled
->;

@@ -6,7 +6,3 @@ export const bitcoinThresholdSignerThresholdDispatchComplete = z.object({
   ceremonyId: numberOrHex,
   result: dispatchResult,
 });
-
-export type BitcoinThresholdSignerThresholdDispatchCompleteArgs = z.output<
-  typeof bitcoinThresholdSignerThresholdDispatchComplete
->;

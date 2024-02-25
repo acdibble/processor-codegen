@@ -4,7 +4,3 @@ export const ethereumThresholdSignerCurrentKeyUnavailable = z.object({
   requestId: z.number(),
   attemptCount: z.number(),
 });
-
-export type EthereumThresholdSignerCurrentKeyUnavailableArgs = z.output<
-  typeof ethereumThresholdSignerCurrentKeyUnavailable
->;

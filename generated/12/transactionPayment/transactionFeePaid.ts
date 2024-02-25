@@ -6,7 +6,3 @@ export const transactionPaymentTransactionFeePaid = z.object({
   actualFee: numberOrHex,
   tip: numberOrHex,
 });
-
-export type TransactionPaymentTransactionFeePaidArgs = z.output<
-  typeof transactionPaymentTransactionFeePaid
->;

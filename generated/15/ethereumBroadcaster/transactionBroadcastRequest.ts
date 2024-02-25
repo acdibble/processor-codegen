@@ -12,7 +12,3 @@ export const ethereumBroadcasterTransactionBroadcastRequest = z.object({
   transactionPayload: cfChainsEvmTransaction,
   transactionOutId: cfChainsEvmSchnorrVerificationComponents,
 });
-
-export type EthereumBroadcasterTransactionBroadcastRequestArgs = z.output<
-  typeof ethereumBroadcasterTransactionBroadcastRequest
->;

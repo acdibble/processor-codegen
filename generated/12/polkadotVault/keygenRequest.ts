@@ -6,5 +6,3 @@ export const polkadotVaultKeygenRequest = z.object({
   participants: z.array(accountId),
   epochIndex: z.number(),
 });
-
-export type PolkadotVaultKeygenRequestArgs = z.output<typeof polkadotVaultKeygenRequest>;

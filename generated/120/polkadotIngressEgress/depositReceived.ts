@@ -13,7 +13,3 @@ export const polkadotIngressEgressDepositReceived = z.object({
   ingressFee: numberOrHex,
   action: palletCfPolkadotIngressEgressPalletDepositAction,
 });
-
-export type PolkadotIngressEgressDepositReceivedArgs = z.output<
-  typeof polkadotIngressEgressDepositReceived
->;

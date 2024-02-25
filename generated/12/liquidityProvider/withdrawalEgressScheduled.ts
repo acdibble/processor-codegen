@@ -12,7 +12,3 @@ export const liquidityProviderWithdrawalEgressScheduled = z.object({
   amount: numberOrHex,
   destinationAddress: cfChainsAddressEncodedAddress,
 });
-
-export type LiquidityProviderWithdrawalEgressScheduledArgs = z.output<
-  typeof liquidityProviderWithdrawalEgressScheduled
->;

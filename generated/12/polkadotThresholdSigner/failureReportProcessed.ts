@@ -6,7 +6,3 @@ export const polkadotThresholdSignerFailureReportProcessed = z.object({
   ceremonyId: numberOrHex,
   reporterId: accountId,
 });
-
-export type PolkadotThresholdSignerFailureReportProcessedArgs = z.output<
-  typeof polkadotThresholdSignerFailureReportProcessed
->;

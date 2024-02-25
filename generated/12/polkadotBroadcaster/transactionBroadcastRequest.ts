@@ -12,7 +12,3 @@ export const polkadotBroadcasterTransactionBroadcastRequest = z.object({
   transactionPayload: cfChainsDotPolkadotTransactionData,
   transactionOutId: hexString,
 });
-
-export type PolkadotBroadcasterTransactionBroadcastRequestArgs = z.output<
-  typeof polkadotBroadcasterTransactionBroadcastRequest
->;

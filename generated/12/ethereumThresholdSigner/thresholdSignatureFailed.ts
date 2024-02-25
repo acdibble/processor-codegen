@@ -6,7 +6,3 @@ export const ethereumThresholdSignerThresholdSignatureFailed = z.object({
   ceremonyId: numberOrHex,
   offenders: z.array(accountId),
 });
-
-export type EthereumThresholdSignerThresholdSignatureFailedArgs = z.output<
-  typeof ethereumThresholdSignerThresholdSignatureFailed
->;

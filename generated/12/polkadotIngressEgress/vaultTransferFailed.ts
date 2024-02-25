@@ -6,7 +6,3 @@ export const polkadotIngressEgressVaultTransferFailed = z.object({
   amount: numberOrHex,
   destinationAddress: hexString,
 });
-
-export type PolkadotIngressEgressVaultTransferFailedArgs = z.output<
-  typeof polkadotIngressEgressVaultTransferFailed
->;

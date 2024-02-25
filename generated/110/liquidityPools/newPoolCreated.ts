@@ -7,5 +7,3 @@ export const liquidityPoolsNewPoolCreated = z.object({
   feeHundredthPips: z.number(),
   initialPrice: numberOrHex,
 });
-
-export type LiquidityPoolsNewPoolCreatedArgs = z.output<typeof liquidityPoolsNewPoolCreated>;

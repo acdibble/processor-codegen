@@ -6,7 +6,3 @@ export const liquidityPoolsScheduledLimitOrderUpdateDispatchFailure = z.object({
   orderId: numberOrHex,
   error: spRuntimeDispatchError,
 });
-
-export type LiquidityPoolsScheduledLimitOrderUpdateDispatchFailureArgs = z.output<
-  typeof liquidityPoolsScheduledLimitOrderUpdateDispatchFailure
->;

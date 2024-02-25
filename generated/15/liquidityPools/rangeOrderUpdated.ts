@@ -19,5 +19,3 @@ export const liquidityPoolsRangeOrderUpdated = z.object({
   assetsDelta: palletCfPoolsAssetsMap,
   collectedFees: palletCfPoolsAssetsMap,
 });
-
-export type LiquidityPoolsRangeOrderUpdatedArgs = z.output<typeof liquidityPoolsRangeOrderUpdated>;

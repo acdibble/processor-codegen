@@ -6,5 +6,3 @@ export const swappingBatchSwapFailed = z.object({
   direction: cfPrimitivesSwapLeg,
   amount: numberOrHex,
 });
-
-export type SwappingBatchSwapFailedArgs = z.output<typeof swappingBatchSwapFailed>;

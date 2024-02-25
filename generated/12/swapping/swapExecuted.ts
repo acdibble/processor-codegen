@@ -9,5 +9,3 @@ export const swappingSwapExecuted = z.object({
   egressAmount: numberOrHex,
   intermediateAmount: numberOrHex.nullish(),
 });
-
-export type SwappingSwapExecutedArgs = z.output<typeof swappingSwapExecuted>;

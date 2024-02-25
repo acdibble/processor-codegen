@@ -9,7 +9,3 @@ export const polkadotThresholdSignerThresholdSignatureRequest = z.object({
   signatories: z.array(accountId),
   payload: hexString,
 });
-
-export type PolkadotThresholdSignerThresholdSignatureRequestArgs = z.output<
-  typeof polkadotThresholdSignerThresholdSignatureRequest
->;

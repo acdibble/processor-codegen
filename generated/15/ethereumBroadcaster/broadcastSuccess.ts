@@ -5,7 +5,3 @@ export const ethereumBroadcasterBroadcastSuccess = z.object({
   broadcastId: z.number(),
   transactionOutId: cfChainsEvmSchnorrVerificationComponents,
 });
-
-export type EthereumBroadcasterBroadcastSuccessArgs = z.output<
-  typeof ethereumBroadcasterBroadcastSuccess
->;

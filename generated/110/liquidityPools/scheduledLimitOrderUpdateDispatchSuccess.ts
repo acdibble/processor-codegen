@@ -5,7 +5,3 @@ export const liquidityPoolsScheduledLimitOrderUpdateDispatchSuccess = z.object({
   lp: accountId,
   orderId: numberOrHex,
 });
-
-export type LiquidityPoolsScheduledLimitOrderUpdateDispatchSuccessArgs = z.output<
-  typeof liquidityPoolsScheduledLimitOrderUpdateDispatchSuccess
->;

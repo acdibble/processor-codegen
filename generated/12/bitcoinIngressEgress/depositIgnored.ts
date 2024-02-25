@@ -12,7 +12,3 @@ export const bitcoinIngressEgressDepositIgnored = z.object({
   amount: numberOrHex,
   depositDetails: cfChainsBtcUtxoId,
 });
-
-export type BitcoinIngressEgressDepositIgnoredArgs = z.output<
-  typeof bitcoinIngressEgressDepositIgnored
->;

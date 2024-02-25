@@ -15,7 +15,3 @@ export const bitcoinIngressEgressDepositReceived = z.object({
   ingressFee: numberOrHex,
   action: palletCfBitcoinIngressEgressPalletDepositAction,
 });
-
-export type BitcoinIngressEgressDepositReceivedArgs = z.output<
-  typeof bitcoinIngressEgressDepositReceived
->;

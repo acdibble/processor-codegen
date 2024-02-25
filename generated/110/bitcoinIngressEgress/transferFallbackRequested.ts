@@ -7,7 +7,3 @@ export const bitcoinIngressEgressTransferFallbackRequested = z.object({
   destinationAddress: cfChainsBtcScriptPubkey,
   broadcastId: z.number(),
 });
-
-export type BitcoinIngressEgressTransferFallbackRequestedArgs = z.output<
-  typeof bitcoinIngressEgressTransferFallbackRequested
->;

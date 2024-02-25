@@ -6,5 +6,3 @@ export const reputationPenaltyUpdated = z.object({
   oldPenalty: palletCfReputationPenalty,
   newPenalty: palletCfReputationPenalty,
 });
-
-export type ReputationPenaltyUpdatedArgs = z.output<typeof reputationPenaltyUpdated>;

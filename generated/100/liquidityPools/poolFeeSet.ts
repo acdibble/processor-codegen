@@ -6,5 +6,3 @@ export const liquidityPoolsPoolFeeSet = z.object({
   pairAsset: cfPrimitivesChainsAssetsAnyAsset,
   feeHundredthPips: z.number(),
 });
-
-export type LiquidityPoolsPoolFeeSetArgs = z.output<typeof liquidityPoolsPoolFeeSet>;

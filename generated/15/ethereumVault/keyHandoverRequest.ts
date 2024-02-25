@@ -10,5 +10,3 @@ export const ethereumVaultKeyHandoverRequest = z.object({
   newKey: cfChainsEvmAggKey,
   toEpoch: z.number(),
 });
-
-export type EthereumVaultKeyHandoverRequestArgs = z.output<typeof ethereumVaultKeyHandoverRequest>;

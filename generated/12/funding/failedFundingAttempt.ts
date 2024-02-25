@@ -6,5 +6,3 @@ export const fundingFailedFundingAttempt = z.object({
   withdrawalAddress: hexString,
   amount: numberOrHex,
 });
-
-export type FundingFailedFundingAttemptArgs = z.output<typeof fundingFailedFundingAttempt>;

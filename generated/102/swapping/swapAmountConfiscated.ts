@@ -8,5 +8,3 @@ export const swappingSwapAmountConfiscated = z.object({
   totalAmount: numberOrHex,
   confiscatedAmount: numberOrHex,
 });
-
-export type SwappingSwapAmountConfiscatedArgs = z.output<typeof swappingSwapAmountConfiscated>;

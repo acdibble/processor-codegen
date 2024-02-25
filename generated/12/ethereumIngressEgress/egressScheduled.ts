@@ -12,7 +12,3 @@ export const ethereumIngressEgressEgressScheduled = z.object({
   amount: numberOrHex,
   destinationAddress: hexString,
 });
-
-export type EthereumIngressEgressEgressScheduledArgs = z.output<
-  typeof ethereumIngressEgressEgressScheduled
->;

@@ -33,15 +33,20 @@ import { bitcoinIngressEgressDepositReceived } from './bitcoinIngressEgress/depo
 import { bitcoinIngressEgressDepositIgnored } from './bitcoinIngressEgress/depositIgnored';
 import { bitcoinIngressEgressUtxoConsolidation } from './bitcoinIngressEgress/utxoConsolidation';
 
-export type EventHandler<T> = (args: {
+type EventHandlerArgs = {
   // todo: fix `any`s
   prisma: any;
   event: any;
   block: any;
   eventId: bigint;
   submitterId?: number;
-  args: T;
-}) => Promise<void>;
+};
+
+type ParsedEventHandlerArgs<T> = EventHandlerArgs & { args: T };
+
+type InternalEventHandler = (args: EventHandlerArgs) => Promise<void>;
+
+export type EventHandler<T> = (args: ParsedEventHandlerArgs<T>) => Promise<void>;
 
 export type EnvironmentUtxoConsolidationParametersUpdated = EventHandler<
   z.output<typeof environmentUtxoConsolidationParametersUpdated>
@@ -191,371 +196,227 @@ type HandlerMap = {
   };
 };
 
+const wrapHandler = <T extends z.ZodTypeAny>(
+  handler: EventHandler<z.output<T>> | undefined,
+  schema: T,
+): InternalEventHandler | undefined => {
+  if (!handler) return undefined;
+
+  return async ({ event, ...rest }) => handler({ ...rest, event, args: schema.parse(event.args) });
+};
+
 export const handleEvents = (map: HandlerMap) => ({
   spec: 120,
   handlers: [
     {
       name: 'Environment.UtxoConsolidationParametersUpdated',
-      handler:
-        map.Environment?.UtxoConsolidationParametersUpdated &&
-        ((async ({ event, ...rest }) =>
-          map.Environment!.UtxoConsolidationParametersUpdated!({
-            ...rest,
-            event,
-            args: environmentUtxoConsolidationParametersUpdated.parse(event.args),
-          })) as EnvironmentUtxoConsolidationParametersUpdated),
+      handler: wrapHandler(
+        map.Environment?.UtxoConsolidationParametersUpdated,
+        environmentUtxoConsolidationParametersUpdated,
+      ),
     },
     {
       name: 'Emissions.BackupRewardsDistributed',
-      handler:
-        map.Emissions?.BackupRewardsDistributed &&
-        ((async ({ event, ...rest }) =>
-          map.Emissions!.BackupRewardsDistributed!({
-            ...rest,
-            event,
-            args: emissionsBackupRewardsDistributed.parse(event.args),
-          })) as EmissionsBackupRewardsDistributed),
+      handler: wrapHandler(
+        map.Emissions?.BackupRewardsDistributed,
+        emissionsBackupRewardsDistributed,
+      ),
     },
     {
       name: 'Emissions.NetworkFeeBurned',
-      handler:
-        map.Emissions?.NetworkFeeBurned &&
-        ((async ({ event, ...rest }) =>
-          map.Emissions!.NetworkFeeBurned!({
-            ...rest,
-            event,
-            args: emissionsNetworkFeeBurned.parse(event.args),
-          })) as EmissionsNetworkFeeBurned),
+      handler: wrapHandler(map.Emissions?.NetworkFeeBurned, emissionsNetworkFeeBurned),
     },
     {
       name: 'Emissions.FlipBurnSkipped',
-      handler:
-        map.Emissions?.FlipBurnSkipped &&
-        ((async ({ event, ...rest }) =>
-          map.Emissions!.FlipBurnSkipped!({
-            ...rest,
-            event,
-            args: emissionsFlipBurnSkipped.parse(event.args),
-          })) as EmissionsFlipBurnSkipped),
+      handler: wrapHandler(map.Emissions?.FlipBurnSkipped, emissionsFlipBurnSkipped),
     },
     {
       name: 'BitcoinChainTracking.ChainStateUpdated',
-      handler:
-        map.BitcoinChainTracking?.ChainStateUpdated &&
-        ((async ({ event, ...rest }) =>
-          map.BitcoinChainTracking!.ChainStateUpdated!({
-            ...rest,
-            event,
-            args: bitcoinChainTrackingChainStateUpdated.parse(event.args),
-          })) as BitcoinChainTrackingChainStateUpdated),
+      handler: wrapHandler(
+        map.BitcoinChainTracking?.ChainStateUpdated,
+        bitcoinChainTrackingChainStateUpdated,
+      ),
     },
     {
       name: 'EthereumBroadcaster.TransactionBroadcastRequest',
-      handler:
-        map.EthereumBroadcaster?.TransactionBroadcastRequest &&
-        ((async ({ event, ...rest }) =>
-          map.EthereumBroadcaster!.TransactionBroadcastRequest!({
-            ...rest,
-            event,
-            args: ethereumBroadcasterTransactionBroadcastRequest.parse(event.args),
-          })) as EthereumBroadcasterTransactionBroadcastRequest),
+      handler: wrapHandler(
+        map.EthereumBroadcaster?.TransactionBroadcastRequest,
+        ethereumBroadcasterTransactionBroadcastRequest,
+      ),
     },
     {
       name: 'EthereumBroadcaster.BroadcastRetryScheduled',
-      handler:
-        map.EthereumBroadcaster?.BroadcastRetryScheduled &&
-        ((async ({ event, ...rest }) =>
-          map.EthereumBroadcaster!.BroadcastRetryScheduled!({
-            ...rest,
-            event,
-            args: ethereumBroadcasterBroadcastRetryScheduled.parse(event.args),
-          })) as EthereumBroadcasterBroadcastRetryScheduled),
+      handler: wrapHandler(
+        map.EthereumBroadcaster?.BroadcastRetryScheduled,
+        ethereumBroadcasterBroadcastRetryScheduled,
+      ),
     },
     {
       name: 'EthereumBroadcaster.BroadcastTimeout',
-      handler:
-        map.EthereumBroadcaster?.BroadcastTimeout &&
-        ((async ({ event, ...rest }) =>
-          map.EthereumBroadcaster!.BroadcastTimeout!({
-            ...rest,
-            event,
-            args: ethereumBroadcasterBroadcastTimeout.parse(event.args),
-          })) as EthereumBroadcasterBroadcastTimeout),
+      handler: wrapHandler(
+        map.EthereumBroadcaster?.BroadcastTimeout,
+        ethereumBroadcasterBroadcastTimeout,
+      ),
     },
     {
       name: 'EthereumBroadcaster.ThresholdSignatureInvalid',
-      handler:
-        map.EthereumBroadcaster?.ThresholdSignatureInvalid &&
-        ((async ({ event, ...rest }) =>
-          map.EthereumBroadcaster!.ThresholdSignatureInvalid!({
-            ...rest,
-            event,
-            args: ethereumBroadcasterThresholdSignatureInvalid.parse(event.args),
-          })) as EthereumBroadcasterThresholdSignatureInvalid),
+      handler: wrapHandler(
+        map.EthereumBroadcaster?.ThresholdSignatureInvalid,
+        ethereumBroadcasterThresholdSignatureInvalid,
+      ),
     },
     {
       name: 'PolkadotBroadcaster.TransactionBroadcastRequest',
-      handler:
-        map.PolkadotBroadcaster?.TransactionBroadcastRequest &&
-        ((async ({ event, ...rest }) =>
-          map.PolkadotBroadcaster!.TransactionBroadcastRequest!({
-            ...rest,
-            event,
-            args: polkadotBroadcasterTransactionBroadcastRequest.parse(event.args),
-          })) as PolkadotBroadcasterTransactionBroadcastRequest),
+      handler: wrapHandler(
+        map.PolkadotBroadcaster?.TransactionBroadcastRequest,
+        polkadotBroadcasterTransactionBroadcastRequest,
+      ),
     },
     {
       name: 'PolkadotBroadcaster.BroadcastRetryScheduled',
-      handler:
-        map.PolkadotBroadcaster?.BroadcastRetryScheduled &&
-        ((async ({ event, ...rest }) =>
-          map.PolkadotBroadcaster!.BroadcastRetryScheduled!({
-            ...rest,
-            event,
-            args: polkadotBroadcasterBroadcastRetryScheduled.parse(event.args),
-          })) as PolkadotBroadcasterBroadcastRetryScheduled),
+      handler: wrapHandler(
+        map.PolkadotBroadcaster?.BroadcastRetryScheduled,
+        polkadotBroadcasterBroadcastRetryScheduled,
+      ),
     },
     {
       name: 'PolkadotBroadcaster.BroadcastTimeout',
-      handler:
-        map.PolkadotBroadcaster?.BroadcastTimeout &&
-        ((async ({ event, ...rest }) =>
-          map.PolkadotBroadcaster!.BroadcastTimeout!({
-            ...rest,
-            event,
-            args: polkadotBroadcasterBroadcastTimeout.parse(event.args),
-          })) as PolkadotBroadcasterBroadcastTimeout),
+      handler: wrapHandler(
+        map.PolkadotBroadcaster?.BroadcastTimeout,
+        polkadotBroadcasterBroadcastTimeout,
+      ),
     },
     {
       name: 'PolkadotBroadcaster.ThresholdSignatureInvalid',
-      handler:
-        map.PolkadotBroadcaster?.ThresholdSignatureInvalid &&
-        ((async ({ event, ...rest }) =>
-          map.PolkadotBroadcaster!.ThresholdSignatureInvalid!({
-            ...rest,
-            event,
-            args: polkadotBroadcasterThresholdSignatureInvalid.parse(event.args),
-          })) as PolkadotBroadcasterThresholdSignatureInvalid),
+      handler: wrapHandler(
+        map.PolkadotBroadcaster?.ThresholdSignatureInvalid,
+        polkadotBroadcasterThresholdSignatureInvalid,
+      ),
     },
     {
       name: 'BitcoinBroadcaster.TransactionBroadcastRequest',
-      handler:
-        map.BitcoinBroadcaster?.TransactionBroadcastRequest &&
-        ((async ({ event, ...rest }) =>
-          map.BitcoinBroadcaster!.TransactionBroadcastRequest!({
-            ...rest,
-            event,
-            args: bitcoinBroadcasterTransactionBroadcastRequest.parse(event.args),
-          })) as BitcoinBroadcasterTransactionBroadcastRequest),
+      handler: wrapHandler(
+        map.BitcoinBroadcaster?.TransactionBroadcastRequest,
+        bitcoinBroadcasterTransactionBroadcastRequest,
+      ),
     },
     {
       name: 'BitcoinBroadcaster.BroadcastRetryScheduled',
-      handler:
-        map.BitcoinBroadcaster?.BroadcastRetryScheduled &&
-        ((async ({ event, ...rest }) =>
-          map.BitcoinBroadcaster!.BroadcastRetryScheduled!({
-            ...rest,
-            event,
-            args: bitcoinBroadcasterBroadcastRetryScheduled.parse(event.args),
-          })) as BitcoinBroadcasterBroadcastRetryScheduled),
+      handler: wrapHandler(
+        map.BitcoinBroadcaster?.BroadcastRetryScheduled,
+        bitcoinBroadcasterBroadcastRetryScheduled,
+      ),
     },
     {
       name: 'BitcoinBroadcaster.BroadcastTimeout',
-      handler:
-        map.BitcoinBroadcaster?.BroadcastTimeout &&
-        ((async ({ event, ...rest }) =>
-          map.BitcoinBroadcaster!.BroadcastTimeout!({
-            ...rest,
-            event,
-            args: bitcoinBroadcasterBroadcastTimeout.parse(event.args),
-          })) as BitcoinBroadcasterBroadcastTimeout),
+      handler: wrapHandler(
+        map.BitcoinBroadcaster?.BroadcastTimeout,
+        bitcoinBroadcasterBroadcastTimeout,
+      ),
     },
     {
       name: 'BitcoinBroadcaster.ThresholdSignatureInvalid',
-      handler:
-        map.BitcoinBroadcaster?.ThresholdSignatureInvalid &&
-        ((async ({ event, ...rest }) =>
-          map.BitcoinBroadcaster!.ThresholdSignatureInvalid!({
-            ...rest,
-            event,
-            args: bitcoinBroadcasterThresholdSignatureInvalid.parse(event.args),
-          })) as BitcoinBroadcasterThresholdSignatureInvalid),
+      handler: wrapHandler(
+        map.BitcoinBroadcaster?.ThresholdSignatureInvalid,
+        bitcoinBroadcasterThresholdSignatureInvalid,
+      ),
     },
     {
       name: 'Swapping.SwapExecuted',
-      handler:
-        map.Swapping?.SwapExecuted &&
-        ((async ({ event, ...rest }) =>
-          map.Swapping!.SwapExecuted!({
-            ...rest,
-            event,
-            args: swappingSwapExecuted.parse(event.args),
-          })) as SwappingSwapExecuted),
+      handler: wrapHandler(map.Swapping?.SwapExecuted, swappingSwapExecuted),
     },
     {
       name: 'Swapping.SwapEgressScheduled',
-      handler:
-        map.Swapping?.SwapEgressScheduled &&
-        ((async ({ event, ...rest }) =>
-          map.Swapping!.SwapEgressScheduled!({
-            ...rest,
-            event,
-            args: swappingSwapEgressScheduled.parse(event.args),
-          })) as SwappingSwapEgressScheduled),
+      handler: wrapHandler(map.Swapping?.SwapEgressScheduled, swappingSwapEgressScheduled),
     },
     {
       name: 'Swapping.WithdrawalRequested',
-      handler:
-        map.Swapping?.WithdrawalRequested &&
-        ((async ({ event, ...rest }) =>
-          map.Swapping!.WithdrawalRequested!({
-            ...rest,
-            event,
-            args: swappingWithdrawalRequested.parse(event.args),
-          })) as SwappingWithdrawalRequested),
+      handler: wrapHandler(map.Swapping?.WithdrawalRequested, swappingWithdrawalRequested),
     },
     {
       name: 'Swapping.CcmFailed',
-      handler:
-        map.Swapping?.CcmFailed &&
-        ((async ({ event, ...rest }) =>
-          map.Swapping!.CcmFailed!({
-            ...rest,
-            event,
-            args: swappingCcmFailed.parse(event.args),
-          })) as SwappingCcmFailed),
+      handler: wrapHandler(map.Swapping?.CcmFailed, swappingCcmFailed),
     },
     {
       name: 'Swapping.SwapEgressIgnored',
-      handler:
-        map.Swapping?.SwapEgressIgnored &&
-        ((async ({ event, ...rest }) =>
-          map.Swapping!.SwapEgressIgnored!({
-            ...rest,
-            event,
-            args: swappingSwapEgressIgnored.parse(event.args),
-          })) as SwappingSwapEgressIgnored),
+      handler: wrapHandler(map.Swapping?.SwapEgressIgnored, swappingSwapEgressIgnored),
     },
     {
       name: 'LiquidityProvider.WithdrawalEgressScheduled',
-      handler:
-        map.LiquidityProvider?.WithdrawalEgressScheduled &&
-        ((async ({ event, ...rest }) =>
-          map.LiquidityProvider!.WithdrawalEgressScheduled!({
-            ...rest,
-            event,
-            args: liquidityProviderWithdrawalEgressScheduled.parse(event.args),
-          })) as LiquidityProviderWithdrawalEgressScheduled),
+      handler: wrapHandler(
+        map.LiquidityProvider?.WithdrawalEgressScheduled,
+        liquidityProviderWithdrawalEgressScheduled,
+      ),
     },
     {
       name: 'LiquidityProvider.LiquidityDepositCredited',
-      handler:
-        map.LiquidityProvider?.LiquidityDepositCredited &&
-        ((async ({ event, ...rest }) =>
-          map.LiquidityProvider!.LiquidityDepositCredited!({
-            ...rest,
-            event,
-            args: liquidityProviderLiquidityDepositCredited.parse(event.args),
-          })) as LiquidityProviderLiquidityDepositCredited),
+      handler: wrapHandler(
+        map.LiquidityProvider?.LiquidityDepositCredited,
+        liquidityProviderLiquidityDepositCredited,
+      ),
     },
     {
       name: 'EthereumIngressEgress.DepositReceived',
-      handler:
-        map.EthereumIngressEgress?.DepositReceived &&
-        ((async ({ event, ...rest }) =>
-          map.EthereumIngressEgress!.DepositReceived!({
-            ...rest,
-            event,
-            args: ethereumIngressEgressDepositReceived.parse(event.args),
-          })) as EthereumIngressEgressDepositReceived),
+      handler: wrapHandler(
+        map.EthereumIngressEgress?.DepositReceived,
+        ethereumIngressEgressDepositReceived,
+      ),
     },
     {
       name: 'EthereumIngressEgress.DepositIgnored',
-      handler:
-        map.EthereumIngressEgress?.DepositIgnored &&
-        ((async ({ event, ...rest }) =>
-          map.EthereumIngressEgress!.DepositIgnored!({
-            ...rest,
-            event,
-            args: ethereumIngressEgressDepositIgnored.parse(event.args),
-          })) as EthereumIngressEgressDepositIgnored),
+      handler: wrapHandler(
+        map.EthereumIngressEgress?.DepositIgnored,
+        ethereumIngressEgressDepositIgnored,
+      ),
     },
     {
       name: 'EthereumIngressEgress.UtxoConsolidation',
-      handler:
-        map.EthereumIngressEgress?.UtxoConsolidation &&
-        ((async ({ event, ...rest }) =>
-          map.EthereumIngressEgress!.UtxoConsolidation!({
-            ...rest,
-            event,
-            args: ethereumIngressEgressUtxoConsolidation.parse(event.args),
-          })) as EthereumIngressEgressUtxoConsolidation),
+      handler: wrapHandler(
+        map.EthereumIngressEgress?.UtxoConsolidation,
+        ethereumIngressEgressUtxoConsolidation,
+      ),
     },
     {
       name: 'PolkadotIngressEgress.DepositReceived',
-      handler:
-        map.PolkadotIngressEgress?.DepositReceived &&
-        ((async ({ event, ...rest }) =>
-          map.PolkadotIngressEgress!.DepositReceived!({
-            ...rest,
-            event,
-            args: polkadotIngressEgressDepositReceived.parse(event.args),
-          })) as PolkadotIngressEgressDepositReceived),
+      handler: wrapHandler(
+        map.PolkadotIngressEgress?.DepositReceived,
+        polkadotIngressEgressDepositReceived,
+      ),
     },
     {
       name: 'PolkadotIngressEgress.DepositIgnored',
-      handler:
-        map.PolkadotIngressEgress?.DepositIgnored &&
-        ((async ({ event, ...rest }) =>
-          map.PolkadotIngressEgress!.DepositIgnored!({
-            ...rest,
-            event,
-            args: polkadotIngressEgressDepositIgnored.parse(event.args),
-          })) as PolkadotIngressEgressDepositIgnored),
+      handler: wrapHandler(
+        map.PolkadotIngressEgress?.DepositIgnored,
+        polkadotIngressEgressDepositIgnored,
+      ),
     },
     {
       name: 'PolkadotIngressEgress.UtxoConsolidation',
-      handler:
-        map.PolkadotIngressEgress?.UtxoConsolidation &&
-        ((async ({ event, ...rest }) =>
-          map.PolkadotIngressEgress!.UtxoConsolidation!({
-            ...rest,
-            event,
-            args: polkadotIngressEgressUtxoConsolidation.parse(event.args),
-          })) as PolkadotIngressEgressUtxoConsolidation),
+      handler: wrapHandler(
+        map.PolkadotIngressEgress?.UtxoConsolidation,
+        polkadotIngressEgressUtxoConsolidation,
+      ),
     },
     {
       name: 'BitcoinIngressEgress.DepositReceived',
-      handler:
-        map.BitcoinIngressEgress?.DepositReceived &&
-        ((async ({ event, ...rest }) =>
-          map.BitcoinIngressEgress!.DepositReceived!({
-            ...rest,
-            event,
-            args: bitcoinIngressEgressDepositReceived.parse(event.args),
-          })) as BitcoinIngressEgressDepositReceived),
+      handler: wrapHandler(
+        map.BitcoinIngressEgress?.DepositReceived,
+        bitcoinIngressEgressDepositReceived,
+      ),
     },
     {
       name: 'BitcoinIngressEgress.DepositIgnored',
-      handler:
-        map.BitcoinIngressEgress?.DepositIgnored &&
-        ((async ({ event, ...rest }) =>
-          map.BitcoinIngressEgress!.DepositIgnored!({
-            ...rest,
-            event,
-            args: bitcoinIngressEgressDepositIgnored.parse(event.args),
-          })) as BitcoinIngressEgressDepositIgnored),
+      handler: wrapHandler(
+        map.BitcoinIngressEgress?.DepositIgnored,
+        bitcoinIngressEgressDepositIgnored,
+      ),
     },
     {
       name: 'BitcoinIngressEgress.UtxoConsolidation',
-      handler:
-        map.BitcoinIngressEgress?.UtxoConsolidation &&
-        ((async ({ event, ...rest }) =>
-          map.BitcoinIngressEgress!.UtxoConsolidation!({
-            ...rest,
-            event,
-            args: bitcoinIngressEgressUtxoConsolidation.parse(event.args),
-          })) as BitcoinIngressEgressUtxoConsolidation),
+      handler: wrapHandler(
+        map.BitcoinIngressEgress?.UtxoConsolidation,
+        bitcoinIngressEgressUtxoConsolidation,
+      ),
     },
-  ].filter((h): h is { name: string; handler: EventHandler<any> } => h.handler !== undefined),
+  ].filter((h): h is { name: string; handler: InternalEventHandler } => h.handler !== undefined),
 });

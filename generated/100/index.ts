@@ -20,15 +20,20 @@ import { liquidityPoolsRangeOrderUpdated } from './liquidityPools/rangeOrderUpda
 import { liquidityPoolsLimitOrderUpdated } from './liquidityPools/limitOrderUpdated';
 import { liquidityPoolsPoolFeeSet } from './liquidityPools/poolFeeSet';
 
-export type EventHandler<T> = (args: {
+type EventHandlerArgs = {
   // todo: fix `any`s
   prisma: any;
   event: any;
   block: any;
   eventId: bigint;
   submitterId?: number;
-  args: T;
-}) => Promise<void>;
+};
+
+type ParsedEventHandlerArgs<T> = EventHandlerArgs & { args: T };
+
+type InternalEventHandler = (args: EventHandlerArgs) => Promise<void>;
+
+export type EventHandler<T> = (args: ParsedEventHandlerArgs<T>) => Promise<void>;
 
 export type EnvironmentRuntimeSafeModeUpdated = EventHandler<
   z.output<typeof environmentRuntimeSafeModeUpdated>
@@ -134,228 +139,139 @@ type HandlerMap = {
   };
 };
 
+const wrapHandler = <T extends z.ZodTypeAny>(
+  handler: EventHandler<z.output<T>> | undefined,
+  schema: T,
+): InternalEventHandler | undefined => {
+  if (!handler) return undefined;
+
+  return async ({ event, ...rest }) => handler({ ...rest, event, args: schema.parse(event.args) });
+};
+
 export const handleEvents = (map: HandlerMap) => ({
   spec: 100,
   handlers: [
     {
       name: 'Environment.RuntimeSafeModeUpdated',
-      handler:
-        map.Environment?.RuntimeSafeModeUpdated &&
-        ((async ({ event, ...rest }) =>
-          map.Environment!.RuntimeSafeModeUpdated!({
-            ...rest,
-            event,
-            args: environmentRuntimeSafeModeUpdated.parse(event.args),
-          })) as EnvironmentRuntimeSafeModeUpdated),
+      handler: wrapHandler(
+        map.Environment?.RuntimeSafeModeUpdated,
+        environmentRuntimeSafeModeUpdated,
+      ),
     },
     {
       name: 'Witnesser.Prewitnessed',
-      handler:
-        map.Witnesser?.Prewitnessed &&
-        ((async ({ event, ...rest }) =>
-          map.Witnesser!.Prewitnessed!({
-            ...rest,
-            event,
-            args: witnesserPrewitnessed.parse(event.args),
-          })) as WitnesserPrewitnessed),
+      handler: wrapHandler(map.Witnesser?.Prewitnessed, witnesserPrewitnessed),
     },
     {
       name: 'Reputation.AccrualRateUpdated',
-      handler:
-        map.Reputation?.AccrualRateUpdated &&
-        ((async ({ event, ...rest }) =>
-          map.Reputation!.AccrualRateUpdated!({
-            ...rest,
-            event,
-            args: reputationAccrualRateUpdated.parse(event.args),
-          })) as ReputationAccrualRateUpdated),
+      handler: wrapHandler(map.Reputation?.AccrualRateUpdated, reputationAccrualRateUpdated),
     },
     {
       name: 'EthereumBroadcaster.ThresholdSignatureInvalid',
-      handler:
-        map.EthereumBroadcaster?.ThresholdSignatureInvalid &&
-        ((async ({ event, ...rest }) =>
-          map.EthereumBroadcaster!.ThresholdSignatureInvalid!({
-            ...rest,
-            event,
-            args: ethereumBroadcasterThresholdSignatureInvalid.parse(event.args),
-          })) as EthereumBroadcasterThresholdSignatureInvalid),
+      handler: wrapHandler(
+        map.EthereumBroadcaster?.ThresholdSignatureInvalid,
+        ethereumBroadcasterThresholdSignatureInvalid,
+      ),
     },
     {
       name: 'EthereumBroadcaster.TransactionFeeDeficitRecorded',
-      handler:
-        map.EthereumBroadcaster?.TransactionFeeDeficitRecorded &&
-        ((async ({ event, ...rest }) =>
-          map.EthereumBroadcaster!.TransactionFeeDeficitRecorded!({
-            ...rest,
-            event,
-            args: ethereumBroadcasterTransactionFeeDeficitRecorded.parse(event.args),
-          })) as EthereumBroadcasterTransactionFeeDeficitRecorded),
+      handler: wrapHandler(
+        map.EthereumBroadcaster?.TransactionFeeDeficitRecorded,
+        ethereumBroadcasterTransactionFeeDeficitRecorded,
+      ),
     },
     {
       name: 'EthereumBroadcaster.TransactionFeeDeficitRefused',
-      handler:
-        map.EthereumBroadcaster?.TransactionFeeDeficitRefused &&
-        ((async ({ event, ...rest }) =>
-          map.EthereumBroadcaster!.TransactionFeeDeficitRefused!({
-            ...rest,
-            event,
-            args: ethereumBroadcasterTransactionFeeDeficitRefused.parse(event.args),
-          })) as EthereumBroadcasterTransactionFeeDeficitRefused),
+      handler: wrapHandler(
+        map.EthereumBroadcaster?.TransactionFeeDeficitRefused,
+        ethereumBroadcasterTransactionFeeDeficitRefused,
+      ),
     },
     {
       name: 'PolkadotBroadcaster.ThresholdSignatureInvalid',
-      handler:
-        map.PolkadotBroadcaster?.ThresholdSignatureInvalid &&
-        ((async ({ event, ...rest }) =>
-          map.PolkadotBroadcaster!.ThresholdSignatureInvalid!({
-            ...rest,
-            event,
-            args: polkadotBroadcasterThresholdSignatureInvalid.parse(event.args),
-          })) as PolkadotBroadcasterThresholdSignatureInvalid),
+      handler: wrapHandler(
+        map.PolkadotBroadcaster?.ThresholdSignatureInvalid,
+        polkadotBroadcasterThresholdSignatureInvalid,
+      ),
     },
     {
       name: 'PolkadotBroadcaster.TransactionFeeDeficitRecorded',
-      handler:
-        map.PolkadotBroadcaster?.TransactionFeeDeficitRecorded &&
-        ((async ({ event, ...rest }) =>
-          map.PolkadotBroadcaster!.TransactionFeeDeficitRecorded!({
-            ...rest,
-            event,
-            args: polkadotBroadcasterTransactionFeeDeficitRecorded.parse(event.args),
-          })) as PolkadotBroadcasterTransactionFeeDeficitRecorded),
+      handler: wrapHandler(
+        map.PolkadotBroadcaster?.TransactionFeeDeficitRecorded,
+        polkadotBroadcasterTransactionFeeDeficitRecorded,
+      ),
     },
     {
       name: 'PolkadotBroadcaster.TransactionFeeDeficitRefused',
-      handler:
-        map.PolkadotBroadcaster?.TransactionFeeDeficitRefused &&
-        ((async ({ event, ...rest }) =>
-          map.PolkadotBroadcaster!.TransactionFeeDeficitRefused!({
-            ...rest,
-            event,
-            args: polkadotBroadcasterTransactionFeeDeficitRefused.parse(event.args),
-          })) as PolkadotBroadcasterTransactionFeeDeficitRefused),
+      handler: wrapHandler(
+        map.PolkadotBroadcaster?.TransactionFeeDeficitRefused,
+        polkadotBroadcasterTransactionFeeDeficitRefused,
+      ),
     },
     {
       name: 'BitcoinBroadcaster.ThresholdSignatureInvalid',
-      handler:
-        map.BitcoinBroadcaster?.ThresholdSignatureInvalid &&
-        ((async ({ event, ...rest }) =>
-          map.BitcoinBroadcaster!.ThresholdSignatureInvalid!({
-            ...rest,
-            event,
-            args: bitcoinBroadcasterThresholdSignatureInvalid.parse(event.args),
-          })) as BitcoinBroadcasterThresholdSignatureInvalid),
+      handler: wrapHandler(
+        map.BitcoinBroadcaster?.ThresholdSignatureInvalid,
+        bitcoinBroadcasterThresholdSignatureInvalid,
+      ),
     },
     {
       name: 'BitcoinBroadcaster.TransactionFeeDeficitRecorded',
-      handler:
-        map.BitcoinBroadcaster?.TransactionFeeDeficitRecorded &&
-        ((async ({ event, ...rest }) =>
-          map.BitcoinBroadcaster!.TransactionFeeDeficitRecorded!({
-            ...rest,
-            event,
-            args: bitcoinBroadcasterTransactionFeeDeficitRecorded.parse(event.args),
-          })) as BitcoinBroadcasterTransactionFeeDeficitRecorded),
+      handler: wrapHandler(
+        map.BitcoinBroadcaster?.TransactionFeeDeficitRecorded,
+        bitcoinBroadcasterTransactionFeeDeficitRecorded,
+      ),
     },
     {
       name: 'BitcoinBroadcaster.TransactionFeeDeficitRefused',
-      handler:
-        map.BitcoinBroadcaster?.TransactionFeeDeficitRefused &&
-        ((async ({ event, ...rest }) =>
-          map.BitcoinBroadcaster!.TransactionFeeDeficitRefused!({
-            ...rest,
-            event,
-            args: bitcoinBroadcasterTransactionFeeDeficitRefused.parse(event.args),
-          })) as BitcoinBroadcasterTransactionFeeDeficitRefused),
+      handler: wrapHandler(
+        map.BitcoinBroadcaster?.TransactionFeeDeficitRefused,
+        bitcoinBroadcasterTransactionFeeDeficitRefused,
+      ),
     },
     {
       name: 'Swapping.SwapDepositAddressReady',
-      handler:
-        map.Swapping?.SwapDepositAddressReady &&
-        ((async ({ event, ...rest }) =>
-          map.Swapping!.SwapDepositAddressReady!({
-            ...rest,
-            event,
-            args: swappingSwapDepositAddressReady.parse(event.args),
-          })) as SwappingSwapDepositAddressReady),
+      handler: wrapHandler(map.Swapping?.SwapDepositAddressReady, swappingSwapDepositAddressReady),
     },
     {
       name: 'LiquidityProvider.LiquidityDepositAddressReady',
-      handler:
-        map.LiquidityProvider?.LiquidityDepositAddressReady &&
-        ((async ({ event, ...rest }) =>
-          map.LiquidityProvider!.LiquidityDepositAddressReady!({
-            ...rest,
-            event,
-            args: liquidityProviderLiquidityDepositAddressReady.parse(event.args),
-          })) as LiquidityProviderLiquidityDepositAddressReady),
+      handler: wrapHandler(
+        map.LiquidityProvider?.LiquidityDepositAddressReady,
+        liquidityProviderLiquidityDepositAddressReady,
+      ),
     },
     {
       name: 'EthereumIngressEgress.DepositWitnessRejected',
-      handler:
-        map.EthereumIngressEgress?.DepositWitnessRejected &&
-        ((async ({ event, ...rest }) =>
-          map.EthereumIngressEgress!.DepositWitnessRejected!({
-            ...rest,
-            event,
-            args: ethereumIngressEgressDepositWitnessRejected.parse(event.args),
-          })) as EthereumIngressEgressDepositWitnessRejected),
+      handler: wrapHandler(
+        map.EthereumIngressEgress?.DepositWitnessRejected,
+        ethereumIngressEgressDepositWitnessRejected,
+      ),
     },
     {
       name: 'PolkadotIngressEgress.DepositWitnessRejected',
-      handler:
-        map.PolkadotIngressEgress?.DepositWitnessRejected &&
-        ((async ({ event, ...rest }) =>
-          map.PolkadotIngressEgress!.DepositWitnessRejected!({
-            ...rest,
-            event,
-            args: polkadotIngressEgressDepositWitnessRejected.parse(event.args),
-          })) as PolkadotIngressEgressDepositWitnessRejected),
+      handler: wrapHandler(
+        map.PolkadotIngressEgress?.DepositWitnessRejected,
+        polkadotIngressEgressDepositWitnessRejected,
+      ),
     },
     {
       name: 'BitcoinIngressEgress.DepositWitnessRejected',
-      handler:
-        map.BitcoinIngressEgress?.DepositWitnessRejected &&
-        ((async ({ event, ...rest }) =>
-          map.BitcoinIngressEgress!.DepositWitnessRejected!({
-            ...rest,
-            event,
-            args: bitcoinIngressEgressDepositWitnessRejected.parse(event.args),
-          })) as BitcoinIngressEgressDepositWitnessRejected),
+      handler: wrapHandler(
+        map.BitcoinIngressEgress?.DepositWitnessRejected,
+        bitcoinIngressEgressDepositWitnessRejected,
+      ),
     },
     {
       name: 'LiquidityPools.RangeOrderUpdated',
-      handler:
-        map.LiquidityPools?.RangeOrderUpdated &&
-        ((async ({ event, ...rest }) =>
-          map.LiquidityPools!.RangeOrderUpdated!({
-            ...rest,
-            event,
-            args: liquidityPoolsRangeOrderUpdated.parse(event.args),
-          })) as LiquidityPoolsRangeOrderUpdated),
+      handler: wrapHandler(map.LiquidityPools?.RangeOrderUpdated, liquidityPoolsRangeOrderUpdated),
     },
     {
       name: 'LiquidityPools.LimitOrderUpdated',
-      handler:
-        map.LiquidityPools?.LimitOrderUpdated &&
-        ((async ({ event, ...rest }) =>
-          map.LiquidityPools!.LimitOrderUpdated!({
-            ...rest,
-            event,
-            args: liquidityPoolsLimitOrderUpdated.parse(event.args),
-          })) as LiquidityPoolsLimitOrderUpdated),
+      handler: wrapHandler(map.LiquidityPools?.LimitOrderUpdated, liquidityPoolsLimitOrderUpdated),
     },
     {
       name: 'LiquidityPools.PoolFeeSet',
-      handler:
-        map.LiquidityPools?.PoolFeeSet &&
-        ((async ({ event, ...rest }) =>
-          map.LiquidityPools!.PoolFeeSet!({
-            ...rest,
-            event,
-            args: liquidityPoolsPoolFeeSet.parse(event.args),
-          })) as LiquidityPoolsPoolFeeSet),
+      handler: wrapHandler(map.LiquidityPools?.PoolFeeSet, liquidityPoolsPoolFeeSet),
     },
-  ].filter((h): h is { name: string; handler: EventHandler<any> } => h.handler !== undefined),
+  ].filter((h): h is { name: string; handler: InternalEventHandler } => h.handler !== undefined),
 });

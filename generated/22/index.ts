@@ -5,15 +5,20 @@ import { validatorPalletConfigUpdated } from './validator/palletConfigUpdated';
 import { liquidityProviderLiquidityDepositAddressReady } from './liquidityProvider/liquidityDepositAddressReady';
 import { liquidityProviderLiquidityRefundAddressRegistered } from './liquidityProvider/liquidityRefundAddressRegistered';
 
-export type EventHandler<T> = (args: {
+type EventHandlerArgs = {
   // todo: fix `any`s
   prisma: any;
   event: any;
   block: any;
   eventId: bigint;
   submitterId?: number;
-  args: T;
-}) => Promise<void>;
+};
+
+type ParsedEventHandlerArgs<T> = EventHandlerArgs & { args: T };
+
+type InternalEventHandler = (args: EventHandlerArgs) => Promise<void>;
+
+export type EventHandler<T> = (args: ParsedEventHandlerArgs<T>) => Promise<void>;
 
 export type EnvironmentRuntimeSafeModeUpdated = EventHandler<
   z.output<typeof environmentRuntimeSafeModeUpdated>
@@ -47,63 +52,46 @@ type HandlerMap = {
   };
 };
 
+const wrapHandler = <T extends z.ZodTypeAny>(
+  handler: EventHandler<z.output<T>> | undefined,
+  schema: T,
+): InternalEventHandler | undefined => {
+  if (!handler) return undefined;
+
+  return async ({ event, ...rest }) => handler({ ...rest, event, args: schema.parse(event.args) });
+};
+
 export const handleEvents = (map: HandlerMap) => ({
   spec: 22,
   handlers: [
     {
       name: 'Environment.RuntimeSafeModeUpdated',
-      handler:
-        map.Environment?.RuntimeSafeModeUpdated &&
-        ((async ({ event, ...rest }) =>
-          map.Environment!.RuntimeSafeModeUpdated!({
-            ...rest,
-            event,
-            args: environmentRuntimeSafeModeUpdated.parse(event.args),
-          })) as EnvironmentRuntimeSafeModeUpdated),
+      handler: wrapHandler(
+        map.Environment?.RuntimeSafeModeUpdated,
+        environmentRuntimeSafeModeUpdated,
+      ),
     },
     {
       name: 'Funding.BoundExecutorAddress',
-      handler:
-        map.Funding?.BoundExecutorAddress &&
-        ((async ({ event, ...rest }) =>
-          map.Funding!.BoundExecutorAddress!({
-            ...rest,
-            event,
-            args: fundingBoundExecutorAddress.parse(event.args),
-          })) as FundingBoundExecutorAddress),
+      handler: wrapHandler(map.Funding?.BoundExecutorAddress, fundingBoundExecutorAddress),
     },
     {
       name: 'Validator.PalletConfigUpdated',
-      handler:
-        map.Validator?.PalletConfigUpdated &&
-        ((async ({ event, ...rest }) =>
-          map.Validator!.PalletConfigUpdated!({
-            ...rest,
-            event,
-            args: validatorPalletConfigUpdated.parse(event.args),
-          })) as ValidatorPalletConfigUpdated),
+      handler: wrapHandler(map.Validator?.PalletConfigUpdated, validatorPalletConfigUpdated),
     },
     {
       name: 'LiquidityProvider.LiquidityDepositAddressReady',
-      handler:
-        map.LiquidityProvider?.LiquidityDepositAddressReady &&
-        ((async ({ event, ...rest }) =>
-          map.LiquidityProvider!.LiquidityDepositAddressReady!({
-            ...rest,
-            event,
-            args: liquidityProviderLiquidityDepositAddressReady.parse(event.args),
-          })) as LiquidityProviderLiquidityDepositAddressReady),
+      handler: wrapHandler(
+        map.LiquidityProvider?.LiquidityDepositAddressReady,
+        liquidityProviderLiquidityDepositAddressReady,
+      ),
     },
     {
       name: 'LiquidityProvider.LiquidityRefundAddressRegistered',
-      handler:
-        map.LiquidityProvider?.LiquidityRefundAddressRegistered &&
-        ((async ({ event, ...rest }) =>
-          map.LiquidityProvider!.LiquidityRefundAddressRegistered!({
-            ...rest,
-            event,
-            args: liquidityProviderLiquidityRefundAddressRegistered.parse(event.args),
-          })) as LiquidityProviderLiquidityRefundAddressRegistered),
+      handler: wrapHandler(
+        map.LiquidityProvider?.LiquidityRefundAddressRegistered,
+        liquidityProviderLiquidityRefundAddressRegistered,
+      ),
     },
-  ].filter((h): h is { name: string; handler: EventHandler<any> } => h.handler !== undefined),
+  ].filter((h): h is { name: string; handler: InternalEventHandler } => h.handler !== undefined),
 });

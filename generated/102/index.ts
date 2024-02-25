@@ -4,15 +4,20 @@ import { validatorPalletConfigUpdated } from './validator/palletConfigUpdated';
 import { swappingMaximumSwapAmountSet } from './swapping/maximumSwapAmountSet';
 import { swappingSwapAmountConfiscated } from './swapping/swapAmountConfiscated';
 
-export type EventHandler<T> = (args: {
+type EventHandlerArgs = {
   // todo: fix `any`s
   prisma: any;
   event: any;
   block: any;
   eventId: bigint;
   submitterId?: number;
-  args: T;
-}) => Promise<void>;
+};
+
+type ParsedEventHandlerArgs<T> = EventHandlerArgs & { args: T };
+
+type InternalEventHandler = (args: EventHandlerArgs) => Promise<void>;
+
+export type EventHandler<T> = (args: ParsedEventHandlerArgs<T>) => Promise<void>;
 
 export type AccountRolesAccountRoleRegistered = EventHandler<
   z.output<typeof accountRolesAccountRoleRegistered>
@@ -40,52 +45,36 @@ type HandlerMap = {
   };
 };
 
+const wrapHandler = <T extends z.ZodTypeAny>(
+  handler: EventHandler<z.output<T>> | undefined,
+  schema: T,
+): InternalEventHandler | undefined => {
+  if (!handler) return undefined;
+
+  return async ({ event, ...rest }) => handler({ ...rest, event, args: schema.parse(event.args) });
+};
+
 export const handleEvents = (map: HandlerMap) => ({
   spec: 102,
   handlers: [
     {
       name: 'AccountRoles.AccountRoleRegistered',
-      handler:
-        map.AccountRoles?.AccountRoleRegistered &&
-        ((async ({ event, ...rest }) =>
-          map.AccountRoles!.AccountRoleRegistered!({
-            ...rest,
-            event,
-            args: accountRolesAccountRoleRegistered.parse(event.args),
-          })) as AccountRolesAccountRoleRegistered),
+      handler: wrapHandler(
+        map.AccountRoles?.AccountRoleRegistered,
+        accountRolesAccountRoleRegistered,
+      ),
     },
     {
       name: 'Validator.PalletConfigUpdated',
-      handler:
-        map.Validator?.PalletConfigUpdated &&
-        ((async ({ event, ...rest }) =>
-          map.Validator!.PalletConfigUpdated!({
-            ...rest,
-            event,
-            args: validatorPalletConfigUpdated.parse(event.args),
-          })) as ValidatorPalletConfigUpdated),
+      handler: wrapHandler(map.Validator?.PalletConfigUpdated, validatorPalletConfigUpdated),
     },
     {
       name: 'Swapping.MaximumSwapAmountSet',
-      handler:
-        map.Swapping?.MaximumSwapAmountSet &&
-        ((async ({ event, ...rest }) =>
-          map.Swapping!.MaximumSwapAmountSet!({
-            ...rest,
-            event,
-            args: swappingMaximumSwapAmountSet.parse(event.args),
-          })) as SwappingMaximumSwapAmountSet),
+      handler: wrapHandler(map.Swapping?.MaximumSwapAmountSet, swappingMaximumSwapAmountSet),
     },
     {
       name: 'Swapping.SwapAmountConfiscated',
-      handler:
-        map.Swapping?.SwapAmountConfiscated &&
-        ((async ({ event, ...rest }) =>
-          map.Swapping!.SwapAmountConfiscated!({
-            ...rest,
-            event,
-            args: swappingSwapAmountConfiscated.parse(event.args),
-          })) as SwappingSwapAmountConfiscated),
+      handler: wrapHandler(map.Swapping?.SwapAmountConfiscated, swappingSwapAmountConfiscated),
     },
-  ].filter((h): h is { name: string; handler: EventHandler<any> } => h.handler !== undefined),
+  ].filter((h): h is { name: string; handler: InternalEventHandler } => h.handler !== undefined),
 });

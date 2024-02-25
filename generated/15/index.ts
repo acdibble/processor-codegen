@@ -13,15 +13,20 @@ import { liquidityPoolsNewPoolCreated } from './liquidityPools/newPoolCreated';
 import { liquidityPoolsRangeOrderUpdated } from './liquidityPools/rangeOrderUpdated';
 import { liquidityPoolsLimitOrderUpdated } from './liquidityPools/limitOrderUpdated';
 
-export type EventHandler<T> = (args: {
+type EventHandlerArgs = {
   // todo: fix `any`s
   prisma: any;
   event: any;
   block: any;
   eventId: bigint;
   submitterId?: number;
-  args: T;
-}) => Promise<void>;
+};
+
+type ParsedEventHandlerArgs<T> = EventHandlerArgs & { args: T };
+
+type InternalEventHandler = (args: EventHandlerArgs) => Promise<void>;
+
+export type EventHandler<T> = (args: ParsedEventHandlerArgs<T>) => Promise<void>;
 
 export type EnvironmentRuntimeSafeModeUpdated = EventHandler<
   z.output<typeof environmentRuntimeSafeModeUpdated>
@@ -89,151 +94,93 @@ type HandlerMap = {
   };
 };
 
+const wrapHandler = <T extends z.ZodTypeAny>(
+  handler: EventHandler<z.output<T>> | undefined,
+  schema: T,
+): InternalEventHandler | undefined => {
+  if (!handler) return undefined;
+
+  return async ({ event, ...rest }) => handler({ ...rest, event, args: schema.parse(event.args) });
+};
+
 export const handleEvents = (map: HandlerMap) => ({
   spec: 15,
   handlers: [
     {
       name: 'Environment.RuntimeSafeModeUpdated',
-      handler:
-        map.Environment?.RuntimeSafeModeUpdated &&
-        ((async ({ event, ...rest }) =>
-          map.Environment!.RuntimeSafeModeUpdated!({
-            ...rest,
-            event,
-            args: environmentRuntimeSafeModeUpdated.parse(event.args),
-          })) as EnvironmentRuntimeSafeModeUpdated),
+      handler: wrapHandler(
+        map.Environment?.RuntimeSafeModeUpdated,
+        environmentRuntimeSafeModeUpdated,
+      ),
     },
     {
       name: 'EthereumVault.KeyHandoverRequest',
-      handler:
-        map.EthereumVault?.KeyHandoverRequest &&
-        ((async ({ event, ...rest }) =>
-          map.EthereumVault!.KeyHandoverRequest!({
-            ...rest,
-            event,
-            args: ethereumVaultKeyHandoverRequest.parse(event.args),
-          })) as EthereumVaultKeyHandoverRequest),
+      handler: wrapHandler(map.EthereumVault?.KeyHandoverRequest, ethereumVaultKeyHandoverRequest),
     },
     {
       name: 'EthereumVault.VaultRotatedExternally',
-      handler:
-        map.EthereumVault?.VaultRotatedExternally &&
-        ((async ({ event, ...rest }) =>
-          map.EthereumVault!.VaultRotatedExternally!({
-            ...rest,
-            event,
-            args: ethereumVaultVaultRotatedExternally.parse(event.args),
-          })) as EthereumVaultVaultRotatedExternally),
+      handler: wrapHandler(
+        map.EthereumVault?.VaultRotatedExternally,
+        ethereumVaultVaultRotatedExternally,
+      ),
     },
     {
       name: 'EthereumVault.KeygenVerificationSuccess',
-      handler:
-        map.EthereumVault?.KeygenVerificationSuccess &&
-        ((async ({ event, ...rest }) =>
-          map.EthereumVault!.KeygenVerificationSuccess!({
-            ...rest,
-            event,
-            args: ethereumVaultKeygenVerificationSuccess.parse(event.args),
-          })) as EthereumVaultKeygenVerificationSuccess),
+      handler: wrapHandler(
+        map.EthereumVault?.KeygenVerificationSuccess,
+        ethereumVaultKeygenVerificationSuccess,
+      ),
     },
     {
       name: 'EthereumVault.KeyHandoverVerificationSuccess',
-      handler:
-        map.EthereumVault?.KeyHandoverVerificationSuccess &&
-        ((async ({ event, ...rest }) =>
-          map.EthereumVault!.KeyHandoverVerificationSuccess!({
-            ...rest,
-            event,
-            args: ethereumVaultKeyHandoverVerificationSuccess.parse(event.args),
-          })) as EthereumVaultKeyHandoverVerificationSuccess),
+      handler: wrapHandler(
+        map.EthereumVault?.KeyHandoverVerificationSuccess,
+        ethereumVaultKeyHandoverVerificationSuccess,
+      ),
     },
     {
       name: 'EthereumVault.AwaitingGovernanceActivation',
-      handler:
-        map.EthereumVault?.AwaitingGovernanceActivation &&
-        ((async ({ event, ...rest }) =>
-          map.EthereumVault!.AwaitingGovernanceActivation!({
-            ...rest,
-            event,
-            args: ethereumVaultAwaitingGovernanceActivation.parse(event.args),
-          })) as EthereumVaultAwaitingGovernanceActivation),
+      handler: wrapHandler(
+        map.EthereumVault?.AwaitingGovernanceActivation,
+        ethereumVaultAwaitingGovernanceActivation,
+      ),
     },
     {
       name: 'EthereumThresholdSigner.ThresholdSignatureRequest',
-      handler:
-        map.EthereumThresholdSigner?.ThresholdSignatureRequest &&
-        ((async ({ event, ...rest }) =>
-          map.EthereumThresholdSigner!.ThresholdSignatureRequest!({
-            ...rest,
-            event,
-            args: ethereumThresholdSignerThresholdSignatureRequest.parse(event.args),
-          })) as EthereumThresholdSignerThresholdSignatureRequest),
+      handler: wrapHandler(
+        map.EthereumThresholdSigner?.ThresholdSignatureRequest,
+        ethereumThresholdSignerThresholdSignatureRequest,
+      ),
     },
     {
       name: 'EthereumBroadcaster.TransactionBroadcastRequest',
-      handler:
-        map.EthereumBroadcaster?.TransactionBroadcastRequest &&
-        ((async ({ event, ...rest }) =>
-          map.EthereumBroadcaster!.TransactionBroadcastRequest!({
-            ...rest,
-            event,
-            args: ethereumBroadcasterTransactionBroadcastRequest.parse(event.args),
-          })) as EthereumBroadcasterTransactionBroadcastRequest),
+      handler: wrapHandler(
+        map.EthereumBroadcaster?.TransactionBroadcastRequest,
+        ethereumBroadcasterTransactionBroadcastRequest,
+      ),
     },
     {
       name: 'EthereumBroadcaster.BroadcastSuccess',
-      handler:
-        map.EthereumBroadcaster?.BroadcastSuccess &&
-        ((async ({ event, ...rest }) =>
-          map.EthereumBroadcaster!.BroadcastSuccess!({
-            ...rest,
-            event,
-            args: ethereumBroadcasterBroadcastSuccess.parse(event.args),
-          })) as EthereumBroadcasterBroadcastSuccess),
+      handler: wrapHandler(
+        map.EthereumBroadcaster?.BroadcastSuccess,
+        ethereumBroadcasterBroadcastSuccess,
+      ),
     },
     {
       name: 'LiquidityPools.PoolStateUpdated',
-      handler:
-        map.LiquidityPools?.PoolStateUpdated &&
-        ((async ({ event, ...rest }) =>
-          map.LiquidityPools!.PoolStateUpdated!({
-            ...rest,
-            event,
-            args: liquidityPoolsPoolStateUpdated.parse(event.args),
-          })) as LiquidityPoolsPoolStateUpdated),
+      handler: wrapHandler(map.LiquidityPools?.PoolStateUpdated, liquidityPoolsPoolStateUpdated),
     },
     {
       name: 'LiquidityPools.NewPoolCreated',
-      handler:
-        map.LiquidityPools?.NewPoolCreated &&
-        ((async ({ event, ...rest }) =>
-          map.LiquidityPools!.NewPoolCreated!({
-            ...rest,
-            event,
-            args: liquidityPoolsNewPoolCreated.parse(event.args),
-          })) as LiquidityPoolsNewPoolCreated),
+      handler: wrapHandler(map.LiquidityPools?.NewPoolCreated, liquidityPoolsNewPoolCreated),
     },
     {
       name: 'LiquidityPools.RangeOrderUpdated',
-      handler:
-        map.LiquidityPools?.RangeOrderUpdated &&
-        ((async ({ event, ...rest }) =>
-          map.LiquidityPools!.RangeOrderUpdated!({
-            ...rest,
-            event,
-            args: liquidityPoolsRangeOrderUpdated.parse(event.args),
-          })) as LiquidityPoolsRangeOrderUpdated),
+      handler: wrapHandler(map.LiquidityPools?.RangeOrderUpdated, liquidityPoolsRangeOrderUpdated),
     },
     {
       name: 'LiquidityPools.LimitOrderUpdated',
-      handler:
-        map.LiquidityPools?.LimitOrderUpdated &&
-        ((async ({ event, ...rest }) =>
-          map.LiquidityPools!.LimitOrderUpdated!({
-            ...rest,
-            event,
-            args: liquidityPoolsLimitOrderUpdated.parse(event.args),
-          })) as LiquidityPoolsLimitOrderUpdated),
+      handler: wrapHandler(map.LiquidityPools?.LimitOrderUpdated, liquidityPoolsLimitOrderUpdated),
     },
-  ].filter((h): h is { name: string; handler: EventHandler<any> } => h.handler !== undefined),
+  ].filter((h): h is { name: string; handler: InternalEventHandler } => h.handler !== undefined),
 });

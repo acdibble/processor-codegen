@@ -11,7 +11,7 @@ import {
   type StructType,
   type TupleType,
 } from './parser';
-import { capitalize, formatCode, getDirname, uncapitalize, unreachable } from './utils';
+import { formatCode, getDirname, uncapitalize, unreachable } from './utils';
 
 type PalletName = string;
 type EventName = string;
@@ -373,16 +373,21 @@ export default class CodeGenerator {
 
     const generated = `import { z } from 'zod';
     ${imports.join('\n')}
-    
-    export type EventHandler<T> = (args: {
+
+    type EventHandlerArgs = {
       // todo: fix \`any\`s
       prisma: any;
       event: any;
       block: any;
       eventId: bigint;
       submitterId?: number;
-      args: T;
-    }) => Promise<void>;
+    };
+
+    type ParsedEventHandlerArgs<T> = EventHandlerArgs & { args: T };
+
+    type InternalEventHandler = (args: EventHandlerArgs) => Promise<void>;
+
+    export type EventHandler<T> = (args: ParsedEventHandlerArgs<T>) => Promise<void>;
 
     ${Object.entries(palletsAndEvents)
       .flatMap(([pallet, events]) =>
@@ -403,6 +408,15 @@ export default class CodeGenerator {
         .join('\n')}
     };
 
+    const wrapHandler = <T extends z.ZodTypeAny>(
+      handler: EventHandler<z.output<T>> | undefined,
+      schema: T,
+    ): InternalEventHandler | undefined => {
+      if (!handler) return undefined;
+
+      return async ({ event, ...rest }) => handler({ ...rest, event, args: schema.parse(event.args) });
+    }
+
     export const handleEvents = (map: HandlerMap) => ({
       spec: ${specVersion},
       handlers: [
@@ -411,13 +425,12 @@ export default class CodeGenerator {
             events.map(
               (event) => `({
             name: '${pallet}.${event}',
-            handler: map.${pallet}?.${event}
-              && (async ({event, ...rest}) => map.${pallet}!.${event}!({...rest, event, args: ${uncapitalize(pallet)}${event}.parse(event.args) })) as ${pallet}${event},
+            handler: wrapHandler(map.${pallet}?.${event}, ${uncapitalize(pallet)}${event}),
           })`,
             ),
           )
           .join(',\n')}
-      ].filter((h): h is { name: string; handler: EventHandler<any> } => h.handler !== undefined),
+      ].filter((h): h is { name: string; handler: InternalEventHandler } => h.handler !== undefined),
     })
     `;
 

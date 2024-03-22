@@ -15,9 +15,15 @@ function* diff(
   b: any,
   path: string[] = [],
 ): Generator<{ path: string[]; type: 'added' | 'removed' | 'changed' }> {
-  const addedKeys = Object.keys(b).filter((key) => !a[key]);
-  const removedKeys = Object.keys(a).filter((key) => !b[key]);
-  const commonKeys = Object.keys(a).filter((key) => b[key]);
+  const addedKeys = Object.keys(b)
+    .filter((key) => b[key] !== undefined)
+    .filter((key) => !a[key]);
+  const removedKeys = Object.keys(a)
+    .filter((key) => a[key] !== undefined)
+    .filter((key) => !b[key]);
+  const commonKeys = Object.keys(a)
+    .filter((key) => a[key] !== undefined)
+    .filter((key) => b[key]);
 
   for (const key of addedKeys) {
     yield { path: [...path, key], type: 'added' };

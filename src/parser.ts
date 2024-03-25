@@ -287,7 +287,7 @@ export const fetchAndParseSpec = async (opts?: MetadataOpts) => {
 
   const outfile = path.join(__dirname, '..', 'generated', `types-${specVersion}.json`);
 
-  let metadata = await fs
+  let metadata: ParsedMetadata | null = await fs
     .readFile(outfile, 'utf8')
     .then((data) => JSON.parse(data))
     .catch(() => null);

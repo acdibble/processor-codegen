@@ -13,21 +13,13 @@ const generateAllCode = async () => {
     ),
   );
 
-  const metadataForHashes = (
-    await Promise.all(
-      hashes.map((hash) =>
-        fetchAndParseSpec({ hash, rpcUrl: 'https://perseverance.chainflip.xyz' }),
-      ),
-    )
-  ).sort((a, b) => a.specVersion - b.specVersion);
-
-  let currentMetadata = {};
+  let previousMetadata = {};
 
   for (const { metadata, specVersion } of metadataForHashes) {
-    const eventsChanged = diffSpecs(currentMetadata, metadata);
+    const eventsChanged = diffSpecs(previousMetadata, metadata);
     const generator = new CodeGenerator({ trackedEvents: eventsChanged });
     await generator.generate(specVersion, metadata);
-    currentMetadata = metadata;
+    previousMetadata = metadata;
   }
 };
 
